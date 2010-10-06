@@ -28,7 +28,7 @@ class CuentaNivel2(models.Model):
     def __unicode__(self):
         return self.nombre
 
-	
+    
 class CuentaNivel3(models.Model):
     nombre = models.CharField(max_length=40)
     tipo = models.ForeignKey(CuentaNivel2)

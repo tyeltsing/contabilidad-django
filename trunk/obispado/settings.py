@@ -81,6 +81,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
 )
 
 INSTALLED_APPS = (
@@ -91,7 +92,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-	'obispado.plan_de_cuentas',
+    'obispado.plan_de_cuentas',
+    'obispado.ingresos',
+    'obispado.egresos',
+    'obispado.aportantes',
+    'obispado.proveedores',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
