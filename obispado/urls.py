@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^ingresos/', 'obispado.ingresos.views.index'),
     (r'^carga/', 'obispado.ingresos.views.carga'),
+    (r'^balances/',  'obispado.balances.views.index'),
 )
