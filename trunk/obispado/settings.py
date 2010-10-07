@@ -92,11 +92,17 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    'django.contrib.admindocs',
+    # Obispado's Project
     'obispado.plan_de_cuentas',
     'obispado.ingresos',
     'obispado.egresos',
     'obispado.aportantes',
     'obispado.proveedores',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'obispado.balances',
+    # graphviz
+    # http://code.google.com/p/django-graphviz/
+    # http://code.djangoproject.com/wiki/DjangoGraphviz
+    'obispado.graphviz',
 )
