@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Example:
     # (r'^obispado/', include('obispado.foo.urls')),
 
+    (r'^$', 'obispado.views.index'),
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
