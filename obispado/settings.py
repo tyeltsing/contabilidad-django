@@ -100,6 +100,7 @@ INSTALLED_APPS = (
     'obispado.egresos',
     'obispado.aportantes',
     'obispado.proveedores',
+    'obispado.libros_contables',
     'obispado.balances',
     # graphviz
     # http://code.google.com/p/django-graphviz/
