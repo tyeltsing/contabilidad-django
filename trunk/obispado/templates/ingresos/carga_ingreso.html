@@ -1,25 +1,79 @@
-<h2>
-  <p align="center"><a href="?b=w" id="/search/"><font size=3 >Agregar</a></font>
-  </p>
-  
-</h2>
 
-<form action="/carga/" method="GET">
-<label for="q"><font size=4 color=#3366FF>Aportante </label></font>
-<input type="text" name="aport" value="">
-<label for="q"><font size=4 color=#3366FF>Fecha </label></font>
-<input type="text" name="fecha" value="">
-<label for="q"><font size=4 color=#3366FF>RUC/CI </label></font>
-<input type="text" name="ruc_ci" value="">
-<label for="q"><font size=4 color=#3366FF>Cantidad </label></font>
-<input type="text" name="cantidad" value="">
-<label for="q"><font size=4 color=#3366FF>Descripcion </label></font>
-<input type="text" name="descripcion" value="">
-<label for="q"><font size=4 color=#3366FF>Precio Unitario </label></font>
-<input type="text" name="precio_u" value="">
-<label for="q"><font size=4 color=#3366FF>Exentas </label></font>
-<input type="text" name="exentas" value="">
-<label for="q"><font size=4 color=#3366FF>Total</label></font>
-<input type="text" name="total" value="" disabled="disabled">
-<input type="submit" value="Enviar">
-</form>
+<HTML>
+<HEAD>
+<TITLE>Agregar Ingreso</TITLE>
+</HEAD>
+<script languaje="JavaScript">
+
+var mydate=new Date()
+var year=mydate.getYear()
+if (year < 1000)
+year+=1900
+var day=mydate.getDay()
+var month=mydate.getMonth()
+var daym=mydate.getDate()
+if (daym<10)
+daym="0"+daym
+var dayarray=new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado")
+var montharray=new
+
+Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubr
+
+e","Noviembre","Diciembre")
+document.write("<small><font color='000080' face='Arial'>"+dayarray[day]+" "+daym+" de
+
+"+montharray[month]+" de "+year+"</font></small>")
+
+</script>
+<BODY>
+
+<FORM action="/carga/" METHOD="GET">
+<table align="center" border="0">
+<td align="left" width="100">Aportante:
+</td>
+<td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Fecha:
+</td>
+<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">RUC/CI:
+</td>
+<td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Cantidad:
+</td>
+<td align="center" width="150"><INPUT NAME="cant" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Descripcion:
+</td>
+<td align="center" width="150"><INPUT NAME="des" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Precio Unitario:
+</td>
+<td align="center" width="150"><INPUT NAME="pu" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Exentas:
+</td>
+<td align="center" width="150"><INPUT NAME="ex" TYPE="TEXT" VALUE="">
+</td>
+<tr>
+<td align="left" width="100">Total:
+</td>
+<td align="center" width="150"><INPUT NAME="tot" TYPE="TEXT" VALUE="" disabled="disabled">
+</td>
+<tr>
+<tr>
+<td align="right" width="150"><INPUT NAME="boton" TYPE="SUBMIT" VALUE="Enviar">
+</td>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>
+

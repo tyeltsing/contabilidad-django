@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     (r'^ingresos/', 'obispado.ingresos.views.index'),
+    #(r'^carga/(?P<ap>\d+)/(?P<fe>\d+)/(?P<ruc>\d+)/(?P<cant>\d+)/(?P<des>\d+)/(?P<pu>\d+)/(?P<ex>\d+)/(?P<tot>\d+)$', 'obispado.ingresos.views.carga'),
+    (r'^carga_ingresos/', 'obispado.ingresos.views.carga_ingresos'),
     (r'^carga/', 'obispado.ingresos.views.carga'),
     (r'^balances/',  'obispado.balances.views.index'),
 )
