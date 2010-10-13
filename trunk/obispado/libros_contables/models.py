@@ -14,6 +14,9 @@ class AsientoDebeDetalle(models.Model):
     asiento = models.ForeignKey(AsientoContable)
     cuenta = models.ForeignKey(CuentaNivel3)
     monto = models.FloatField()
+    # UNIQUE TOGHETER, porque no puede repetirse la cuenta en el asiento
+    class Meta:
+        unique_together = (("asiento", "cuenta"),)
 
     def __unicode__(self):
         return str(self.asiento) + ' - ' + str(self.id)
@@ -22,6 +25,9 @@ class AsientoHaberDetalle(models.Model):
     asiento = models.ForeignKey(AsientoContable)
     cuenta = models.ForeignKey(CuentaNivel3)
     monto = models.FloatField()
+    # UNIQUE TOGHETER, porque no puede repetirse la cuenta en el asiento
+    class Meta:
+        unique_together = (("asiento", "cuenta"),)
 
     def __unicode__(self):
         return str(self.asiento) + ' - ' + str(self.id)
