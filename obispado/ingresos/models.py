@@ -7,12 +7,11 @@ class Venta(models.Model):
     fecha = models.DateTimeField()
     aportante = models.ForeignKey(Aportante)
     detalle = models.ManyToManyField(CuentaNivel3, through='VentaDetalle')
+    def __unicode__(self):
+        return '%d' % (self.id)
     
 class VentaDetalle(models.Model):
     venta = models.ForeignKey(Venta)
     cuenta = models.ForeignKey(CuentaNivel3)
-    gravadas5 = models.FloatField(null=True)
-    gravadas10 = models.FloatField(null=True)
-    iva5 = models.FloatField(null=True)
-    iva10 = models.FloatField(null=True)
+    cantidad = models.IntegerField()
     exenta = models.FloatField(null=True)

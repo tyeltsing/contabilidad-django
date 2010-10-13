@@ -2,32 +2,22 @@
 <HTML>
 <HEAD>
 <TITLE>Agregar Ingreso</TITLE>
-</HEAD>
-<script languaje="JavaScript">
 
-var mydate=new Date()
-var year=mydate.getYear()
-if (year < 1000)
-year+=1900
-var day=mydate.getDay()
-var month=mydate.getMonth()
-var daym=mydate.getDate()
-if (daym<10)
-daym="0"+daym
-var dayarray=new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado")
-var montharray=new
-
-Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubr
-
-e","Noviembre","Diciembre")
-document.write("<small><font color='000080' face='Arial'>"+dayarray[day]+" "+daym+" de
-
-"+montharray[month]+" de "+year+"</font></small>")
+<script type="text/javascript">
+function mas(){
+document.getElementById('cuerpo').innerHTML+="<input name=file[] type=file><br>";
+}
+function masini(){
+    for (i=0; i<10; i++){
+        document.getElementById('cuerpo').innerHTML+="<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex' TYPE='TEXT' VALUE=''></td><tr><br>";
+    }
+}
 
 </script>
-<BODY>
+</HEAD>
 
-<FORM action="/carga/" METHOD="GET">
+<BODY>
+<FORM action="/carga_ingresos/" METHOD="GET">
 <table align="center" border="0">
 <td align="left" width="100">Aportante:
 </td>
@@ -44,31 +34,32 @@ document.write("<small><font color='000080' face='Arial'>"+dayarray[day]+" "+day
 <td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="">
 </td>
 <tr>
-<td align="left" width="100">Cantidad:
-</td>
-<td align="center" width="150"><INPUT NAME="cant" TYPE="TEXT" VALUE="">
-</td>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align="left" width="100">Descripcion:
-</td>
-<td align="center" width="150"><INPUT NAME="des" TYPE="TEXT" VALUE="">
-</td>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align="left" width="100">Precio Unitario:
-</td>
-<td align="center" width="150"><INPUT NAME="pu" TYPE="TEXT" VALUE="">
-</td>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align="left" width="100">Exentas:
-</td>
-<td align="center" width="150"><INPUT NAME="ex" TYPE="TEXT" VALUE="">
-</td>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE=''></td>
+<tr>
+<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE=''></td>
+
+<br>
 <tr>
 <td align="left" width="100">Total:
 </td>
 <td align="center" width="150"><INPUT NAME="tot" TYPE="TEXT" VALUE="" disabled="disabled">
 </td>
-<tr>
 <tr>
 <td align="right" width="150"><INPUT NAME="boton" TYPE="SUBMIT" VALUE="Enviar">
 </td>
