@@ -10,28 +10,31 @@ class TipoCuenta(models.Model):
     # hace falta esta clase? porque se puede hacer una lista como los *CHOICES
     nombre = models.CharField(max_length=40, unique=True)
     tipo_de_saldo = models.CharField(max_length=1, choices=TIPO_SALDO_CHOICES)
-    # monto = ?
     def __unicode__(self):
         return self.nombre
 
 
 class CuentaNivel1(models.Model):
-    '''he?'''
+    '''Cuenta Nivel 1'''
     nombre = models.CharField(max_length=40, unique=True)
     tipo = models.ForeignKey(TipoCuenta)
     def __unicode__(self):
-        return self.nombre
+        if self.tipo.tipo_de_saldo == 'd':
+            columna = 'Debe - '
+        elif self.tipo.tipo_de_saldo == 'h':
+            columna = 'Haber - '
+        return columna + str(self.tipo) + ' - ' + str(self.nombre)
 
 class CuentaNivel2(models.Model):
     nombre = models.CharField(max_length=40, unique=True)
     tipo = models.ForeignKey(CuentaNivel1)
     def __unicode__(self):
-        return self.nombre
+        return str(self.tipo) + ' - ' + str(self.nombre)
 
     
 class CuentaNivel3(models.Model):
     nombre = models.CharField(max_length=40, unique=True)
     tipo = models.ForeignKey(CuentaNivel2)
     def __unicode__(self):
-        return self.nombre
+        return str(self.tipo) + ' - ' + str(self.nombre)
     

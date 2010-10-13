@@ -82,8 +82,8 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #OJO: Cambiar para el directorio que uno este usando:
-    #"C:/Documents and Settings/Sergio/Mis documentos/Trabajo/Obispado de San Lorenzo/desarrollo/obispado/templates"
-    "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
+    "C:/Documents and Settings/Sergio/Mis documentos/Trabajo/Obispado de San Lorenzo/desarrollo/obispado/templates"
+    # "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
 )
 
 INSTALLED_APPS = (
