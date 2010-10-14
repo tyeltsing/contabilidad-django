@@ -7,6 +7,11 @@ def index(request):
     return render_to_response('balances/index.html')
 
 def ver_balance(request):
+    # TODO: Tema de las fechas, como hacer eso?
+    # tal vez se podria pasar el parametro de mes, luego cuando se traen los
+    # saldos de AsientoDebeDetalle y AsientoHaberDetalle filtrar por fecha,
+    # usando filter (date <= fecha_que_me_paso_el_usuario)
+
     grupos_de_cuentas = TipoCuenta.objects.all()
     diccionario_balance = {}
 
@@ -52,3 +57,18 @@ def ver_balance(request):
                                     diccionario_balance[g][n1][n2]['suma'] += saldo
                             diccionario_balance[g][n1]['suma'] += diccionario_balance[g][n1][n2]['suma']
                     diccionario_balance[g]['suma'] += diccionario_balance[g][n1]['suma']
+    # hasta aqui ya tenemos el balance
+
+import csv
+from django.http import HttpResponse
+
+def some_view(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=somefilename.csv'
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    return response
