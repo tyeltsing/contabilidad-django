@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     #(r'^carga_ingresos/', 'obispado.ingresos.views.carga_ingresos'),
     (r'^carga_ingresos/', 'obispado.ingresos.views.carga'),
     (r'^carga_egresos/', 'obispado.egresos.views.carga'),
-    (r'^balances/',  'obispado.balances.views.index'),
+    (r'^balances/$',  'obispado.balances.views.index'),
+    (r'^balances/csv', 'obispado.balances.views.some_view'),
 )
