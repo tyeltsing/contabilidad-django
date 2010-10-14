@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response
 from obispado.ingresos.models import *
 from obispado.aportantes.models import *
+from obispado.libros_contables.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
@@ -28,6 +29,7 @@ def carga(request):
         valapmax = valapmax + 1
         newingreso = Venta(fecha = fe, aportante_id=1)
         newingreso.save()
+        newasiento = AsientoContable(fecha = fe, comentario = "ingreso: " + str(newingreso.id))
         listcant = []
         listdes = []
         listpu = []
@@ -44,11 +46,14 @@ def carga(request):
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
             
-        
+        summonto = 0
         for i in range(0, cont):
-            newventadet = VentaDetalle(venta_id = newingreso.id, cuenta_id = 1, cantidad = listcant[i], exenta = listex[i])
-            newventadet.save()
-        
+            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = ex)
+            newventasiento.save()
+            summonto += ex
+        #Cambiar a "Caja"
+        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = summonto)
+        newventaasiento.save()
         
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')

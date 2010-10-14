@@ -5,6 +5,13 @@ TIPO_SALDO_CHOICES = (
                      ('h', 'Haber')
 )
 
+TIPO_IVA_CHOICES = (
+                     ('c', 'Cinco'),
+                     ('d', 'Diez'),
+                     ('e', 'Exenta'),
+                     ('n', 'No aplicable')
+)
+
 class TipoCuenta(models.Model):
     '''Activo, Pasivo, Patrimonio_Neto, Perdidas, Ganancias, etc...'''
     # hace falta esta clase? porque se puede hacer una lista como los *CHOICES
@@ -35,6 +42,7 @@ class CuentaNivel2(models.Model):
 class CuentaNivel3(models.Model):
     nombre = models.CharField(max_length=40, unique=True)
     tipo = models.ForeignKey(CuentaNivel2)
+    tipo_de_iva = models.CharField(default='n', max_length=1, choices=TIPO_IVA_CHOICES)
     def __unicode__(self):
         return str(self.tipo) + ' - ' + str(self.nombre)
     

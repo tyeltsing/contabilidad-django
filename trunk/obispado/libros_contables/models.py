@@ -3,8 +3,8 @@ from obispado.plan_de_cuentas.models import CuentaNivel3
 
 class AsientoContable(models.Model):
     fecha = models.DateField()
-    debe = models.ManyToManyField(CuentaNivel3, through='AsientoDebeDetalle', related_name='CuentasDebe')
-    haber = models.ManyToManyField(CuentaNivel3, through='AsientoHaberDetalle', related_name='CuentasHaber')
+    debe = models.ManyToManyField(CuentaNivel3, through='AsientoDebeDetalle', related_name='CuentasDebe', null=True)
+    haber = models.ManyToManyField(CuentaNivel3, through='AsientoHaberDetalle', related_name='CuentasHaber', null=True)
     comentario = models.CharField(max_length=100, null=True)
 
     def __unicode__(self):
@@ -15,8 +15,8 @@ class AsientoDebeDetalle(models.Model):
     cuenta = models.ForeignKey(CuentaNivel3)
     monto = models.FloatField()
     # UNIQUE TOGHETER, porque no puede repetirse la cuenta en el asiento
-    class Meta:
-        unique_together = (("asiento", "cuenta"),)
+    #class Meta:
+    #    unique_together = (("asiento", "cuenta"),)
 
     def __unicode__(self):
         return str(self.asiento) + ' - ' + str(self.id)
@@ -26,8 +26,8 @@ class AsientoHaberDetalle(models.Model):
     cuenta = models.ForeignKey(CuentaNivel3)
     monto = models.FloatField()
     # UNIQUE TOGHETER, porque no puede repetirse la cuenta en el asiento
-    class Meta:
-        unique_together = (("asiento", "cuenta"),)
+    #class Meta:
+    #    unique_together = (("asiento", "cuenta"),)
 
     def __unicode__(self):
         return str(self.asiento) + ' - ' + str(self.id)
