@@ -7,11 +7,7 @@ from django.db.models import Q, Max, Min
 import datetime, string
 
 def carga(request):
-<<<<<<< .mine
     #if 'ap' in request.GET and request.GET['ap']:
     #    
-    return render_to_response('egresos/carga_egreso.html')=======
-#    if 'ap' in request.GET and request.GET['ap']:
-#        
     return render_to_response('egresos/carga_egreso.html')
-# Comente lo anterior porque me daba error nomas :)>>>>>>> .r14
+    # Comente lo anterior porque me daba error nomas :)
