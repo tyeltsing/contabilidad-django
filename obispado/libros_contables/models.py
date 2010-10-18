@@ -40,6 +40,8 @@ def generar_balance(fecha_desde, fecha_hasta):
     # tal vez se podria pasar el parametro de mes, luego cuando se traen los
     # saldos de AsientoDebeDetalle y AsientoHaberDetalle filtrar por fecha,
     # usando filter (date <= fecha_que_me_paso_el_usuario)
+    # aporte fantastico de fede.caceres
+    # http://docs.djangoproject.com/en/1.2/ref/models/querysets/#range
 
     grupos_de_cuentas = TipoCuenta.objects.all()
     diccionario_balance = {}
@@ -60,6 +62,8 @@ def generar_balance(fecha_desde, fecha_hasta):
     # la fecha del balance
     # recorremos nuestro super diccionario de la manera mas ineficaz
     # TODO: como consultar esto en forma mas eficaz
+    # segun fede.caceres, se podria usar esto
+    # http://docs.djangoproject.com/en/1.2/topics/db/aggregation/
     for g in diccionario_balance:
         if g != 'suma':
             for n1 in diccionario_balance[g]:
