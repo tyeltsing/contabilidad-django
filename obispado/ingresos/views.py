@@ -11,8 +11,12 @@ def index(request):
     lista_ultimos_ingresos = Venta.objects.all().order_by('-fecha')[:5]
     return render_to_response('ingresos/index.html', {'lista_ultimos_ingresos': lista_ultimos_ingresos})
 
+def sumar(x, y):
+    return x + y    
+
 def carga(request):
     if 'ap' in request.GET and request.GET['ap']:
+        #d = request.GET['des1']
         ap = request.GET['ap']
         fe = request.GET['fe']
         ruc = request.GET['ruc']
@@ -26,10 +30,14 @@ def carga(request):
         id_aportante = Aportante.objects.filter(nombre=ap)
         valormaximo = Aportante.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
-        valapmax = valapmax + 1
-        newingreso = Venta(fecha = fe, aportante_id=1)
+        if valapmax:
+            valapmax = valapmax + 1
+        else:
+            valapmax = 1
+        newingreso = Venta(fecha = fe, aportante_id=1, numero_factura='222')
         newingreso.save()
         newasiento = AsientoContable(fecha = fe, comentario = "ingreso: " + str(newingreso.id))
+        newasiento.save()
         listcant = []
         listdes = []
         listpu = []
@@ -48,17 +56,25 @@ def carga(request):
             
         summonto = 0
         for i in range(0, cont):
-            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = ex)
-            newventasiento.save()
-            summonto += ex
+            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = int(listex[i]))
+            newventaasiento.save()
+            
+            # = summonto + int(listex[i])
+        summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
-        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = summonto)
+        id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
+        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = 1000)
         newventaasiento.save()
         
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
-        return render_to_response('ingresos/index.html', {'final': cont})
+        return render_to_response('ingresos/index.html', {'final': final})
+    else:
+        apo = Aportante.objects.all()
+        con = CuentaNivel3.objects.all()
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con' : con})
     return render_to_response('ingresos/carga_ingreso.html')
+    
     
 def carga_ingresos(request):
     return render_to_response('ingresos/carga_ingreso.html')

@@ -6,7 +6,7 @@ from obispado.libros_contables.models import AsientoContable
 # Create your models here.
 class Compra(models.Model):
     fecha = models.DateTimeField()
-    Proveedor = models.ForeignKey(Proveedor)
+    proveedor = models.ForeignKey(Proveedor)
     asiento = models.ForeignKey(AsientoContable, null=True)
     #detalle = models.ManyToManyField(CuentaNivel3, through='CompraDetalle')
     
