@@ -72,7 +72,7 @@ def carga(request):
     else:
         apo = Aportante.objects.all()
         con = CuentaNivel3.objects.all()
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con' : con})
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo})
     return render_to_response('ingresos/carga_ingreso.html')
     
     
