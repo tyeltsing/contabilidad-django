@@ -3,17 +3,6 @@
 <HEAD>
 <TITLE>Agregar Ingreso</TITLE>
 
-<script type="text/javascript">
-function mas(){
-document.getElementById('cuerpo').innerHTML+="<input name=file[] type=file><br>";
-}
-function masini(){
-    for (i=0; i<10; i++){
-        document.getElementById('cuerpo').innerHTML+="<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex' TYPE='TEXT' VALUE=''></td><tr><br>";
-    }
-}
-
-</script>
 </HEAD>
 
 <BODY>
@@ -21,8 +10,23 @@ function masini(){
 <table align="center" border="0">
 <td align="left" width="100">Aportante:
 </td>
-<td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE="">
+<td align="left" width="100">
+                        
+                            <select name="ap" id="id_ap">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if apo %}
+                                {% for i in apo %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td>
+
 <tr>
 <td align="left" width="100">Fecha:
 </td>
@@ -33,26 +37,180 @@ function masini(){
 </td>
 <td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="">
 </td>
+
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' TYPE='TEXT' VALUE=''></td>
+</TABLE>
+<table align="left" border="0">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des1" id="id_des1">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td>
+<td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des2" id="id_des2">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des3" id="id_des3">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des4" id="id_des4">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des5" id="id_des5">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des6" id="id_des6">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des7" id="id_des7">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des8" id="id_des8">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des9" id="id_des9">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE=''></td>
 <tr>
-<td align='left' width='100'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Descripcion:</td><td align='center' width='150'><INPUT NAME='des10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+                        
+                            <select name="des10" id="id_des10">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE=''></td>
 
 <br>
 <tr>
