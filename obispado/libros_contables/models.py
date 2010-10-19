@@ -1,14 +1,34 @@
 from django.db import models
+from django.db.models import Sum
 from obispado.plan_de_cuentas.models import *
+
+class AsientoContableManager(models.Manager):
+    '''Manager personalizado para trabajar sobre todos los registros de
+    Asientos'''
+    def verificar_consistencia(self):
+        '''Verifica si el debe y el haber tienen el mismo monto, para que la
+        partida doble funcione.
+        Devuelve la lista de asientos que estan mal'''
+        resultado = []
+        lista_de_asientos = self.all()
+        for asiento in lista_de_asientos:
+            lista_monto_debes = AsientoDebeDetalle.objects.filter(asiento=asiento).aggregate(suma=Sum('monto'))
+            lista_monto_haberes = AsientoHaberDetalle.objects.filter(asiento=asiento).aggregate(suma=Sum('monto'))
+            if lista_monto_debes['suma'] != lista_monto_haberes['suma']:
+                resultado.append(asiento)
+        return resultado
+
 
 class AsientoContable(models.Model):
     fecha = models.DateField()
     debe = models.ManyToManyField(CuentaNivel3, through='AsientoDebeDetalle', related_name='CuentasDebe', null=True)
     haber = models.ManyToManyField(CuentaNivel3, through='AsientoHaberDetalle', related_name='CuentasHaber', null=True)
     comentario = models.CharField(max_length=100, null=True)
+    objects = AsientoContableManager()
 
     def __unicode__(self):
         return str(self.fecha) + ' - #:' + str(self.id) + ' - ' + self.comentario
+
 
 class AsientoDebeDetalle(models.Model):
     asiento = models.ForeignKey(AsientoContable)
@@ -20,6 +40,7 @@ class AsientoDebeDetalle(models.Model):
 
     def __unicode__(self):
         return str(self.asiento) + ' - ' + str(self.id)
+
 
 class AsientoHaberDetalle(models.Model):
     asiento = models.ForeignKey(AsientoContable)
