@@ -4,6 +4,9 @@ from obispado.aportantes.models import *
 from django.contrib import admin
 admin.autodiscover()
 
+from django.conf import settings
+
+
 reporter_lookup = {
 	'queryset': Aportante.objects.all(),
 	'field': 'nombre', # this is the field which is searched
@@ -28,6 +31,8 @@ urlpatterns = patterns('',
     (r'^carga_egresos/', 'obispado.egresos.views.carga'),
     (r'^balances/$',  'obispado.balances.views.index'),
     (r'^balances/csv', 'obispado.balances.views.some_view'),
-    (r'^reporter_lookup/$', 'obispado.ingresos.views.json_lookup', reporter_lookup),
+    #(r'^reporter_lookup/$', 'obispado.ingresos.views.json_lookup', reporter_lookup),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT}),
+
 )
 

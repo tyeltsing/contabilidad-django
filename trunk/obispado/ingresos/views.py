@@ -7,6 +7,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
 
+from django.template import RequestContext
+
 def index(request):
     lista_ultimos_ingresos = Venta.objects.all().order_by('-fecha')[:5]
     return render_to_response('ingresos/index.html', {'lista_ultimos_ingresos': lista_ultimos_ingresos})
@@ -68,12 +70,12 @@ def carga(request):
         
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
-        return render_to_response('ingresos/index.html', {'final': final})
+        return render_to_response('ingresos/index.html', {'final': final}, context_instance=RequestContext(request))
     else:
         apo = Aportante.objects.all()
         con = CuentaNivel3.objects.all()
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo})
-    return render_to_response('ingresos/carga_ingreso.html')
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con}, context_instance=RequestContext(request))
+    return render_to_response('ingresos/carga_ingreso.html', context_instance=RequestContext(request))
     
     
 def carga_ingresos(request):
