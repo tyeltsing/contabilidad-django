@@ -58,10 +58,16 @@ def carga(request):
         id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
         newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = 1000)
         newventaasiento.save()
-        
+        nuevoidasiento = Compra.objects.get(id=newingreso.id)
+        nuevoidasiento.asiento_id = newasiento.id
+        nuevoidasiento.save()
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
-        return render_to_response('egresos/carga_egreso.html')
-    
+        #return render_to_response('egresos/carga_egreso.html')
+        return HttpResponseRedirect('/carga_egresos/')
+    else:
+        pro = Proveedor.objects.all()
+        con = CuentaNivel3.objects.all()
+        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
     return render_to_response('egresos/carga_egreso.html')
 
