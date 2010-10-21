@@ -22,13 +22,13 @@ def carga(request):
         ap = request.GET['ap']
         fe = request.GET['fe']
         ruc = request.GET['ruc']
+        nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
         else:
             tot = 1000
         #final = ap+fe+ruc+cant+des+pu+ex+tot
-        
-        
+       
         id_aportante = Aportante.objects.filter(nombre=ap)
         valormaximo = Aportante.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
@@ -36,7 +36,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Venta(fecha = fe, aportante_id=1, numero_factura='222')
+        newingreso = Venta(fecha = fe, aportante_id=ap, numero_factura=nrofac)
         newingreso.save()
         newasiento = AsientoContable(fecha = fe, comentario = "ingreso: " + str(newingreso.id))
         newasiento.save()
@@ -58,25 +58,28 @@ def carga(request):
             
         summonto = 0
         for i in range(0, cont):
-            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = int(listex[i]))
+            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = int(listex[i]))
             newventaasiento.save()
-            
-            # = summonto + int(listex[i])
-        summonto = reduce(sumar, listex)
+            summonto = summonto + int(listex[i])
+        #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
-        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = 1000)
+        cue = id_de_cuenta.count()
+        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =cue, monto = summonto)
         newventaasiento.save()
-        
-        return render_to_response('ingresos/carga_ingreso.html')
-        #return HttpResponseRedirect('/carga_ingresos/')
-        #return render_to_response('ingresos/index.html', {'final': fe}, context_instance=RequestContext(request))
+        nuevoidasiento = Venta.objects.get(id=newingreso.id)
+        nuevoidasiento.asiento_id = newasiento.id
+        nuevoidasiento.save()
+        #return render_to_response('ingresos/carga_ingreso.html')
+        return HttpResponseRedirect('/carga_ingresos/')
+        #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
         apo = Aportante.objects.all()
         con = CuentaNivel3.objects.all()
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con}, context_instance=RequestContext(request))
-    return render_to_response('ingresos/carga_ingreso.html', context_instance=RequestContext(request))
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con})
+    return render_to_response('ingresos/carga_ingreso.html')
     
     
 def carga_ingresos(request):
+    
     return render_to_response('ingresos/carga_ingreso.html')

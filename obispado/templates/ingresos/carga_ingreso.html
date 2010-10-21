@@ -1,43 +1,164 @@
-<HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+
 <HEAD>
 <TITLE>Agregar Ingreso</TITLE>
 
 </HEAD>
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery-ui-1.7.2.custom.css" />
 
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.3.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui.min.js"></script>
 <script type="text/javascript">
-jQuery(function($){
-	$.datepicker.regional['es'] = {
-		closeText: 'Cerrar',
-		prevText: '&#x3c;Ant',
-		nextText: 'Sig&#x3e;',
-		currentText: 'Hoy',
-		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-		'Jul','Ago','Sep','Oct','Nov','Dic'],
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-		dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
-		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-		weekHeader: 'Sm',
-		dateFormat: 'dd/mm/yy',
-		firstDay: 1,
-		isRTL: false,
-		showMonthAfterYear: false,
-		yearSuffix: ''};
-	$.datepicker.setDefaults($.datepicker.regional['es']);
-});    
+        function validar(e) { // 1
+            tecla = (document.all) ? e.keyCode : e.which;
+            if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
+            if (tecla==0) return true;
+            patron = /[1234567890.]/;// Solo acepta numeros y el punto
 
-        $(document).ready(function() {
-           $("#datepicker").datepicker();
-        });
+            te = String.fromCharCode(tecla);
+            return patron.test(te); 
+        } 
+
+        //alert('as');
+        function sumex(frm, n){
+            var exenta;
+            
+            exenta = parseFloat(frm['cant'+n].value) * parseFloat(frm['pu'+n].value)
+            frm['ex'+n].value = exenta;
+            //alert(exenta);
+        }
+        
+        function sumar(){
+            //alert('hola');
+            var sum=0;
+            var uno=0;
+            
+            if(document.formu.ex1.value==''){
+                document.formu.ex1.value=0;
+                
+            }else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex2.value==''){
+                document.formu.ex2.value=0;
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex3.value==''){
+                document.formu.ex3.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex4.value==''){
+                document.formu.ex4.value=0;
+               
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex5.value==''){
+                document.formu.ex5.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex6.value==''){
+                document.formu.ex6.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex7.value==''){
+                document.formu.ex7.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex8.value==''){
+                document.formu.ex8.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex9.value==''){
+                document.formu.ex9.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex10.value==''){
+                document.formu.ex10.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            var1=parseFloat(document.formu.ex1.value);
+            var2=parseFloat(document.formu.ex2.value);
+            var3=parseFloat(document.formu.ex3.value);
+            var4=parseFloat(document.formu.ex4.value);
+            var5=parseFloat(document.formu.ex5.value);
+            var6=parseFloat(document.formu.ex6.value);
+            var7=parseFloat(document.formu.ex7.value);
+            var8=parseFloat(document.formu.ex8.value);
+            var9=parseFloat(document.formu.ex9.value);
+            var10=parseFloat(document.formu.ex10.value);
+            sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
+            alert(sum);
+            document.getElementById('tot').value=sum;
+            if(uno>0){
+                document.formu.boton.disabled = false;
+            }
+            //alert('hola');
+        }
+         function ValidarFecha(Cadena){  
+             var Fecha= new String(Cadena)   // Crea un string  
+             var RealFecha= new Date()   // Para sacar la fecha de hoy  
+             // Cadena Anho  
+             var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             // Cadena Mes  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             // Cadena Dia  
+             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  
+           
+             // Valido el anho  
+             if (isNaN(Ano) || Ano.length<4 || parseFloat(Ano)<1900){  
+                     alert('Anho invalido')  
+                 return false  
+             }  
+             // Valido el Mes  
+             if (isNaN(Mes) || parseFloat(Mes)<1 || parseFloat(Mes)>12){  
+                 alert('Mes invalido')  
+                 return false  
+             }  
+             // Valido el Dia  
+             if (isNaN(Dia) || parseInt(Dia, 10)<1 || parseInt(Dia, 10)>31){  
+                 alert('Dia invalido')  
+                 return false  
+             }  
+             if (Mes==4 || Mes==6 || Mes==9 || Mes==11 || Mes==2) {  
+                 if (Mes==2 && Dia > 28 || Dia>30) {  
+                     alert('Dia invalido')  
+                     return false  
+                 }  
+             }  
+               
+           //para que envie los datos, quitar las  2 lineas siguientes  
+           //alert("Fecha correcta.")  
+           //return false    
+         }  
+        
     </script>
 
 <BODY>
-<FORM action="/carga_ingresos/" METHOD="GET">
+<FORM action="/carga_ingresos/" METHOD="GET" name="formu">
 <table align="center" border="0">
 <td align="left" width="100">Aportante:
 </td>
@@ -59,9 +180,9 @@ jQuery(function($){
 </td>
 
 <tr>
-<td align="left" width="100">Fecha:
+<td align="left" width="200">Fecha (Formato: dd-mm-aaaa):
 </td>
-<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="">
+<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
 <!--div id="contenido-demo">	
         	<form action="">
            <label> Seleccionar Fecha:</label>
@@ -75,11 +196,16 @@ jQuery(function($){
 </td>
 <td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="">
 </td>
+<tr>
+<td align="left" width="100">Nro Documento/Factura:
+</td>
+<td align="center" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
+</td>
 
 <tr>
 </TABLE>
 <table align="left" border="0">
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des1" id="id_des1">
 
@@ -95,9 +221,9 @@ jQuery(function($){
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td>
-<td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' TYPE='TEXT' VALUE=''></td>
+<td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '1');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' id='ex1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des2" id="id_des2">
 
@@ -112,9 +238,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '2');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' id='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des3" id="id_des3">
 
@@ -129,9 +255,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '3');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' id='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des4" id="id_des4">
 
@@ -146,9 +272,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '4');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' id='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des5" id="id_des5">
 
@@ -163,9 +289,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '5');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' id='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des6" id="id_des6">
 
@@ -180,9 +306,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '6');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des7" id="id_des7">
 
@@ -197,9 +323,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '7');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des8" id="id_des8">
 
@@ -214,9 +340,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '8');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des9" id="id_des9">
 
@@ -231,9 +357,9 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '9');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
                         
                             <select name="des10" id="id_des10">
 
@@ -248,19 +374,26 @@ jQuery(function($){
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE=''></td>
+</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '10');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 
 <br>
 <tr>
-<td align="left" width="100">Total:
+
+<td align="right" width="100">Total:
 </td>
-<td align="center" width="150"><INPUT NAME="tot" TYPE="TEXT" VALUE="" disabled="disabled">
-</td>
+<td align="center" width="150"><INPUT NAME="tot" id="tot" TYPE="TEXT" VALUE="" disabled="disabled">
+  
+
 <tr>
-<td align="right" width="150"><INPUT NAME="boton" TYPE="SUBMIT" VALUE="Enviar">
+<td align="right" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
 </td>
+
 </TABLE>
+
 </FORM>
+<input name="botons" type="SUBMIT" value="Sumar" onclick="sumar();" /></td>
+<tr>
+
 </BODY>
 </HTML>
 
