@@ -52,6 +52,8 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
+STATIC_DOC_ROOT ='D:/Mis docs/obispadosl/contabilidad-django/obispado/media/'
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -85,6 +87,8 @@ TEMPLATE_DIRS = (
     #"C:/Documents and Settings/Sergio/Mis documentos/Trabajo/Obispado de San Lorenzo/desarrollo/obispado/templates"
     "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
 )
+#Para probar lo de media
+TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth','django.core.context_processors.media',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
