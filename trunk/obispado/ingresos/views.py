@@ -68,9 +68,9 @@ def carga(request):
         newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = 1000)
         newventaasiento.save()
         
-        #return render_to_response('ingresos/carga_ingreso.html')
+        return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
-        return render_to_response('ingresos/index.html', {'final': final}, context_instance=RequestContext(request))
+        #return render_to_response('ingresos/index.html', {'final': fe}, context_instance=RequestContext(request))
     else:
         apo = Aportante.objects.all()
         con = CuentaNivel3.objects.all()
