@@ -111,7 +111,7 @@
             var9=parseFloat(document.formu.ex9.value);
             var10=parseFloat(document.formu.ex10.value);
             sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
-            alert(sum);
+            //alert(sum);
             document.getElementById('tot').value=sum;
             if(uno>0){
                 document.formu.boton.disabled = false;
@@ -122,11 +122,15 @@
              var Fecha= new String(Cadena)   // Crea un string  
              var RealFecha= new Date()   // Para sacar la fecha de hoy  
              // Cadena Anho  
-             var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             /*var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
              // Cadena Mes  
              var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
              // Cadena Dia  
-             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  
+             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  */
+
+             var Dia= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             var Ano= new String(Fecha.substring(0,Fecha.indexOf("-")))
            
              // Valido el anho  
              if (isNaN(Ano) || Ano.length<4 || parseFloat(Ano)<1900){  
@@ -158,6 +162,7 @@
     </script>
 
 <BODY>
+<H1 align="center">Cargar Nuevo Ingreso</H1> 
 <FORM action="/carga_ingresos/" METHOD="GET" name="formu">
 <table align="center" border="0">
 <td align="left" width="100">Aportante:
@@ -180,7 +185,7 @@
 </td>
 
 <tr>
-<td align="left" width="200">Fecha (Formato: dd-mm-aaaa):
+<td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
 </td>
 <td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
 <!--div id="contenido-demo">	
@@ -204,8 +209,10 @@
 
 <tr>
 </TABLE>
-<table align="left" border="0">
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<table align="center" border="0">
+<td align='left' width='20'>Cantidad:</td><td align='left' width='20'>Concepto:</td><td align='left' width='80'>Precio Unitario:</td><td align='left' width='80'>Exentas:</td>
+<tr>
+<td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des1" id="id_des1">
 
@@ -221,9 +228,9 @@
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td>
-<td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '1');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex1' id='ex1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+<td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '1');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex1' id='ex1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des2" id="id_des2">
 
@@ -238,9 +245,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '2');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex2' id='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '2');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex2' id='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des3" id="id_des3">
 
@@ -255,9 +262,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '3');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex3' id='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '3');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex3' id='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des4" id="id_des4">
 
@@ -272,9 +279,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '4');"onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex4' id='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '4');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex4' id='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des5" id="id_des5">
 
@@ -289,9 +296,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '5');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex5' id='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '5');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex5' id='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des6" id="id_des6">
 
@@ -306,9 +313,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '6');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '6');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des7" id="id_des7">
 
@@ -323,9 +330,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '7');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '7');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des8" id="id_des8">
 
@@ -340,9 +347,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '8');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '8');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des9" id="id_des9">
 
@@ -357,9 +364,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '9');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '9');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='left' width='50'>Cantidad:</td><td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align='left' width='100'>Concepto:</td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des10" id="id_des10">
 
@@ -374,24 +381,25 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='100'>Precio Unitario:</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '10');" onkeypress="return validar(event);"></td><td align='left' width='100'>Exentas:</td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
+</td><td align='center' width='150'><INPUT NAME='pu10' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '10');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 
 <br>
 <tr>
 
-<td align="right" width="100">Total:
+<td align="left" width="150">Total:
 </td>
+<td align="center" width="150"></td><td align="center" width="150"></td>
 <td align="center" width="150"><INPUT NAME="tot" id="tot" TYPE="TEXT" VALUE="" disabled="disabled">
   
 
 <tr>
-<td align="right" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
+<td align="center" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
 </td>
-
+<td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar();" /></td>
 </TABLE>
 
 </FORM>
-<input name="botons" type="SUBMIT" value="Sumar" onclick="sumar();" /></td>
+
 <tr>
 
 </BODY>
