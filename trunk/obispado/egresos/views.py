@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from obispado.egresos.models import *
 from obispado.proveedores.models import *
 from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
@@ -14,12 +15,13 @@ def carga(request):
     if 'pro' in request.GET and request.GET['pro']:
         pro = request.GET['pro']
         fe = request.GET['fe']
-        ruc = request.GET['ruc']
+        if 'ruc' in request.GET and request.GET['ruc']:
+            ruc = request.GET['ruc']
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
-        else:
-            tot = 1000
+        #else:
+        #    tot = 1000
             
         id_proveedor = Proveedor.objects.filter(nombre=pro)
         valormaximo = Proveedor.objects.aggregate(Max('id'))
@@ -28,7 +30,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Compra(fecha = fe, proveedor_id=pro, numero_factura=nrofac)
+        newingreso = Compra(fecha = fe, proveedor_id=pro)
         newingreso.save()
         newasiento = AsientoContable(fecha = fe, comentario = "egreso: " + str(newingreso.id))
         newasiento.save()
@@ -59,17 +61,46 @@ def carga(request):
                 g5.append(request.GET['g5'+str(i)])
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
-            
+        totiva = 0
+        totgv10 = 0
+        totgv5 = 0
+        totex = 0
+        totgral = 0
+        if 'totiva' in request.GET and request.GET['totiva']:
+            totiva = request.GET['totiva']
+        if 'totgv10' in request.GET and request.GET['totgv10']:
+            totgv10 = request.GET['totgv10']
+        if 'totgv5' in request.GET and request.GET['totgv5']:
+            totgv5 = request.GET['totgv5']
+        if 'totex' in request.GET and request.GET['totex']:
+            totex = request.GET['totex']
+        if 'totgral' in request.GET and request.GET['totgral']:
+            totgral = request.GET['totgral']
+        listipos = []
+        
+        for i in range(1, cont+1):
+            tipos_iva = CuentaNivel3.objects.get(id=i)
+            if(tipos_iva.tipo_de_iva == 'd'):
+                listipos.append('d')
+            if(tipos_iva.tipo_de_iva == 'c'):
+                listipos.append('c')
+            if(tipos_iva.tipo_de_iva == 'e'):
+                listipos.append('e')
         summonto = 0
         for i in range(0, cont):
-            newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = 1, monto = int(listex[i]))
-            newventaasiento.save()
+            if(listipos[i] == 'd' or listipos[i] == 'c'):
+                newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(totiva[i]))
+                newventaasiento.save()
+            if(listipos[i] == 'e'):
+                newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(totex[i]))
+                newventaasiento.save()
             
             # = summonto + int(listex[i])
         summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
-        id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
-        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = 1000)
+        id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
+        #newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = float(totgral))
+        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = float(totgral))
         newventaasiento.save()
         nuevoidasiento = Compra.objects.get(id=newingreso.id)
         nuevoidasiento.asiento_id = newasiento.id

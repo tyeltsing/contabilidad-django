@@ -89,7 +89,7 @@
                         }
                     }
                     
-                    
+                    //alert(num);
                 }else{
                     //alert(cuentas[num-1]);
                     g10.disabled = false;
@@ -183,6 +183,7 @@
             var sumg10=0;
             var sumg5=0;
             var sumex=0;
+            var sumtotgral = 0
             for(i=1;i<=10;i++){
                 if(frm['ex'+i].value==''){
                     frm['ex'+i].value = 0;
@@ -208,6 +209,7 @@
                 sumg10 = sumg10 + parseFloat(frm['g10'+i].value);
                 sumg5 = sumg5 + parseFloat(frm['g5'+i].value)
                 sumex = sumex + parseFloat(frm['ex'+i].value)
+                sumtotgral = sumtotiva + sumg10 + sumg5 + sumex;
             }
             //sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
             //alert(uno);
@@ -215,6 +217,7 @@
             frm['totgv10'].value=Math.round(sumg10 * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totgv5'].value=Math.round(sumg5 * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totex'].value =Math.round(sumex * Math.pow(10, 2)) / Math.pow(10, 2);
+            frm['totgral'].value = Math.round(sumtotgral * Math.pow(10, 2)) / Math.pow(10, 2);
             //document.getElementById('totex').value=sum;
             if(sumtotiva!=0 || sumg10!=0 || sumg5!=0 || sumex!=0){
                 frm.boton.disabled = false;
@@ -292,7 +295,7 @@
 <tr>
 <td align="left" width="100">RUC/CI:
 </td>
-<td align="center" width="150"><INPUT NAME="ruc" id="ruc" TYPE="TEXT" VALUE="" disabled="disabled">
+<td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="" disabled="disabled">
 </td>
 <tr>
 <td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
@@ -496,7 +499,11 @@
 </td>
 <td align="left" width="100"><INPUT NAME="totex" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
 </td>
-
+<tr>
+<td align="left" width="100">Total General:
+</td>
+<td align="left" width="100"><INPUT NAME="totgral" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
 <tr>
 
 <tr>

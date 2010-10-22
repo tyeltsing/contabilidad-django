@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from obispado.ingresos.models import *
 from obispado.aportantes.models import *
 from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
@@ -58,9 +59,9 @@ def carga(request):
             
         summonto = 0
         for i in range(0, cont):
-            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = int(listex[i]))
+            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(listex[i]))
             newventaasiento.save()
-            summonto = summonto + int(listex[i])
+            summonto = summonto + float(listex[i])
         #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
