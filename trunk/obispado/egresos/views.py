@@ -36,8 +36,10 @@ def carga(request):
         listdes = []
         listpu = []
         lismon = []
+        totiva = []
+        g10 = []
+        g5 = []
         listex = []
-        
         cont = 0
         for i in range(1, 11):
             if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
@@ -49,6 +51,12 @@ def carga(request):
                 listpu.append(request.GET['pu'+str(i)])
             if 'mon'+str(i) in request.GET and request.GET['mon'+str(i)]:
                 lismon.append(request.GET['mon'+str(i)])
+            if 'totiva'+str(i) in request.GET and request.GET['totiva'+str(i)]:
+                totiva.append(request.GET['totiva'+str(i)])
+            if 'g10'+str(i) in request.GET and request.GET['g10'+str(i)]:
+                g10.append(request.GET['g10'+str(i)])
+            if 'g5'+str(i) in request.GET and request.GET['g5'+str(i)]:
+                g5.append(request.GET['g5'+str(i)])
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
             

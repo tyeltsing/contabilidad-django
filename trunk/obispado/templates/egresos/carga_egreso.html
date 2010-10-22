@@ -113,15 +113,18 @@
         } 
 
         //alert('as');
-        function sumval(frm, n){
+        function sumval(frm, n, tipo_iva){
+            //alert('as');
             var valor;
             var b=0;
             if(frm['cant'+n].value!="" && frm['mon'+n].value!=""){
-                //alert("lolo");
+                
                 valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
-                if(cuentas[n] != "e"){
+                if(cuentas[tipo_iva-1] != "e"){
+                    //alert("lolo1");
                     frm['totiva'+n].value = valor;
                 }else{
+                    //alert("lolo2");
                     frm['ex'+n].value = valor
                 }
             }else{
@@ -129,8 +132,8 @@
                 frm['totiva'+n].value = 0;
             }
             if(listasel == 1){
-                //alert(cuentas[n]);
-                if(cuentas[n] == "d"){
+                //alert(cuentas[tipo_iva-1]);
+                if(cuentas[tipo_iva-1] == "d"){
                     //alert("lolo");
                     var div = parseFloat(frm['totiva'+n].value) / 1.1;
                     frm['g10'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
@@ -141,7 +144,7 @@
                     frm['g10'+n].value = 0;
                 }
                 if(b==0){
-                    if(cuentas[n] == "c"){
+                    if(cuentas[tipo_iva-1] == "c"){
                         var div = parseFloat(frm['totiva'+n].value) / 1.1;
                         frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                         b=1;
@@ -150,6 +153,7 @@
                         frm['g5'+n].value = 0;
                     }
                 }
+                
                 /*if(b==0){
                     if(cuentas[n] == "e"){
                         var div = parseFloat(frm['totiva'+n].value) / 1.1;
@@ -171,94 +175,49 @@
             //alert(listasel);
         }
         
-        function sumar(){
+        function sumar(frm){
             //alert('hola');
             var sum=0;
             var uno=0;
+            var sumtotiva=0;
+            var sumg10=0;
+            var sumg5=0;
+            var sumex=0;
+            for(i=1;i<=10;i++){
+                if(frm['ex'+i].value==''){
+                    frm['ex'+i].value = 0;
+                    uno = uno + 1;
+                }
+                if(frm['totiva'+i].value==''){
+                    frm['totiva'+i].value = 0;
+                    uno = uno + 1;
+                }
+                if(frm['g10'+i].value==''){
+                    frm['g10'+i].value = 0;
+                    uno = uno + 1;
+                }
+                if(frm['g5'+i].value==''){
+                    frm['g5'+i].value = 0;
+                    uno = uno + 1;
+                }
             
-            if(document.formu.ex1.value==''){
-                document.formu.ex1.value=0;
-                
-            }else{
-                uno = uno + 1;
             }
-            if(document.formu.ex2.value==''){
-                document.formu.ex2.value=0;
+
+            for(i=1;i<=10;i++){
+                sumtotiva = sumtotiva + parseFloat(frm['totiva'+i].value);
+                sumg10 = sumg10 + parseFloat(frm['g10'+i].value);
+                sumg5 = sumg5 + parseFloat(frm['g5'+i].value)
+                sumex = sumex + parseFloat(frm['ex'+i].value)
             }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex3.value==''){
-                document.formu.ex3.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex4.value==''){
-                document.formu.ex4.value=0;
-               
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex5.value==''){
-                document.formu.ex5.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex6.value==''){
-                document.formu.ex6.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex7.value==''){
-                document.formu.ex7.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex8.value==''){
-                document.formu.ex8.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex9.value==''){
-                document.formu.ex9.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            if(document.formu.ex10.value==''){
-                document.formu.ex10.value=0;
-                
-            }
-            else{
-                uno = uno + 1;
-            }
-            var1=parseFloat(document.formu.ex1.value);
-            var2=parseFloat(document.formu.ex2.value);
-            var3=parseFloat(document.formu.ex3.value);
-            var4=parseFloat(document.formu.ex4.value);
-            var5=parseFloat(document.formu.ex5.value);
-            var6=parseFloat(document.formu.ex6.value);
-            var7=parseFloat(document.formu.ex7.value);
-            var8=parseFloat(document.formu.ex8.value);
-            var9=parseFloat(document.formu.ex9.value);
-            var10=parseFloat(document.formu.ex10.value);
-            sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
-            //alert(sum);
-            document.getElementById('tot').value=sum;
-            if(uno>0){
-                document.formu.boton.disabled = false;
+            //sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
+            //alert(uno);
+            frm['totiva'].value= Math.round(sumtotiva * Math.pow(10, 2)) / Math.pow(10, 2);
+            frm['totgv10'].value=Math.round(sumg10 * Math.pow(10, 2)) / Math.pow(10, 2);
+            frm['totgv5'].value=Math.round(sumg5 * Math.pow(10, 2)) / Math.pow(10, 2);
+            frm['totex'].value =Math.round(sumex * Math.pow(10, 2)) / Math.pow(10, 2);
+            //document.getElementById('totex').value=sum;
+            if(sumtotiva!=0 || sumg10!=0 || sumg5!=0 || sumex!=0){
+                frm.boton.disabled = false;
             }
             //alert('hola');
         }
@@ -349,7 +308,7 @@
 <tr>
 <td align='left' width='20'>Cantidad:</td><td align='left' width='100'>Concepto:</td><td align='left' width='100'>Precio Unitario:</td><td align='left' width='80'>Total Iva Incluido:</td><td align='left' width='80'>Grav10%:</td><td align='left' width='80'>Grav5%:</td><td align='left' width='80'>Exentas:</td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1');" onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1', this.form.des1.value);" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des1" id="id_des1" onchange="ver_tipo(this.value, this.form.g101, this.form.g51, this.form.ex1, this.form.totiva1);">
 
@@ -364,9 +323,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g101' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g51' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td><td align='left' width='50'><INPUT NAME='ex1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td>
+</td><td align='left' width='50'><INPUT NAME='mon1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1', this.form.des1.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g101' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g51' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td><td align='left' width='50'><INPUT NAME='ex1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2');"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2', this.form.des2.value);" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des2" id="id_des2" onchange="ver_tipo(this.value, this.form.g102, this.form.g52, this.form.ex2, this.form.totiva2);">
 
@@ -381,9 +340,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva2' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g102' TYPE='TEXT' VALUE=''  onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g52' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2', this.form.des2.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva2' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g102' TYPE='TEXT' VALUE=''  onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g52' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '3');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '3', this.form.des3.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des3" id="id_des3" onchange="ver_tipo(this.value, this.form.g103, this.form.g53, this.form.ex3, this.form.totiva3);">
 
@@ -398,9 +357,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon3' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '3');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva3' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g103' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g53' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon3' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '3', this.form.des3.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva3' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g103' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g53' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '4');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '4', this.form.des4.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des4" id="id_des4" onchange="ver_tipo(this.value, this.form.g104, this.form.g54, this.form.ex4, this.form.totiva4);">
 
@@ -415,9 +374,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon4' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '4');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva4' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g104' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g54' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon4' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '4', this.form.des4.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva4' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g104' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g54' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '5');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '5', this.form.des5.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des5" id="id_des5" onchange="ver_tipo(this.value, this.form.g105, this.form.g55, this.form.ex5, this.form.totiva5);">
 
@@ -432,9 +391,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon5' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '5');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva5' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g105' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g55' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon5' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '5', this.form.des5.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva5' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g105' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g55' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '6');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '6', this.form.des6.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des6" id="id_des6" onchange="ver_tipo(this.value, this.form.g106, this.form.g56, this.form.ex6, this.form.totiva6);">
 
@@ -449,9 +408,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon6' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '6');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva6' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g106' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g56' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon6' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '6', this.form.des6.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva6' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g106' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g56' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '7');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '7', this.form.des7.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des7" id="id_des7" onchange="ver_tipo(this.value, this.form.g107, this.form.g57, this.form.ex7, this.form.totiva7);">
 
@@ -466,9 +425,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon7' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '7');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva7' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g107' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g57' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon7' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '7', this.form.des7.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva7' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g107' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g57' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '8');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '8', this.form.des8.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des8" id="id_des8" onchange="ver_tipo(this.value, this.form.g108, this.form.g58, this.form.ex8, this.form.totiva8);">
 
@@ -483,9 +442,9 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon8' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '8');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva8' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g108' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g58' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+</td><td align='left' width='50'><INPUT NAME='mon8' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '8', this.form.des8.value);" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva8' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g108' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g58' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '9');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '9', this.form.des9.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des9" id="id_des9" onchange="ver_tipo(this.value, this.form.g109, this.form.g59, this.form.ex9, this.form.totiva9);">
 
@@ -500,10 +459,10 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon9' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '9');" onkeypress="return validar(event);"></td>
+</td><td align='left' width='50'><INPUT NAME='mon9' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '9', this.form.des9.value);" onkeypress="return validar(event);"></td>
 <td align='left' width='50'><INPUT NAME='totiva9' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g109' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g59' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 <tr>
-<td align='left' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '10');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+<td align='left' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '10', this.form.des10.value);" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
                         
                             <select name="des10" id="id_des10" onchange="ver_tipo(this.value, this.form.g1010, this.form.g510, this.form.ex10, this.form.totiva10);">
 
@@ -518,7 +477,7 @@
                             <option value="h4">Fer</option-->
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
-</td><td align='left' width='50'><INPUT NAME='mon10' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '10');" onkeypress="return validar(event);"></td>
+</td><td align='left' width='50'><INPUT NAME='mon10' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '10', this.form.des10.value);" onkeypress="return validar(event);"></td>
 <td align='left' width='50'><INPUT NAME='totiva10' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g1010' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g510' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
 
 <br>
@@ -526,8 +485,9 @@
 <td align="left" width="100">Total:
 </td>
 <td align="left" width="100"></td>
-<td align="left" width="100"><INPUT NAME="totmon" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
-</td>
+<td align="left" width="100"></td>
+<!--td align="left" width="100"><INPUT NAME="totmon" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td-->
 <td align="left" width="100"><INPUT NAME="totiva" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
 </td>
 <td align="left" width="100"><INPUT NAME="totgv10" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
@@ -541,9 +501,9 @@
 
 <tr>
 <td align="center" width="150"></td>
-<td align="center" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
+<td align="center" width="150"><INPUT NAME="boton" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
 </td>
-<td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar();" /></td>
+<td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar(this.form);" /></td>
 </TABLE>
 
 </FORM>
