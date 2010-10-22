@@ -66,7 +66,7 @@ def carga(request):
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
         cue = id_de_cuenta.count()
-        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =cue, monto = summonto)
+        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = summonto)
         newventaasiento.save()
         nuevoidasiento = Venta.objects.get(id=newingreso.id)
         nuevoidasiento.asiento_id = newasiento.id
