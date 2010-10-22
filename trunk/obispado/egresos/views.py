@@ -15,6 +15,7 @@ def carga(request):
         pro = request.GET['pro']
         fe = request.GET['fe']
         ruc = request.GET['ruc']
+        nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
         else:
@@ -27,7 +28,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Compra(fecha = fe, proveedor_id=1)
+        newingreso = Compra(fecha = fe, proveedor_id=pro, numero_factura=nrofac)
         newingreso.save()
         newasiento = AsientoContable(fecha = fe, comentario = "egreso: " + str(newingreso.id))
         newasiento.save()
@@ -66,8 +67,8 @@ def carga(request):
         #return render_to_response('egresos/carga_egreso.html')
         return HttpResponseRedirect('/carga_egresos/')
     else:
-        pro = Proveedor.objects.all()
-        con = CuentaNivel3.objects.all()
+        pro = Proveedor.objects.all().order_by("id")
+        con = CuentaNivel3.objects.all().order_by("id")
         return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
     return render_to_response('egresos/carga_egreso.html')
 
