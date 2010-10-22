@@ -34,7 +34,7 @@ def carga(request):
         newasiento.save()
         newingreso = Compra(fecha = fe, proveedor_id = pro, numero_factura = nrofac, asiento = newasiento.id)
         newingreso.save()
-        newasiento.comentario = "egreso: " + str(newingreso.id))
+        #newasiento.comentario = "egreso: " + str(newingreso.id))
         newasiento.save()
         listcant = []
         listdes = []
