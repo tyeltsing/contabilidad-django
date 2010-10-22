@@ -8,8 +8,11 @@ class Compra(models.Model):
     fecha = models.DateField()
     proveedor = models.ForeignKey(Proveedor)
     asiento = models.ForeignKey(AsientoContable, null=True)
+    numero_factura = models.CharField(max_length=15)
     #detalle = models.ManyToManyField(CuentaNivel3, through='CompraDetalle')
-    
+    # UNIQUE TOGHETER, porque no puede repetirse la cuenta en el asiento
+    class Meta:
+        unique_together = (("proveedor", "numero_factura"),)
     
 # class CompraDetalle(models.Model):
     # compra = models.ForeignKey(Compra)
