@@ -145,7 +145,7 @@
                 }
                 if(b==0){
                     if(cuentas[tipo_iva-1] == "c"){
-                        var div = parseFloat(frm['totiva'+n].value) / 1.1;
+                        var div = parseFloat(frm['totiva'+n].value) / 1.05;
                         frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                         b=1;
                     }else{
