@@ -61,13 +61,13 @@ def carga(request):
                 g5.append(request.GET['g5'+str(i)])
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
-        totiva = 0
+        totivat = 0
         totgv10 = 0
         totgv5 = 0
         totex = 0
         totgral = 0
         if 'totiva' in request.GET and request.GET['totiva']:
-            totiva = request.GET['totiva']
+            totivat = request.GET['totiva']
         if 'totgv10' in request.GET and request.GET['totgv10']:
             totgv10 = request.GET['totgv10']
         if 'totgv5' in request.GET and request.GET['totgv5']:
@@ -89,16 +89,16 @@ def carga(request):
         summonto = 0
         for i in range(0, cont):
             if(listipos[i] == 'd' or listipos[i] == 'c'):
-                newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(totiva[i]))
+                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = totiva[i])
                 newventaasiento.save()
             if(listipos[i] == 'e'):
-                newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(totex[i]))
+                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = totex[i])
                 newventaasiento.save()
             
             # = summonto + int(listex[i])
         summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
-        id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
+        #id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
         #newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = float(totgral))
         newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = float(totgral))
         newventaasiento.save()
