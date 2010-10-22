@@ -1,0 +1,555 @@
+
+<HTML>
+<HEAD>
+<TITLE>Agregar Egreso</TITLE>
+
+<script type="text/javascript">
+        var proveedores = new Array;
+        var cuentas = new Array;
+        var listasel=0;
+        function inicializar(){
+            //alert('la0');
+            
+            var i=0;
+            //alert('la');
+            
+            {% for ip in pro %}
+                proveedores[i]="{{ip.ruc}}";
+                i++;
+            {% endfor %}
+            i=0;
+            {% for ip1 in con %}
+                cuentas[i]="{{ip1.tipo_de_iva}}";
+                i++;
+            {% endfor %}
+            //alert(cuentas[1]);
+            /*for (i=0;i<10;i++){
+                proveedores[i]={{
+            } */
+        }
+        function poner_ruc(num){
+            
+            if(num.selectedIndex != 0){
+                if(num != ""){
+                    document.getElementById('ruc').value=proveedores[num-1];
+                }else{
+                    document.getElementById('ruc').value="";
+                }
+                
+            }
+        }
+        function ver_tipo(num, g10, g5, ex, iva){
+            var b=0;
+            
+            if(num.selectedIndex != 0){
+                if(num != ""){
+                    //alert(cuentas[num-1]);
+                    if(cuentas[num-1] == 'c'){
+                        //alert('hola');
+                        //document.getElementById('g101').disabled=true;
+                        g10.disabled=true;
+                        ex.disabled=true;
+                        g10.value=0;
+                        ex.value=0;
+                        b=1;
+                        listasel=1;
+                        //g10.setAttribute('disabled','disabled');
+                        //document.formu.g101.disabled = true;
+                        
+                    }else{
+                        g10.disabled = false;
+                        ex.disabled = false;
+                    }
+                    if(b==0){
+                        if(cuentas[num-1] == 'd'){
+                            g5.disabled = true;
+                            ex.disabled = true;
+                            g5.value=0;
+                            ex.value=0;
+                            listasel=1;
+                            b=1;
+                        }else{
+                            g5.disabled = false;
+                            ex.disabled = false;
+                        }
+                    }
+                    if(b==0){
+                        if(cuentas[num-1] == 'e'){
+                            g10.disabled = true;
+                            g5.disabled = true;
+                            iva.disabled=true;
+                            g10.value=0;
+                            g5.value=0;
+                            iva.value=0;
+                            listasel=1;
+                        }else{
+                            g10.disabled = false;
+                            g5.disabled = false;
+                            iva.disabled=false;
+                        }
+                    }
+                    
+                    
+                }else{
+                    //alert(cuentas[num-1]);
+                    g10.disabled = false;
+                    ex.disabled = false;
+                    g5.disabled = false;
+                    listasel=0;
+                    //document.getElementById('ruc').value="";
+                }
+                
+            }
+            //alert(listasel);
+        }
+        function validar(e) { // 1
+            tecla = (document.all) ? e.keyCode : e.which;
+            if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
+            if (tecla==0) return true;
+            patron = /[1234567890.]/;// Solo acepta numeros y el punto
+
+            te = String.fromCharCode(tecla);
+            return patron.test(te); 
+        } 
+
+        //alert('as');
+        function sumval(frm, n){
+            var valor;
+            var b=0;
+            if(frm['cant'+n].value!="" && frm['mon'+n].value!=""){
+                //alert("lolo");
+                valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
+                if(cuentas[n] != "e"){
+                    frm['totiva'+n].value = valor;
+                }else{
+                    frm['ex'+n].value = valor
+                }
+            }else{
+                //alert("lele");
+                frm['totiva'+n].value = 0;
+            }
+            if(listasel == 1){
+                //alert(cuentas[n]);
+                if(cuentas[n] == "d"){
+                    //alert("lolo");
+                    var div = parseFloat(frm['totiva'+n].value) / 1.1;
+                    frm['g10'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                    //frm['g10'+n].value = Math.round(div*100)/100 ;
+                    b=1;
+                }else{
+                    b=0;
+                    frm['g10'+n].value = 0;
+                }
+                if(b==0){
+                    if(cuentas[n] == "c"){
+                        var div = parseFloat(frm['totiva'+n].value) / 1.1;
+                        frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                        b=1;
+                    }else{
+                        b=0;
+                        frm['g5'+n].value = 0;
+                    }
+                }
+                /*if(b==0){
+                    if(cuentas[n] == "e"){
+                        var div = parseFloat(frm['totiva'+n].value) / 1.1;
+                        frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                        b=1;
+                    }else{
+                        b=0;
+                        frm['g5'+n].value = 0;
+                    }
+                }*/
+                
+                
+            }
+            /*if(frm['des'+n].value=='undefined'){
+                alert('marco');
+            }else{
+                 alert('no marco');
+            }*/
+            //alert(listasel);
+        }
+        
+        function sumar(){
+            //alert('hola');
+            var sum=0;
+            var uno=0;
+            
+            if(document.formu.ex1.value==''){
+                document.formu.ex1.value=0;
+                
+            }else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex2.value==''){
+                document.formu.ex2.value=0;
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex3.value==''){
+                document.formu.ex3.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex4.value==''){
+                document.formu.ex4.value=0;
+               
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex5.value==''){
+                document.formu.ex5.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex6.value==''){
+                document.formu.ex6.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex7.value==''){
+                document.formu.ex7.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex8.value==''){
+                document.formu.ex8.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex9.value==''){
+                document.formu.ex9.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            if(document.formu.ex10.value==''){
+                document.formu.ex10.value=0;
+                
+            }
+            else{
+                uno = uno + 1;
+            }
+            var1=parseFloat(document.formu.ex1.value);
+            var2=parseFloat(document.formu.ex2.value);
+            var3=parseFloat(document.formu.ex3.value);
+            var4=parseFloat(document.formu.ex4.value);
+            var5=parseFloat(document.formu.ex5.value);
+            var6=parseFloat(document.formu.ex6.value);
+            var7=parseFloat(document.formu.ex7.value);
+            var8=parseFloat(document.formu.ex8.value);
+            var9=parseFloat(document.formu.ex9.value);
+            var10=parseFloat(document.formu.ex10.value);
+            sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
+            //alert(sum);
+            document.getElementById('tot').value=sum;
+            if(uno>0){
+                document.formu.boton.disabled = false;
+            }
+            //alert('hola');
+        }
+         function ValidarFecha(Cadena){  
+             var Fecha= new String(Cadena)   // Crea un string  
+             var RealFecha= new Date()   // Para sacar la fecha de hoy  
+             // Cadena Anho  
+             /*var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             // Cadena Mes  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             // Cadena Dia  
+             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  */
+
+             var Dia= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             var Ano= new String(Fecha.substring(0,Fecha.indexOf("-")))
+           
+             // Valido el anho  
+             if (isNaN(Ano) || Ano.length<4 || parseFloat(Ano)<1900){  
+                     alert('Anho invalido')  
+                 return false  
+             }  
+             // Valido el Mes  
+             if (isNaN(Mes) || parseFloat(Mes)<1 || parseFloat(Mes)>12){  
+                 alert('Mes invalido')  
+                 return false  
+             }  
+             // Valido el Dia  
+             if (isNaN(Dia) || parseInt(Dia, 10)<1 || parseInt(Dia, 10)>31){  
+                 alert('Dia invalido')  
+                 return false  
+             }  
+             if (Mes==4 || Mes==6 || Mes==9 || Mes==11 || Mes==2) {  
+                 if (Mes==2 && Dia > 28 || Dia>30) {  
+                     alert('Dia invalido')  
+                     return false  
+                 }  
+             }  
+               
+           //para que envie los datos, quitar las  2 lineas siguientes  
+           //alert("Fecha correcta.")  
+           //return false    
+         }  
+        
+    </script>
+</HEAD>
+
+<BODY onload="inicializar();">
+<H1 align="center">Cargar Nuevo Egreso</H1> 
+<FORM action="/carga_egresos/" METHOD="GET" name="formu">
+<table align="center" border="0">
+<td align="left" width="100">Proveedor:
+</td>
+<!--td align="center" width="150"><INPUT NAME="pro" TYPE="TEXT" VALUE="">
+</td-->
+<td align="left" width="100">
+                        
+                            <select name="pro" id="id_pro" onchange="poner_ruc(this.value);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if pro %}
+                                {% for i in pro %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td>
+<tr>
+<td align="left" width="100">RUC/CI:
+</td>
+<td align="center" width="150"><INPUT NAME="ruc" id="ruc" TYPE="TEXT" VALUE="" disabled="disabled">
+</td>
+<tr>
+<td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
+</td>
+<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
+<tr>
+<td align="left" width="100">Nro Documento/Factura:
+</td>
+<td align="center" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
+</td>
+</TABLE>
+<table align="center" border="0">
+<tr>
+<td align='left' width='20'>Cantidad:</td><td align='left' width='100'>Concepto:</td><td align='left' width='100'>Monto:</td><td align='left' width='80'>Total Iva Incluido:</td><td align='left' width='80'>Grav10%:</td><td align='left' width='80'>Grav5%:</td><td align='left' width='80'>Exentas:</td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1');" onkeypress="return validar(event);"></td><td align="left" width="100">
+                        
+                            <select name="des1" id="id_des1" onchange="ver_tipo(this.value, this.form.g101, this.form.g51, this.form.ex1, this.form.totiva1);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon1' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '1');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g101' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g51' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td><td align='left' width='50'><INPUT NAME='ex1' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2');"></td><td align="left" width="100">
+                        
+                            <select name="des2" id="id_des2" onchange="ver_tipo(this.value, this.form.g102, this.form.g52, this.form.ex2, this.form.totiva2);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon2' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '2');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva2' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g102' TYPE='TEXT' VALUE=''  onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g52' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '3');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des3" id="id_des3" onchange="ver_tipo(this.value, this.form.g103, this.form.g53, this.form.ex3, this.form.totiva3);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon3' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '3');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva3' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g103' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g53' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '4');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des4" id="id_des4" onchange="ver_tipo(this.value, this.form.g104, this.form.g54, this.form.ex4, this.form.totiva4);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon4' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '4');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva4' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g104' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g54' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '5');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des5" id="id_des5" onchange="ver_tipo(this.value, this.form.g105, this.form.g55, this.form.ex5, this.form.totiva5);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon5' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '5');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva5' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g105' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g55' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '6');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des6" id="id_des6" onchange="ver_tipo(this.value, this.form.g106, this.form.g56, this.form.ex6, this.form.totiva6);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon6' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '6');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva6' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g106' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g56' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '7');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des7" id="id_des7" onchange="ver_tipo(this.value, this.form.g107, this.form.g57, this.form.ex7, this.form.totiva7);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon7' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '7');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva7' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g107' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g57' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '8');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des8" id="id_des8" onchange="ver_tipo(this.value, this.form.g108, this.form.g58, this.form.ex8, this.form.totiva8);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon8' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '8');" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='totiva8' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g108' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g58' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '9');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des9" id="id_des9" onchange="ver_tipo(this.value, this.form.g109, this.form.g59, this.form.ex9, this.form.totiva9);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon9' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '9');" onkeypress="return validar(event);"></td>
+<td align='left' width='50'><INPUT NAME='totiva9' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g109' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g59' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+<tr>
+<td align='left' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onChange = "sumval(this.form, '10');" onkeypress="return validar(event);"size="10"></td><td align="left" width="100">
+                        
+                            <select name="des10" id="id_des10" onchange="ver_tipo(this.value, this.form.g1010, this.form.g510, this.form.ex10, this.form.totiva10);">
+
+                            <option value="" selected="selected">---------</option>
+                            {% if con %}
+                                {% for i in con %}
+                                    <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                {% endfor %}
+                            {% endif %}
+                            <!--option value="d">Debe</option>
+                            <option value="h">Haber</option>
+                            <option value="h4">Fer</option-->
+</select>
+<!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
+</td><td align='left' width='50'><INPUT NAME='mon10' TYPE='TEXT' VALUE='' size="10" onChange = "sumval(this.form, '10');" onkeypress="return validar(event);"></td>
+<td align='left' width='50'><INPUT NAME='totiva10' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td><td align='left' width='50'><INPUT NAME='g1010' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='g510' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td><td align='left' width='50'><INPUT NAME='ex10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"size="10"></td>
+
+<br>
+<tr>
+<td align="left" width="100">Total:
+</td>
+<td align="left" width="100"></td>
+<td align="left" width="100"><INPUT NAME="totmon" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
+<td align="left" width="100"><INPUT NAME="totiva" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
+<td align="left" width="100"><INPUT NAME="totgv10" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
+<td align="left" width="100"><INPUT NAME="totgv5" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
+<td align="left" width="100"><INPUT NAME="totex" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+</td>
+
+<tr>
+
+<tr>
+<td align="center" width="150"></td>
+<td align="center" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
+</td>
+<td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar();" /></td>
+</TABLE>
+
+</FORM>
+
+<tr>
+
+</BODY>
+</HTML>
+
