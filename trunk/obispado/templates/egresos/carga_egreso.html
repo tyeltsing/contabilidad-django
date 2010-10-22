@@ -209,7 +209,7 @@
                 sumg10 = sumg10 + parseFloat(frm['g10'+i].value);
                 sumg5 = sumg5 + parseFloat(frm['g5'+i].value)
                 sumex = sumex + parseFloat(frm['ex'+i].value)
-                sumtotgral = sumtotiva + sumg10 + sumg5 + sumex;
+                sumtotgral = sumtotiva + sumex;
             }
             //sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
             //alert(uno);
@@ -295,7 +295,7 @@
 <tr>
 <td align="left" width="100">RUC/CI:
 </td>
-<td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="" disabled="disabled">
+<td align="center" width="150"><INPUT NAME="ruc" id = "ruc" TYPE="TEXT" VALUE="" disabled="disabled">
 </td>
 <tr>
 <td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
