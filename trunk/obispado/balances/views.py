@@ -20,7 +20,7 @@ def some_view(request):
 
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=somefilename.csv'
+    response['Content-Disposition'] = 'attachment; filename=balance.csv'
 
     writer = csv.writer(response)
     #writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
