@@ -21,9 +21,13 @@
         //alert('as');
         function sumex(frm, n){
             var exenta;
-            
-            exenta = parseFloat(frm['cant'+n].value) * parseFloat(frm['pu'+n].value)
-            frm['ex'+n].value = exenta;
+            if(frm['cant'+n].value!=""){
+                exenta = parseFloat(frm['cant'+n].value) * parseFloat(frm['pu'+n].value)
+                frm['ex'+n].value = exenta;
+            }
+            else{
+                frm['ex'+n].value = 0;
+            }
             //alert(exenta);
         }
         
@@ -115,6 +119,8 @@
             document.getElementById('tot').value=sum;
             if(uno>0){
                 document.formu.boton.disabled = false;
+            }else{
+                document.formu.boton.disabled = true;
             }
             //alert('hola');
         }
@@ -212,7 +218,7 @@
 <table align="center" border="0">
 <td align='left' width='20'>Cantidad:</td><td align='left' width='20'>Concepto:</td><td align='left' width='80'>Precio Unitario:</td><td align='left' width='80'>Exentas:</td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant1' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '1');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des1" id="id_des1">
 
@@ -230,7 +236,7 @@
 </td>
 <td align='center' width='150'><INPUT NAME='pu1' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '1');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex1' id='ex1' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant2' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '2');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des2" id="id_des2">
 
@@ -247,7 +253,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu2' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '2');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex2' id='ex2' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant3' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '3');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des3" id="id_des3">
 
@@ -264,7 +270,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu3' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '3');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex3' id='ex3' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE=''onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant4' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '4');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des4" id="id_des4">
 
@@ -281,7 +287,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu4' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '4');"onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex4' id='ex4' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant5' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '5');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des5" id="id_des5">
 
@@ -298,7 +304,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu5' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '5');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex5' id='ex5' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant6' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '6');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des6" id="id_des6">
 
@@ -315,7 +321,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu6' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '6');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex6' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant7' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '7');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des7" id="id_des7">
 
@@ -332,7 +338,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu7' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '7');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex7' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant8' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '8');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des8" id="id_des8">
 
@@ -349,7 +355,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu8' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '8');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex8' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant9' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '9');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des9" id="id_des9">
 
@@ -366,7 +372,7 @@
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td><td align='center' width='150'><INPUT NAME='pu9' TYPE='TEXT' VALUE=''onChange = "sumex(this.form, '9');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex9' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td>
 <tr>
-<td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant10' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '10');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des10" id="id_des10">
 
