@@ -25,8 +25,8 @@ def carga(request):
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
-        else:
-            tot = 1000
+        #else:
+        #    tot = 1000
         #final = ap+fe+ruc+cant+des+pu+ex+tot
        
         id_aportante = Aportante.objects.filter(nombre=ap)
