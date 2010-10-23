@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     (r'^carga_egresos/', 'obispado.egresos.views.carga'),
     (r'^balances/$',  'obispado.balances.views.index'),
     (r'^balances/csv', 'obispado.balances.views.some_view'),
+    (r'^generar_planilla_egresos/', 'obispado.egresos.views.generar_planilla_egresos'),
     #(r'^reporter_lookup/$', 'obispado.ingresos.views.json_lookup', reporter_lookup),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT}),
 
