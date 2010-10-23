@@ -45,24 +45,41 @@ def carga(request):
         g5 = []
         listex = []
         cont = 0
+        pos=-1
         for i in range(1, 11):
             if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
                 listcant.append(request.GET['cant'+str(i)])
                 cont = cont + 1
+            else:
+                listcant.append('0')
             if 'des'+str(i) in request.GET and request.GET['des'+str(i)]:
                 listdes.append(request.GET['des'+str(i)])
+            else:
+                listdes.append('0')
             if 'pu'+str(i) in request.GET and request.GET['pu'+str(i)]:
                 listpu.append(request.GET['pu'+str(i)])
+            else:
+                listpu.append('0')
             if 'mon'+str(i) in request.GET and request.GET['mon'+str(i)]:
                 lismon.append(request.GET['mon'+str(i)])
+            else:
+                lismon.append('0')
             if 'totiva'+str(i) in request.GET and request.GET['totiva'+str(i)]:
                 totiva.append(request.GET['totiva'+str(i)])
+            else:
+                totiva.append('0')
             if 'g10'+str(i) in request.GET and request.GET['g10'+str(i)]:
                 g10.append(request.GET['g10'+str(i)])
+            else:
+                g10.append('0')
             if 'g5'+str(i) in request.GET and request.GET['g5'+str(i)]:
                 g5.append(request.GET['g5'+str(i)])
+            else:
+                g5.append('0')
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
+            else:
+                listex.append('0')
         totivat = 0
         totgv10 = 0
         totgv5 = 0
@@ -82,8 +99,8 @@ def carga(request):
         #    totgral = 555;
         listipos = []
         
-        for i in range(1, cont+1):
-            tipos_iva = CuentaNivel3.objects.get(id=listdes[i-1])
+        for i in range(0, cont):
+            tipos_iva = CuentaNivel3.objects.get(id=listdes[i])
             if(tipos_iva.tipo_de_iva == 'd'):
                 listipos.append('d')
             if(tipos_iva.tipo_de_iva == 'c'):
@@ -96,7 +113,7 @@ def carga(request):
                 newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = totiva[i])
                 newventaasiento.save()
             if(listipos[i] == 'e'):
-                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = totex[i])
+                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = listex[i])
                 newventaasiento.save()
             
             # = summonto + int(listex[i])
@@ -112,7 +129,9 @@ def carga(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
         #return render_to_response('egresos/carga_egreso.html')
-        return HttpResponseRedirect('/carga_egresos/')
+        
+        return render_to_response('principal/index.html', {'final': listex})
+        #return HttpResponseRedirect('/carga_egresos/')
     else:
         pro = Proveedor.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
