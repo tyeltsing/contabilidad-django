@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import Sum
-from obispado.aportantes.models import Aportante
-from obispado.plan_de_cuentas.models import CuentaNivel3
-from obispado.libros_contables.models import AsientoContable, AsientoDebeDetalle
+from aportantes.models import Aportante
+from plan_de_cuentas.models import CuentaNivel3
+from libros_contables.models import AsientoContable, AsientoDebeDetalle
 
 # Create your models here.
 class Venta(models.Model):

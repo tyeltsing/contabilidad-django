@@ -1,4 +1,4 @@
-from obispado.plan_de_cuentas.models import *
+from plan_de_cuentas.models import *
 from django.contrib import admin
 
 admin.site.register(TipoCuenta)

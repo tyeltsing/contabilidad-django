@@ -1,9 +1,9 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from obispado.ingresos.models import *
-from obispado.aportantes.models import *
-from obispado.libros_contables.models import *
-from obispado.plan_de_cuentas.models import *
+from ingresos.models import *
+from aportantes.models import *
+from libros_contables.models import *
+from plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
@@ -72,8 +72,8 @@ def carga(request):
         nuevoidasiento.asiento_id = newasiento.id
         nuevoidasiento.save()
         #return render_to_response('ingresos/carga_ingreso.html')
-        #return HttpResponseRedirect('/carga_ingresos/')
-        return render_to_response('ingresos/carga_ingreso.html', {'msj': 'Ingreso Agregado Correctamente'})
+        return HttpResponseRedirect('/carga_ingresos/')
+        #return render_to_response('ingresos/carga_ingreso.html', {'msj': 'Ingreso Agregado Correctamente'})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
         apo = Aportante.objects.all().order_by("id")
