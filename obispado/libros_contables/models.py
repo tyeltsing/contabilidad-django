@@ -27,7 +27,11 @@ class AsientoContable(models.Model):
     objects = AsientoContableManager()
 
     def __unicode__(self):
-        return str(self.fecha) + ' - #:' + str(self.id) + ' - ' + self.comentario
+        try:
+            result = str(self.fecha) + ' - #:' + str(self.id) + ' - ' + self.comentario
+        except:
+            result = str(self.fecha) + ' - #:' + str(self.id)
+        return result
 
 
 class AsientoDebeDetalle(models.Model):

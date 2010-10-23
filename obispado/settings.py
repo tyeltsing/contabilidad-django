@@ -84,9 +84,9 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     # OJO: Cambiar para el directorio que uno este usando:
-    # "C:/Documents and Settings/Sergio/Mis documentos/Trabajo/Obispado de San Lorenzo/desarrollo/obispado/templates"
-    "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
-    #"C:/Contabilidad/obispado/templates"
+    "C:/Documents and Settings/Sergio/Mis documentos/Trabajo/Obispado de San Lorenzo/desarrollo/obispado/templates"
+    # "D:/Mis docs/obispadosl/contabilidad-django/obispado/templates"
+    # "C:/Contabilidad/obispado/templates"
 )
 #Para probar lo de media
 TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth','django.core.context_processors.media',)
