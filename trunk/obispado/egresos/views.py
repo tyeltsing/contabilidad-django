@@ -109,10 +109,27 @@ def carga(request):
                 listipos.append('e')
         summonto = 0
         for i in range(0, cont):
-            if(listipos[i] == 'd' or listipos[i] == 'c'):
-                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = totiva[i])
+            if(listipos[i] == 'd'):
+                # traemos la cuenta iva 10 %
+                cuenta_iva = CuentaNivel3.objects.get(nombre="IVA 10% Credito")
+                # cargamos la gravada
+                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = g10[i])
                 newventaasiento.save()
-            if(listipos[i] == 'e'):
+                # calculamos el iva y cargamos
+                monto_iva = float(totiva[i]) - float(g10[i])
+                newivadebe = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(cuenta_iva.id), monto = monto_iva)
+                newivadebe.save()
+            elif(listipos[i] == 'c'):
+                # traemos la cuenta iva 5 %
+                cuenta_iva = CuentaNivel3.objects.get(nombre="IVA 5% Credito")
+                # cargamos la gravada
+                newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = g5[i])
+                newventaasiento.save()
+                # calculamos el iva y cargamos
+                monto_iva = float(totiva[i]) - float(g10[i])
+                newivadebe = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(cuenta_iva.id), monto = monto_iva)
+                newivadebe.save()
+            elif(listipos[i] == 'e'):
                 newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = listex[i])
                 newventaasiento.save()
             
