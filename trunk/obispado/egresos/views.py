@@ -130,8 +130,8 @@ def carga(request):
         #return HttpResponseRedirect('/carga_ingresos/')
         #return render_to_response('egresos/carga_egreso.html')
         
-        return render_to_response('principal/index.html', {'final': listex})
-        #return HttpResponseRedirect('/carga_egresos/')
+        #return render_to_response('principal/index.html', {'final': listex})
+        return HttpResponseRedirect('/carga_egresos/')
     else:
         pro = Proveedor.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
