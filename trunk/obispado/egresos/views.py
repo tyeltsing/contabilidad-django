@@ -126,7 +126,7 @@ def carga(request):
                 newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = g5[i])
                 newventaasiento.save()
                 # calculamos el iva y cargamos
-                monto_iva = float(totiva[i]) - float(g10[i])
+                monto_iva = float(totiva[i]) - float(g5[i])
                 newivadebe = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(cuenta_iva.id), monto = monto_iva)
                 newivadebe.save()
             elif(listipos[i] == 'e'):
