@@ -8,6 +8,8 @@
 </HEAD>
 
 <script type="text/javascript">
+        var aportantes = new Array;
+        var cuentas = new Array;
         function validar(e) { // 1
             tecla = (document.all) ? e.keyCode : e.which;
             if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
@@ -164,6 +166,37 @@
            //alert("Fecha correcta.")  
            //return false    
          }  
+         function inicializar(){
+            //alert('la0');
+            
+            var i=0;
+            //alert('la');
+            
+            {% for ip in apo %}
+                aportantes[i]="{{ip.ruc}}";
+                i++;
+            {% endfor %}
+            i=0;
+            {% for ip1 in con %}
+                cuentas[i]="{{ip1.tipo_de_iva}}";
+                i++;
+            {% endfor %}
+            //alert(cuentas[1]);
+            /*for (i=0;i<10;i++){
+                proveedores[i]={{
+            } */
+        }
+         function poner_ruc(num){
+            
+            if(num.selectedIndex != 0){
+                if(num != ""){
+                    document.getElementById('ruc').value=aportantes[num-1];
+                }else{
+                    document.getElementById('ruc').value="";
+                }
+                
+            }
+        }
         
     </script>
 
@@ -176,7 +209,7 @@
 </td>
 <td align="left" width="100">
                         
-                            <select name="ap" id="id_ap">
+                            <select name="ap" id="id_ap" onchange="poner_ruc(this.value);">
 
                             <option value="" selected="selected">---------</option>
                             {% if apo %}
@@ -206,7 +239,7 @@
 <tr>
 <td align="left" width="100">RUC/CI:
 </td>
-<td align="center" width="150"><INPUT NAME="ruc" TYPE="TEXT" VALUE="">
+<td align="center" width="150"><INPUT NAME="ruc" id= "ruc" TYPE="TEXT" VALUE="">
 </td>
 <tr>
 <td align="left" width="100">Nro Documento/Factura:

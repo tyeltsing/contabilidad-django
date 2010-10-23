@@ -22,7 +22,7 @@ def carga(request):
         #d = request.GET['des1']
         ap = request.GET['ap']
         fe = request.GET['fe']
-        ruc = request.GET['ruc']
+        #ruc = request.GET['ruc']
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
