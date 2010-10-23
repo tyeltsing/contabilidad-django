@@ -68,18 +68,18 @@ def carga(request):
         totgv5 = 0
         totex = 0
         totgral = 0
-        if 'totiva' in request.GET and request.GET['totiva']:
-            totivat = request.GET['totiva']
-        if 'totgv10' in request.GET and request.GET['totgv10']:
-            totgv10 = request.GET['totgv10']
-        if 'totgv5' in request.GET and request.GET['totgv5']:
-            totgv5 = request.GET['totgv5']
-        if 'totex' in request.GET and request.GET['totex']:
-            totex = request.GET['totex']
-        if 'totgral' in request.GET and request.GET['totgral']:
-            totgral = request.GET['totgral']
-        else:
-            totgral = 555;
+        if 'totivah' in request.GET and request.GET['totivah']:
+            totivat = request.GET['totivah']
+        if 'totgv10h' in request.GET and request.GET['totgv10h']:
+            totgv10 = request.GET['totgv10h']
+        if 'totgv5h' in request.GET and request.GET['totgv5h']:
+            totgv5 = request.GET['totgv5h']
+        if 'totexh' in request.GET and request.GET['totexh']:
+            totex = request.GET['totexh']
+        #if 'totgralh' in request.GET and request.GET['totgralh']:
+        totgral = request.GET['totgralh']
+        #else:
+        #    totgral = 555;
         listipos = []
         
         for i in range(1, cont+1):

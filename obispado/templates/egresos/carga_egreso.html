@@ -218,6 +218,12 @@
             frm['totgv5'].value=Math.round(sumg5 * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totex'].value =Math.round(sumex * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totgral'].value = Math.round(sumtotgral * Math.pow(10, 2)) / Math.pow(10, 2);
+            
+            frm['totivah'].value = frm['totiva'].value;
+            frm['totgv10h'].value = frm['totgv10'].value;
+            frm['totgv5h'].value = frm['totgv5'].value;
+            frm['totexh'].value = frm['totex'].value;
+            frm['totgralh'].value = frm['totgral'].value;
             //document.getElementById('totex').value=sum;
             if(sumtotiva!=0 || sumg10!=0 || sumg5!=0 || sumex!=0){
                 frm.boton.disabled = false;
@@ -492,17 +498,22 @@
 <!--td align="left" width="100"><INPUT NAME="totmon" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
 </td-->
 <td align="left" width="100"><INPUT NAME="totiva" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+<input type="hidden" value="" name="totivah" />
 </td>
 <td align="left" width="100"><INPUT NAME="totgv10" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+<input type="hidden" value="" name="totgv10h" />
 </td>
 <td align="left" width="100"><INPUT NAME="totgv5" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+<input type="hidden" value="" name="totgv5h" />
 </td>
 <td align="left" width="100"><INPUT NAME="totex" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+<input type="hidden" value="" name="totexh" />
 </td>
 <tr>
 <td align="left" width="100">Total General:
 </td>
 <td align="left" width="100"><INPUT NAME="totgral" TYPE="TEXT" VALUE="" disabled="disabled" size="10">
+<input type="hidden" value="" name="totgralh" />
 </td>
 <tr>
 
