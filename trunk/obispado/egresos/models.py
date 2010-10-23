@@ -1,7 +1,7 @@
 from django.db import models
 from obispado.proveedores.models import Proveedor
 from obispado.plan_de_cuentas.models import CuentaNivel3
-from obispado.libros_contables.models import AsientoContable
+from obispado.libros_contables.models import *
 
 # Create your models here.
 class Compra(models.Model):
@@ -24,3 +24,8 @@ class Compra(models.Model):
     # exenta = models.FloatField(null=True)
     
     
+def generar_resumen_egresos(fecha_desde, fecha_hasta):
+    '''Genera el resumen para la planilla simplificada de egresos'''
+    resultado = [] 
+    
+    return resultado
