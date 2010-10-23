@@ -7,6 +7,7 @@ from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
+import csv
 
 def sumar(x, y):
     return x + y
@@ -157,3 +158,15 @@ def carga(request):
 
 def generar_planilla_egresos(request):
     return render_to_response('egresos/generar_planilla_simplificada.html')
+
+def generar_planilla_csv_egresos(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=planila_egresos.csv'
+
+    writer = csv.writer(response)
+    
+    #writer.writerow(['Balance']) # titulo
+    #writer.writerow(['']) # linea en blanco
+
+    return response
