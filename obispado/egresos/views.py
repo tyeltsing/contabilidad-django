@@ -155,3 +155,5 @@ def carga(request):
         return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
     return render_to_response('egresos/carga_egreso.html')
 
+def generar_planilla_egresos(request):
+    return render_to_response('egresos/generar_planilla_simplificada.html')
