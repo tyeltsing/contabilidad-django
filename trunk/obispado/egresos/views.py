@@ -35,7 +35,7 @@ def carga(request):
         newingreso = Compra(fecha = fe, proveedor_id = pro, numero_factura = nrofac, asiento = newasiento)
         newingreso.save()
         #newasiento.comentario = "egreso: " + str(newingreso.id))
-        newasiento.save()
+        #newasiento.save()
         listcant = []
         listdes = []
         listpu = []
@@ -78,6 +78,8 @@ def carga(request):
             totex = request.GET['totex']
         if 'totgral' in request.GET and request.GET['totgral']:
             totgral = request.GET['totgral']
+        else:
+            totgral = 555;
         listipos = []
         
         for i in range(1, cont+1):
@@ -102,7 +104,7 @@ def carga(request):
         #Cambiar a "Caja"
         #id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
         #newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = float(totgral))
-        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = float(totgral))
+        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = int(totgral))
         newventaasiento.save()
         nuevoidasiento = Compra.objects.get(id=newingreso.id)
         nuevoidasiento.asiento_id = newasiento.id
