@@ -72,7 +72,8 @@ def carga(request):
         nuevoidasiento.asiento_id = newasiento.id
         nuevoidasiento.save()
         #return render_to_response('ingresos/carga_ingreso.html')
-        return HttpResponseRedirect('/carga_ingresos/')
+        #return HttpResponseRedirect('/carga_ingresos/')
+        return render_to_response('ingresos/carga_ingreso.html', {'msj': 'Ingreso Agregado Correctamente'})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
         apo = Aportante.objects.all().order_by("id")
