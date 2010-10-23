@@ -83,7 +83,7 @@ def carga(request):
         listipos = []
         
         for i in range(1, cont+1):
-            tipos_iva = CuentaNivel3.objects.get(id=i)
+            tipos_iva = CuentaNivel3.objects.get(id=listdes[i-1])
             if(tipos_iva.tipo_de_iva == 'd'):
                 listipos.append('d')
             if(tipos_iva.tipo_de_iva == 'c'):
