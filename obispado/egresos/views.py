@@ -102,9 +102,9 @@ def carga(request):
             # = summonto + int(listex[i])
         summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
-        #id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
-        #newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = float(totgral))
-        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = int(totgral))
+        id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
+        newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = float(totgral))
+        #newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = int(totgral))
         newventaasiento.save()
         nuevoidasiento = Compra.objects.get(id=newingreso.id)
         nuevoidasiento.asiento_id = newasiento.id
