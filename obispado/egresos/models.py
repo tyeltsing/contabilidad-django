@@ -26,6 +26,18 @@ class Compra(models.Model):
     
 def generar_resumen_egresos(fecha_desde, fecha_hasta):
     '''Genera el resumen para la planilla simplificada de egresos'''
-    resultado = [] 
+    resultado = []
+    # asi deberia quedar la planilla
+    # nro_comprobante, fecha, tipo_factura_o_recibo(???? esto no esta en la BD!), identificador ruc o CI, nombre del proveedor, gravadas 10%, gravadas 5%, exentas, total iva incluido, iva10%, iva5%
+
+    egresos = Compra.objects.filter(fecha__range=(fecha_desde, fecha_hasta)).order_by('fecha')
+    for egreso in egresos:
+        dic = {}
+        dic['nro_comprobante'] = egreso.numero_factura
+        dic['fecha'] = egreso.fecha
+        dic['tipo_comprobante'] = 'factura' # wtf con esto
+        dic['ruc_proveedor'] = egreso.proveedor.ruc
+        dic['proveedor'] = egreso.proveedor.nombre
+        #aqui me quede
     
     return resultado
