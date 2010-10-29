@@ -1,7 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 
-<HTML>
 <HEAD>
 <TITLE>Agregar Egreso</TITLE>
+
+</HEAD>
+<script type="text/javascript" src="/media/js/CalendarPopup.js"></script>
 
 <script type="text/javascript">
         var proveedores = new Array;
@@ -274,10 +279,15 @@
            //para que envie los datos, quitar las  2 lineas siguientes  
            //alert("Fecha correcta.")  
            //return false    
+           
          }  
+         var cal1xx = new CalendarPopup("testdiv1");
+            cal1xx.showNavigationDropdowns();
+            document.write(getCalendarStyles());
+            writeSource("jscal1xx");
         
-    </script>
-</HEAD>
+</script>
+
 
 <BODY onload="inicializar();">
 <H1 align="center">Cargar Nuevo Egreso</H1> 
@@ -306,16 +316,19 @@
 <tr>
 <td align="left" width="100">RUC/CI:
 </td>
-<td align="center" width="150"><INPUT NAME="ruc" id = "ruc" TYPE="TEXT" VALUE="" disabled="disabled">
+<td align="left" width="150"><INPUT NAME="ruc" id = "ruc" TYPE="TEXT" VALUE="" disabled="disabled">
 </td>
 <tr>
-<td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
+<td align="left" width="200">Fecha:
 </td>
-<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
+<!--td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
+<tr-->
+<td align="left" width="200"><input name="date1xx" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+</td>
 <tr>
 <td align="left" width="100">Nro Documento/Factura:
 </td>
-<td align="center" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
+<td align="left" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
 </td>
 </TABLE>
 <table align="center" border="0">
@@ -530,7 +543,7 @@
 </TABLE>
 
 </FORM>
-
+<DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
 <tr>
 
 </BODY>

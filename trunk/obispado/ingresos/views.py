@@ -1,12 +1,15 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from ingresos.models import *
-from aportantes.models import *
-from libros_contables.models import *
-from plan_de_cuentas.models import *
+from django.core.urlresolvers import reverse
+from obispado.ingresos.models import *
+from obispado.aportantes.models import *
+from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
+import time
+from datetime import date
 
 from django.template import RequestContext
 
@@ -21,7 +24,9 @@ def carga(request):
     if 'ap' in request.GET and request.GET['ap']:
         #d = request.GET['des1']
         ap = request.GET['ap']
-        fe = request.GET['fe']
+        fe = request.GET['date1xx']
+        fecha = time.strptime(str(fe), "%d/%m/%Y")
+        fechaiso = time.strftime("%Y-%m-%d", fecha)
         #ruc = request.GET['ruc']
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
@@ -37,9 +42,9 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Venta(fecha = fe, aportante_id=ap, numero_factura=nrofac)
+        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_factura=nrofac)
         newingreso.save()
-        newasiento = AsientoContable(fecha = fe, comentario = "ingreso: " + str(newingreso.id))
+        newasiento = AsientoContable(fecha = fechaiso, comentario = "ingreso: " + str(newingreso.id))
         newasiento.save()
         listcant = []
         listdes = []
@@ -72,8 +77,9 @@ def carga(request):
         nuevoidasiento.asiento_id = newasiento.id
         nuevoidasiento.save()
         #return render_to_response('ingresos/carga_ingreso.html')
+        #Ventas.objects.get(id=request.GET['ap']).delete()
         return HttpResponseRedirect('/carga_ingresos/')
-        #return render_to_response('ingresos/carga_ingreso.html', {'msj': 'Ingreso Agregado Correctamente'})
+        #return render_to_response('ingresos/carga_ingreso.html', {'msj': fechaiso})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
         apo = Aportante.objects.all().order_by("id")

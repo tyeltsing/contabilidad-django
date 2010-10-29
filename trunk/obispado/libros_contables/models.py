@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Sum
-from plan_de_cuentas.models import *
+from obispado.plan_de_cuentas.models import *
 
 class AsientoContableManager(models.Manager):
     '''Manager personalizado para trabajar sobre todos los registros de

@@ -1,12 +1,14 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from egresos.models import *
-from proveedores.models import *
-from libros_contables.models import *
-from plan_de_cuentas.models import *
+from obispado.egresos.models import *
+from obispado.proveedores.models import *
+from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
+import time
+from datetime import date
 import csv
 
 def sumar(x, y):
@@ -15,7 +17,9 @@ def sumar(x, y):
 def carga(request):
     if 'pro' in request.GET and request.GET['pro']:
         pro = request.GET['pro']
-        fe = request.GET['fe']
+        fe = request.GET['date1xx']
+        fecha = time.strptime(str(fe), "%d/%m/%Y")
+        fechaiso = time.strftime("%Y-%m-%d", fecha)
         if 'ruc' in request.GET and request.GET['ruc']:
             ruc = request.GET['ruc']
         nrofac = request.GET['nrofac']
@@ -31,9 +35,9 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newasiento = AsientoContable(fecha = fe)
+        newasiento = AsientoContable(fecha = fechaiso)
         newasiento.save()
-        newingreso = Compra(fecha = fe, proveedor_id = pro, numero_factura = nrofac, asiento = newasiento)
+        newingreso = Compra(fecha = fechaiso, proveedor_id = pro, numero_factura = nrofac, asiento = newasiento)
         newingreso.save()
         #newasiento.comentario = "egreso: " + str(newingreso.id))
         #newasiento.save()

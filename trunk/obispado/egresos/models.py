@@ -1,7 +1,7 @@
 from django.db import models
-from proveedores.models import Proveedor
-from plan_de_cuentas.models import CuentaNivel3
-from libros_contables.models import *
+from obispado.proveedores.models import Proveedor
+from obispado.plan_de_cuentas.models import CuentaNivel3
+from obispado.libros_contables.models import *
 
 # Create your models here.
 class Compra(models.Model):
