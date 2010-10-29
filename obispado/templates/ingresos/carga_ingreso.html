@@ -6,7 +6,7 @@
 <TITLE>Agregar Ingreso</TITLE>
 
 </HEAD>
-<script language="javascript" type="text/javascript" src="datetimepicker.js"></script>
+<script type="text/javascript" src="/media/js/CalendarPopup.js"></script>
 
 <script type="text/javascript">
         
@@ -199,17 +199,20 @@
                 
             }
         }
-        
-    </script>
+        var cal1xx = new CalendarPopup("testdiv1");
+        cal1xx.showNavigationDropdowns();
+        document.write(getCalendarStyles());
+        writeSource("jscal1xx");
+</script>
 
 <BODY onload="inicializar();">
 <H1 align="center">Cargar Nuevo Ingreso</H1> 
 <H2 align="center">{{msj}}</H2> 
 <FORM action="/carga_ingresos/" METHOD="GET" name="formu">
 <table align="center" border="0">
-<td align="left" width="100">Aportante:
+<td align="left" width="200">Aportante:
 </td>
-<td align="left" width="100">
+<td align="left" width="200">
                         
                             <select name="ap" id="id_ap" onchange="poner_ruc(this.value);">
 
@@ -230,19 +233,20 @@
 
 </td>
 <tr>
-<td align="left" width="100">RUC/CI:
+<td align="left" width="200">RUC/CI:
 </td>
-<td align="center" width="150"><INPUT NAME="ruc" id= "ruc" TYPE="TEXT" VALUE="" disabled="disabled">
+<td align="left" width="200"><INPUT NAME="ruc" id= "ruc" TYPE="TEXT" VALUE="" disabled="disabled">
 </td>
 <tr>
-<td align="left" width="200">Fecha (Formato: aaaa-mm-dd):
+<td align="left" width="200">Fecha:
 </td>
-<td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);">
-
+<!--td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);"-->
+<td align="left" width="200"><input name="date1xx" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+</td>
 <tr>
-<td align="left" width="100">Nro Documento/Factura:
+<td align="left" width="200">Nro Documento/Factura:
 </td>
-<td align="center" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
+<td align="left" width="200"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
 </td>
 
 <tr>
@@ -437,6 +441,7 @@
 </TABLE>
 
 </FORM>
+<DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
 
 <tr>
 

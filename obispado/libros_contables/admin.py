@@ -1,4 +1,4 @@
-from libros_contables.models import *
+from obispado.libros_contables.models import *
 from django.contrib import admin
 
 admin.site.register(AsientoContable)

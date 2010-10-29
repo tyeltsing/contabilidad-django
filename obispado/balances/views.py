@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse
-from libros_contables.models import *
-from plan_de_cuentas.models import *
+from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 import csv
 
 def index(request):
