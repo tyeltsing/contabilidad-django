@@ -326,7 +326,16 @@
 <td align="left" width="200"><input name="date1xx" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
 </td>
 <tr>
-<td align="left" width="100">Nro Documento/Factura:
+<td align="left" width="100">Tipo de documento:
+</td>
+<td align="left" width="150"><select name="tipodoc" id="id_tipodoc">
+<option value="" selected="selected">---------</option>
+    <option value="1">Factura</option>
+    <option value="2">Recibo</option>
+</select>
+</td>
+<tr>
+<td align="left" width="100">Nro Documento:
 </td>
 <td align="left" width="150"><INPUT NAME="nrofac" TYPE="TEXT" VALUE="">
 </td>

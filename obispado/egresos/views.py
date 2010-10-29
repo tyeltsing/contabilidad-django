@@ -25,6 +25,7 @@ def carga(request):
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
             tot = request.GET['tot']
+        tipodoc = request.GET['tipodoc']
         #else:
         #    tot = 1000
             
@@ -37,7 +38,12 @@ def carga(request):
             valapmax = 1
         newasiento = AsientoContable(fecha = fechaiso)
         newasiento.save()
-        newingreso = Compra(fecha = fechaiso, proveedor_id = pro, numero_factura = nrofac, asiento = newasiento)
+        tipo_doc_str = ''
+        if tipodoc == 1:
+            tipo_doc_str = 'f'
+        else:
+            tipo_doc_str = 'r'
+        newingreso = Compra(fecha = fechaiso, proveedor_id = pro, numero_comprobante = nrofac, asiento = newasiento, tipo_comprobante=tipo_doc_str)
         newingreso.save()
         #newasiento.comentario = "egreso: " + str(newingreso.id))
         #newasiento.save()
