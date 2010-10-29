@@ -42,7 +42,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_factura=nrofac)
+        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_comprobante=nrofac)
         newingreso.save()
         newasiento = AsientoContable(fecha = fechaiso, comentario = "ingreso: " + str(newingreso.id))
         newasiento.save()
