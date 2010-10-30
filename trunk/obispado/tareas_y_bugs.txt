@@ -1,6 +1,6 @@
 bugs
 - en el template de vista, no carga el tipo de comprobante "factura" parece en
- la BD, siempre recibo, aunque se ponga que es tipo factura en la pagina web
+ la BD, siempre recibo, aunque se ponga que es tipo factura en la pagina web -----------------------LISTO
 
 tareas:
 - en el template de vista, ahora que agregue en el model, tipo de factura
