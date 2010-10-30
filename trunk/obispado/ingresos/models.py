@@ -23,22 +23,27 @@ class Venta(models.Model):
 def generar_planilla_ingresos(fecha_desde, fecha_hasta):
     '''Genera la planilla de ingresos'''
     ventas = Venta.objects.filter(fecha__range=(fecha_desde, fecha_hasta))
-    resultado = {}
-    resultado['fecha_desde'] = fecha_desde
-    resultado['fecha_hasta'] = fecha_hasta
-    resultado['ingresos'] = []
+    resultado = []
+    
     for v in ventas:
         mini_dic = {}
         mini_dic['nro_factura'] = v.numero_factura
         mini_dic['fecha'] = v.fecha
-        mini_dic['tipo'] = 'Factura'
-        mini_dic['id_ruc'] = v.aportante.ruc
+        mini_dic['tipo'] = 'Factura' # ojo
+        mini_dic['id_ruc'] = v.aportante.ruc # o ruc de la organizacion
         mini_dic['nombre_aportante'] = v.aportante.nombre
-        mini_dic['concepto'] = 'y que pasa si hay mas de un concepto'
-        mini_dic['cantidad'] = '1' # esto no me parece bien, parece que VentaDetalle debe aparecer de nuevo
-        mini_dic['tipo'] = 'Efectivo'
-        mini_dic['total_iva_incluido'] = ''
-        monto = AsientoHaberDetallle.objects.filter(asiento = v).aggregate(suma=Sum('monto'))
-        mini_dic['total_exentas'] = str(monto['suma'])
+        mini_dic['tipo_bien'] = 'Efectivo'
+        haberes = AsientoHaberDetalle.objects.filter(asiento=v.asiento)
+        mas_de_un_articulo = (len(haberes) > 1)
+        total = 0
+        for haber in haberes:
+            total += haber.monto
+            if mas_de_un_articulo:
+                mini_dic['concepto'] = 'Varios' # o que se puede poner?
+            else:
+                mini_dic['concepto'] = haber.cuenta.nombre
+            mini_dic['cantidad'] = '1' # esto no me parece bien, parece que VentaDetalle debe aparecer de nuevo
+        mini_dic['total_exentas'] = total
+        mini_dic['total_iva_incluido'] = total
         resultado['ingresos'].append(mini_dic)
     return resultado
