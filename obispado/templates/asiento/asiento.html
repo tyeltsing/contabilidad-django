@@ -45,6 +45,7 @@ var cal1xx = new CalendarPopup("testdiv1");
             }
             if (sumadebe != sumahaber){
                 alert('Las sumas no coinciden');
+				frm.boton.disabled = true;
             }else{
                 frm['totald'].value = sumadebe;
                 frm['totalh'].value = sumadebe;
