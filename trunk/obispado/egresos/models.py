@@ -5,7 +5,8 @@ from obispado.libros_contables.models import *
 
 TIPO_COMPROBANTE_CHOICES = (
                      ('f', 'Factura'),
-                     ('r', 'Recibo')
+                     ('r', 'Recibo'),
+                     ('a', 'Autofactura')
 )
 
 # Create your models here.
@@ -41,9 +42,41 @@ def generar_resumen_egresos(fecha_desde, fecha_hasta):
         dic = {}
         dic['nro_comprobante'] = egreso.numero_comprobante
         dic['fecha'] = egreso.fecha
-        dic['tipo_comprobante'] = 'factura' # wtf con esto
+        dic['tipo_comprobante'] = egreso.tipo_comprobante
         dic['ruc_proveedor'] = egreso.proveedor.ruc
         dic['proveedor'] = egreso.proveedor.nombre
-        #aqui me quede
+        # seguro que lo que viene se puede hacer de una mejor forma, con join o algo asi
+        # traigo los detalles del debe
+        debes = AsientoDebeDetalle.objects.filter(asiento=egreso.asiento)
+        gravadas10 = 0
+        gravadas5 = 0
+        exentas = 0
+        iva10 = 0
+        iva5 = 0
+        total = 0
+        for i in debes:
+            # suma del total
+            total += i.monto
+            # carga de cuentas de iva
+            if i.cuenta.nombre == "IVA 10% Credito":
+                iva10 += i.monto
+            elif i.cuenta.nombre == "IVA 5% Credito":
+                iva5 += i.monto
+            # carga de gravadas y exentas
+            elif i.cuenta.tipo_de_iva == 'd': # iva 10%
+                gravadas10 += i.monto
+            elif i.cuenta.tipo_de_iva == 'c': # iva 5%
+                gravadas5 += i.monto
+            elif i.cuenta.tipo_de_iva == 'e': # exenta
+                exentas += i.monto
+            elif i.cuenta.tipo_de_iva == 'n': # no aplicable ??? sera que puede pasar esto? por las dudas nomas
+                exentas += i.monto # this is ok?
+        dic['gravadas10'] = gravadas10
+        dic['gravadas5'] = gravadas5
+        dic['exentas'] = exentas
+        dic['total'] = total
+        dic['iva10'] = iva10
+        dic['iva5'] = iva5
+        resultado.append(dic)
     
     return resultado
