@@ -4,7 +4,7 @@ bugs
 
 tareas:
 - en el template de vista, ahora que agregue en el model, tipo de factura
- "autofactura", hacer que salga en la pagina web de carga de egreso
+ "autofactura", hacer que salga en la pagina web de carga de egreso ---------------------------------------->LISTO
 - en la carga de egresos o ingresos: para la eleccion de cuentas, traer solo las
   interesante traer (ingresos, egresos, activos en el caso de egresos o como
   solucionamos eso) (NO IMPORTANTE)
