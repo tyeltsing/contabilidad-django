@@ -166,8 +166,8 @@ def carga(request):
         return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
     return render_to_response('egresos/carga_egreso.html')
 
-def generar_planilla_egresos(request):
-    return render_to_response('egresos/generar_planilla_simplificada.html')
+def solicitar_planilla_egresos(request):
+    return render_to_response('egresos/solicitar_planilla_egresos.html')
 
 def generar_planilla_csv_egresos(request):
     # Create the HttpResponse object with the appropriate CSV header.
@@ -178,5 +178,7 @@ def generar_planilla_csv_egresos(request):
     
     #writer.writerow(['Balance']) # titulo
     #writer.writerow(['']) # linea en blanco
-
+    print 'funciona?'
+    print request.GET['fecha_inicio']
+    print request.GET['fecha_fin']
     return response
