@@ -157,9 +157,11 @@ def carga(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
         #return render_to_response('egresos/carga_egreso.html')
-        
+        pro = Proveedor.objects.all().order_by("id")
+        con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con, 'msj': 'Egreso Agregado Correctamente'})
         #return render_to_response('principal/index.html', {'final': listex})
-        return HttpResponseRedirect('/carga_egresos/')
+        #return HttpResponseRedirect('/carga_egresos/')
     else:
         pro = Proveedor.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
