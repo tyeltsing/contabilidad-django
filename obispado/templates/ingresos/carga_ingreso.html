@@ -137,15 +137,15 @@
              var Fecha= new String(Cadena)   // Crea un string  
              var RealFecha= new Date()   // Para sacar la fecha de hoy  
              // Cadena Anho  
-             /*var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             var Ano= new String(Fecha.substring(Fecha.lastIndexOf("/")+1,Fecha.length))  
              // Cadena Mes  
-             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("/")+1,Fecha.lastIndexOf("/")))  
              // Cadena Dia  
-             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  */
+             var Dia= new String(Fecha.substring(0,Fecha.indexOf("/")))  
 
-             var Dia= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
-             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
-             var Ano= new String(Fecha.substring(0,Fecha.indexOf("-")))
+             /*var Dia= new String(Fecha.substring(Fecha.lastIndexOf("/")+1,Fecha.length))  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("/")+1,Fecha.lastIndexOf("/")))  
+             var Ano= new String(Fecha.substring(0,Fecha.indexOf("/")))*/
            
              // Valido el anho  
              if (isNaN(Ano) || Ano.length<4 || parseFloat(Ano)<1900){  
@@ -171,7 +171,7 @@
                
            //para que envie los datos, quitar las  2 lineas siguientes  
            //alert("Fecha correcta.")  
-           //return false    
+            return true    
          }  
          function inicializar(){
             //alert('la0');
@@ -220,10 +220,11 @@
                 alert("Ingrese numero de factura");
                 return 0;
             }
-            
-            //frm['boton'].submit();
-            //frm['formu'].submit();
-            document.formu.submit();
+            if(ValidarFecha(frm['date1xx'].value)){
+                //frm['boton'].submit();
+                //frm['formu'].submit();
+                document.formu.submit();
+            }
         }
         var cal1xx = new CalendarPopup("testdiv1");
         cal1xx.showNavigationDropdowns();

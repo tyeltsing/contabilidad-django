@@ -1,9 +1,9 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from obispado.egresos.models import *
-from obispado.proveedores.models import *
-from obispado.libros_contables.models import *
-from obispado.plan_de_cuentas.models import *
+from prueba.egresos.models import *
+from prueba.proveedores.models import *
+from prueba.libros_contables.models import *
+from prueba.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
@@ -118,7 +118,7 @@ def carga(request):
                 listipos.append('d')
             if(tipos_iva.tipo_de_iva == 'c'):
                 listipos.append('c')
-            if(tipos_iva.tipo_de_iva == 'e'):
+            if(tipos_iva.tipo_de_iva == 'e' or tipos_iva.tipo_de_iva == 'n'):
                 listipos.append('e')
         summonto = 0
         for i in range(0, cont):
@@ -178,11 +178,17 @@ def generar_planilla_csv_egresos(request):
     '''Genera el csv, pero usa un metodo del modelo'''
     # dp vemos el parseo de fechas con Lore "javascript html css" Figueredo
     # mientras esto para probar
-    print 'funciona?'
-    print request.GET['fecha_inicio']
-    print request.GET['fecha_fin']
-    fecha_inicio = date(2010, 1, 31) # quitar dp
-    fecha_fin = date.today() # quitar dp
+    #print 'funciona?'
+    #print request.GET['fecha_inicio']
+    #print request.GET['fecha_fin']
+    fechaini = request.GET['date1xx']
+    fechafin = request.GET['date1xx1']
+    fechaini1 = time.strptime(str(fechaini), "%d/%m/%Y")
+    fechaisoini = time.strftime("%Y-%m-%d", fechaini1)
+    fechaini2 = time.strptime(str(fechafin), "%d/%m/%Y")
+    fechaisofin = time.strftime("%Y-%m-%d", fechaini2)
+    #fecha_inicio = date(2010, 1, 31) # quitar dp
+    #fecha_fin = date.today() # quitar dp
     # aqui pedimos los datos del egreso
     datos_egresos = generar_resumen_egresos(fecha_inicio, fecha_fin)
 

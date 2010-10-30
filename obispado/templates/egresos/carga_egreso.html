@@ -311,7 +311,11 @@
             //frm['boton'].submit();
             //frm['formu'].submit();
             //alert(frm['tipodoc'].value);
-            document.formu.submit();
+            if(ValidarFecha(frm['date1xx'].value)){
+                //frm['boton'].submit();
+                //frm['formu'].submit();
+                document.formu.submit();
+            }
         }
          var cal1xx = new CalendarPopup("testdiv1");
             cal1xx.showNavigationDropdowns();

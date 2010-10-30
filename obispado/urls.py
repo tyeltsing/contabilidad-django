@@ -35,7 +35,7 @@ urlpatterns = patterns('',
     (r'^solicitar_planilla_egresos/', 'obispado.egresos.views.solicitar_planilla_egresos'),
     (r'^generar_planilla_csv_egresos/', 'obispado.egresos.views.generar_planilla_csv_egresos'),
     (r'^solicitar_planilla_ingresos/', 'obispado.ingresos.views.solicitar_planilla_ingresos'),
-    (r'^generar_planilla_csv_egresos/', 'obispado.ingresos.views.generar_planilla_csv_ingresos'),
+    (r'^generar_planilla_csv_ingresos/', 'obispado.ingresos.views.generar_planilla_csv_ingresos'),
     #(r'^reporter_lookup/$', 'ingresos.views.json_lookup', reporter_lookup),
     #(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT}),
 

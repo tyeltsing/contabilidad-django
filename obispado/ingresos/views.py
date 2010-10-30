@@ -1,15 +1,16 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
-from obispado.ingresos.models import *
-from obispado.aportantes.models import *
-from obispado.libros_contables.models import *
-from obispado.plan_de_cuentas.models import *
+from prueba.ingresos.models import *
+from prueba.aportantes.models import *
+from prueba.libros_contables.models import *
+from prueba.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
 import time
 from datetime import date
+import csv
 
 from django.template import RequestContext
 
@@ -104,19 +105,23 @@ def carga_ingresos(request):
 
 def solicitar_planilla_ingresos(request):
     '''Solo muestra el template para pedir el csv'''
-    return render_to_response('egresos/solicitar_planilla_egresos.html')
+    return render_to_response('ingresos/solicitar_planilla_ingresos.html')
 
 def generar_planilla_csv_ingresos(request):
     '''Genera el csv, pero usa un metodo del modelo'''
     # dp vemos el parseo de fechas con Lore "javascript html css" Figueredo
     # mientras esto para probar
-    print 'funciona?'
-    print request.GET['fecha_inicio']
-    print request.GET['fecha_fin']
-    fecha_inicio = date(2010, 1, 31) # quitar dp
-    fecha_fin = date.today() # quitar dp
+    #print 'funciona?'
+    fechaini = request.GET['date1xx']
+    fechafin = request.GET['date1xx1']
+    fechaini1 = time.strptime(str(fechaini), "%d/%m/%Y")
+    fechaisoini = time.strftime("%Y-%m-%d", fechaini1)
+    fechaini2 = time.strptime(str(fechafin), "%d/%m/%Y")
+    fechaisofin = time.strftime("%Y-%m-%d", fechaini2)
+    #fecha_inicio = date(2010, 1, 31) # quitar dp
+    #fecha_fin = date.today() # quitar dp
     # aqui pedimos los datos del ingreso
-    datos_ingresos = generar_resumen_ingresos(fecha_inicio, fecha_fin)
+    datos_ingresos = generar_resumen_ingresos(fechaisoini, fechaisofin)
 
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(mimetype='text/csv')
@@ -135,6 +140,6 @@ def generar_planilla_csv_ingresos(request):
     # escribimos las columnas
     writer.writerow(['', '', 'Numero', 'Fecha', 'Tipo', 'Identificador RUC o C.I.', 'Nombre del Aportante', 'Concepto', 'Cantidad', 'Tipo', 'Total Iva Incluido', 'Total exentas', 'Gravadas 10%', 'Gravadas 5%'])
     for ingreso in datos_ingresos:
-        writer.writerow(['', '', str(ingreso['nro_comprobante']), str(ingreso['fecha']), str(ingreso['tipo_comprobante']), str(ingreso['ruc_proveedor']), str(ingreso['proveedor']), str(ingreso['gravadas10']), str(ingreso['gravadas5']), str(ingreso['exentas']), str(ingreso['total']), str(ingreso['iva10']), str(ingreso['iva5'])])
+        writer.writerow(['', '', str(ingreso['nro_factura']), str(ingreso['fecha']), str(ingreso['tipo']), str(ingreso['id_ruc']), str(ingreso['nombre_aportante']), '', '', str(ingreso['total_exentas']), str(ingreso['total_iva_incluido']), '', ''])
 
     return response
