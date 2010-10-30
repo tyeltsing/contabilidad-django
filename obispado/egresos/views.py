@@ -41,8 +41,10 @@ def carga(request):
         tipo_doc_str = ''
         if tipodoc == 1:
             tipo_doc_str = 'f'
-        else:
+        else if tipodoc == 2:
             tipo_doc_str = 'r'
+        else if tipodoc == 3:
+            tipo_doc_str = 'a'
         newingreso = Compra(fecha = fechaiso, proveedor_id = pro, numero_comprobante = nrofac, asiento = newasiento, tipo_comprobante=tipo_doc_str)
         newingreso.save()
         #newasiento.comentario = "egreso: " + str(newingreso.id))
