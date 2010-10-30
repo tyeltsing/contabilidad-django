@@ -1,27 +1,62 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<HTML xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<HEAD>
-    <TITLE>Planilla Simplificada de Ingresos</TITLE>
-</HEAD>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://gmpg.org/xfn/11">
+	<title>Sistema de Contabilidad</title>	
+	<link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="en-gb" />
+	<meta http-equiv="imagetoolbar" content="false" />
+</head>
+<TITLE>Agregar Ingreso</TITLE>
+
+<script type="text/javascript" src="/media/js/CalendarPopup.js"></script>
+<script type="text/javascript">
+        var cal1xx = new CalendarPopup("testdiv1");
+        cal1xx.showNavigationDropdowns();
+        document.write(getCalendarStyles());
+        writeSource("jscal1xx");
+</script>
 
 <BODY>
+    <div id="header">
+		<h1>Contabilidad</h1>
+		<h2>Sistema Contable - Obispado</h2>
+	</div>
+	<div id="navigation">
+		<ul>
+			<li><a href="/obispado/carga_ingresos/">Cargar Ingresos</a></li>
+			<li><a href="/obispado/carga_egresos/">Cargar Egresos</a></li>
+            <li><a href="/obispado/cargar_asiento/">Cargar Asiento</a></li>
+			<li><a href="/obispado/admin/aportantes/aportante/">Cargar Aportantes</a></li>
+			<li><a href="/obispado/admin/proveedores/proveedor/">Cargar Proveedores</a></li>
+			<li><a href="/obispado/balances/csv/">Generar Balance</a></li>
+			<li><a href="/obispado/admin/">Administrar Sistema</a></li>
+            <li><a href="/">Inicio</a></li>
+		</ul>
+	</div>
+	<div id="content" align="center">
     <H1 align="center">Generar Planilla Simplificada de Ingresos</H1> 
     <H2 align="center">Ingrese las Fechas de Inicio y de Fin</H2>
     
     
-    <FORM action="/obispado/generar_planilla_csv_ingresos/" METHOD="GET" name="formulario">
+    <FORM action="/generar_planilla_csv_ingresos/" METHOD="GET" name="formulario">
         <TABLE align="center" border="0">
             <TD align="left" width="100">Fecha Inicio (Formato: aaaa-mm-dd):</TD>
-            <TD align="center" width="150"><INPUT NAME="fecha_inicio" TYPE="TEXT" VALUE=""></TD>
+            <!--TD align="center" width="150"><INPUT NAME="fecha_inicio" TYPE="TEXT" VALUE=""></TD-->
+            <td align="left" width="200"><input name="date1xx" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+            </td>
             <TR>
             <TD align="left" width="100">Fecha Fin (Formato: aaaa-mm-dd):</TD>
-            <TD align="center" width="150"><INPUT NAME="fecha_fin" TYPE="TEXT" VALUE=""></TD>
+            <!--TD align="center" width="150"><INPUT NAME="fecha_fin" TYPE="TEXT" VALUE=""></TD-->
+            <td align="left" width="200"><input name="date1xx1" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+            </td>
             <TR>
             <TD align="center" width="150"><INPUT NAME="boton" TYPE="SUBMIT" VALUE="Generar Planilla de Ingresos"></TD>
         </TABLE>
     </FORM>
+    <DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
 </BODY>
 </HTML>
 
