@@ -4,6 +4,11 @@ from obispado.aportantes.models import Aportante
 from obispado.plan_de_cuentas.models import CuentaNivel3
 from obispado.libros_contables.models import AsientoContable, AsientoDebeDetalle
 
+TIPO_COMPROBANTE_CHOICES = (
+                     ('f', 'Factura'),
+                     ('r', 'Recibo')
+)
+
 # Create your models here.
 class Venta(models.Model):
     fecha = models.DateField()
@@ -11,6 +16,7 @@ class Venta(models.Model):
     numero_factura = models.CharField(max_length=15, unique=True)
     #detalle = models.ManyToManyField(CuentaNivel3, through='VentaDetalle')
     asiento = models.ForeignKey(AsientoContable, null=True)
+    tipo_comprobante = models.CharField(max_length=1, choices=TIPO_COMPROBANTE_CHOICES)
     def __unicode__(self):
         return '%d' % (self.id)
     
@@ -20,7 +26,7 @@ class Venta(models.Model):
     # cantidad = models.IntegerField()
     # exenta = models.FloatField(null=True)
 
-def generar_planilla_ingresos(fecha_desde, fecha_hasta):
+def generar_resumen_ingresos(fecha_desde, fecha_hasta):
     '''Genera la planilla de ingresos'''
     ventas = Venta.objects.filter(fecha__range=(fecha_desde, fecha_hasta))
     resultado = []

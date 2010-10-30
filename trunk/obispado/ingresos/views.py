@@ -27,6 +27,8 @@ def carga(request):
         fe = request.GET['date1xx']
         fecha = time.strptime(str(fe), "%d/%m/%Y")
         fechaiso = time.strftime("%Y-%m-%d", fecha)
+		#tipodoc
+        tipodoc = request.GET['tipodoc']
         #ruc = request.GET['ruc']
         nrofac = request.GET['nrofac']
         if 'tot' in request.GET and request.GET['tot']:
@@ -34,7 +36,11 @@ def carga(request):
         #else:
         #    tot = 1000
         #final = ap+fe+ruc+cant+des+pu+ex+tot
-       
+        tipo_doc_str = ''
+        if tipodoc == '1':
+            tipo_doc_str = 'f'
+        elif tipodoc == '2':
+            tipo_doc_str = 'r'
         id_aportante = Aportante.objects.filter(nombre=ap)
         valormaximo = Aportante.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
@@ -42,7 +48,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_factura=nrofac)
+        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_factura=nrofac, tipo_comprobante=tipo_doc_str)
         newingreso.save()
         newasiento = AsientoContable(fecha = fechaiso, comentario = "ingreso: " + str(newingreso.id))
         newasiento.save()
@@ -70,7 +76,7 @@ def carga(request):
         #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
-        cue = id_de_cuenta.count()
+        #cue = id_de_cuenta.count()
         newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = summonto)
         newventaasiento.save()
         nuevoidasiento = Venta.objects.get(id=newingreso.id)
