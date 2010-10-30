@@ -42,7 +42,12 @@ def generar_resumen_egresos(fecha_desde, fecha_hasta):
         dic = {}
         dic['nro_comprobante'] = egreso.numero_comprobante
         dic['fecha'] = egreso.fecha
-        dic['tipo_comprobante'] = egreso.tipo_comprobante
+        if egreso.tipo_comprobante == 'f':
+            dic['tipo_comprobante'] = 'FACTURA'
+        elif egreso.tipo_comprobante == 'r':
+            dic['tipo_comprobante'] = 'RECIBO'
+        elif egreso.tipo_comprobante == 'a':
+            dic['tipo_comprobante'] = 'AUTOFACTURA'
         dic['ruc_proveedor'] = egreso.proveedor.ruc
         dic['proveedor'] = egreso.proveedor.nombre
         # seguro que lo que viene se puede hacer de una mejor forma, con join o algo asi
