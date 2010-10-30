@@ -167,18 +167,37 @@ def carga(request):
     return render_to_response('egresos/carga_egreso.html')
 
 def solicitar_planilla_egresos(request):
+    '''Solo muestra el template para pedir el csv'''
     return render_to_response('egresos/solicitar_planilla_egresos.html')
 
 def generar_planilla_csv_egresos(request):
+    '''Genera el csv, pero usa un metodo del modelo'''
+    # dp vemos el parseo de fechas con Lore "javascript html css" Figueredo
+    # mientras esto para probar
+    print 'funciona?'
+    print request.GET['fecha_inicio']
+    print request.GET['fecha_fin']
+    fecha_inicio = date(2010, 1, 31) # quitar dp
+    fecha_fin = date.today() # quitar dp
+    # aqui pedimos los datos del egreso
+    datos_egresos = generar_resumen_egresos(fecha_inicio, fecha_fin)
+
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=planila_egresos.csv'
 
     writer = csv.writer(response)
     
-    #writer.writerow(['Balance']) # titulo
-    #writer.writerow(['']) # linea en blanco
-    print 'funciona?'
-    print request.GET['fecha_inicio']
-    print request.GET['fecha_fin']
+    writer.writerow(['', '', 'Egresos']) # titulo
+    # le dejo muchas lineas en blanco para que escriban lo que quieran
+    writer.writerow([]) # linea en blanco
+    writer.writerow([]) # linea en blanco
+    writer.writerow([]) # linea en blanco
+    writer.writerow([]) # linea en blanco
+    writer.writerow([]) # linea en blanco
+    # escribimos las columnas
+    writer.writerow(['', '', 'Numero', 'Fecha', 'Tipo', 'Identificador RUC o C.I.', 'Nombre del Proveedor', 'Gravadas 10%', 'Gravadas 5%', 'Exentas', 'Total Iva Incluido', 'Tasa 10%', 'Tasa 5%'])
+    for egreso in datos_egresos:
+        writer.writerow(['', '', str(egreso['nro_comprobante']), str(egreso['fecha']), str(egreso['tipo_comprobante']), str(egreso['ruc_proveedor']), str(egreso['proveedor']), str(egreso['gravadas10']), str(egreso['gravadas5']), str(egreso['exentas']), str(egreso['total']), str(egreso['iva10']), str(egreso['iva5'])])
+    
     return response
