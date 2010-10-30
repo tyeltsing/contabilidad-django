@@ -1,0 +1,20 @@
+bugs
+- en el template de vista, no carga el tipo de comprobante "factura" parece en
+ la BD, siempre recibo, aunque se ponga que es tipo factura en la pagina web
+
+tareas:
+- en el template de vista, ahora que agregue en el model, tipo de factura
+ "autofactura", hacer que salga en la pagina web de carga de egreso
+- en la carga de egresos o ingresos: para la eleccion de cuentas, traer solo las
+  interesante traer (ingresos, egresos, activos en el caso de egresos o como
+  solucionamos eso) (NO IMPORTANTE)
+- en carga egreso o ingreso se podria poner agregar proveedor (o agregar
+  aportante) Para dar de alta los que no estan presentes (NO IMPORTANTE)
+- plan de cuentas
+- Llevar el instalador OOffice para poder abrir los csv
+- Seria legalmente muy interesante e importante que cada carga: (ya sea ingreso,
+  egreso, carga de asientos, etc) tenga una vista para ver lo cargado, y también
+  para editar en caso de error. (IMPORTANTE PERO NO URGENTE)
+- en la generacion de csv de planillas de ingresos y egresos, ver el parseo de
+  las fechas.
+- hacer el admin.py para todos los modelos :) de esa forma van a poder borrar
