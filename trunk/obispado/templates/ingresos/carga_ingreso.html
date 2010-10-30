@@ -1,11 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<HEAD>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://gmpg.org/xfn/11">
+	<title>Sistema de Contabilidad</title>	
+	<link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="en-gb" />
+	<meta http-equiv="imagetoolbar" content="false" />
+</head>
 <TITLE>Agregar Ingreso</TITLE>
 
-</HEAD>
 <script type="text/javascript" src="/media/js/CalendarPopup.js"></script>
 
 <script type="text/javascript">
@@ -120,7 +125,7 @@
             sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
             //alert(uno);
             document.getElementById('tot').value=sum;
-            if(uno>0){
+            if(sum>0){
                 document.formu.boton.disabled = false;
             }else{
                 document.formu.boton.disabled = true;
@@ -199,16 +204,57 @@
                 
             }
         }
+        
+        function verificar(frm){
+            if(frm['ap'].value == ""){
+                //nopasa=1;
+                //
+                alert("Ingrese nombre de aportante");
+                return 0;
+            }
+            if(frm['date1xx'].value == ""){
+                alert("Ingrese fecha del documento");
+                return 0;
+            }
+            if(frm['nrofac'].value == ""){
+                alert("Ingrese numero de factura");
+                return 0;
+            }
+            
+            //frm['boton'].submit();
+            //frm['formu'].submit();
+            document.formu.submit();
+        }
         var cal1xx = new CalendarPopup("testdiv1");
         cal1xx.showNavigationDropdowns();
         document.write(getCalendarStyles());
         writeSource("jscal1xx");
 </script>
 
-<BODY onload="inicializar();">
-<H1 align="center">Cargar Nuevo Ingreso</H1> 
-<H2 align="center">{{msj}}</H2> 
-<FORM action="/carga_ingresos/" METHOD="GET" name="formu">
+
+<body onload="inicializar();">
+	<div id="header">
+		<h1>Contabilidad</h1>
+		<h2>Sistema Contable - Obispado</h2>
+	</div>
+	<div id="navigation">
+		<ul>
+			<li><a href="/obispado/carga_ingresos/"class="active">Cargar Ingresos</a></li>
+			<li><a href="/obispado/carga_egresos/">Cargar Egresos</a></li>
+            <!--li><a href="/carga_egresos/" class="active">Cargar Egresos</a></li-->
+            <li><a href="/obispado/cargar_asiento/">Cargar Asiento</a></li>
+			<li><a href="/obispado/admin/aportantes/aportante/">Cargar Aportantes</a></li>
+			<li><a href="/obispado/admin/proveedores/proveedor/">Cargar Proveedores</a></li>
+			<li><a href="/obispado/balances/csv/">Generar Balance</a></li>
+			<li><a href="/obispado/admin/">Administrar Sistema</a></li>
+            <li><a href="/">Inicio</a></li>
+		</ul>
+	</div>
+	<div id="content" align="center">
+		<h1>Cargar Nuevo Ingreso</h1>
+			
+			<H3 align="center">{{msj}}</H3> 
+<FORM action="/obispado/carga_ingresos/" METHOD="GET" name="formu">
 <table align="center" border="0">
 <td align="left" width="200">Aportante:
 </td>
@@ -435,7 +481,7 @@
   
 
 <tr>
-<td align="center" width="150"><INPUT NAME="boton" id="butenv" TYPE="SUBMIT" VALUE="Enviar" disabled="disabled">
+<td align="center" width="150"><INPUT NAME="boton" type="button" id="butenv" VALUE="Enviar" disabled="disabled" onclick="verificar(this.form);">
 </td>
 <td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar();" /></td>
 </TABLE>
@@ -447,4 +493,6 @@
 
 </BODY>
 </HTML>
+
+
 

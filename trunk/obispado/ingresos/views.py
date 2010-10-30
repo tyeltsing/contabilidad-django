@@ -42,7 +42,7 @@ def carga(request):
             valapmax = valapmax + 1
         else:
             valapmax = 1
-        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_comprobante=nrofac)
+        newingreso = Venta(fecha = fechaiso, aportante_id=ap, numero_factura=nrofac)
         newingreso.save()
         newasiento = AsientoContable(fecha = fechaiso, comentario = "ingreso: " + str(newingreso.id))
         newasiento.save()
@@ -69,16 +69,19 @@ def carga(request):
             summonto = summonto + float(listex[i])
         #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
-        id_de_cuenta = CuentaNivel3.objects.filter(nombre="Caja")
+        id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
         cue = id_de_cuenta.count()
-        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =1, monto = summonto)
+        newventaasiento = AsientoDebeDetalle(asiento_id = newasiento.id, cuenta_id =id_de_cuenta.id, monto = summonto)
         newventaasiento.save()
         nuevoidasiento = Venta.objects.get(id=newingreso.id)
         nuevoidasiento.asiento_id = newasiento.id
         nuevoidasiento.save()
         #return render_to_response('ingresos/carga_ingreso.html')
         #Ventas.objects.get(id=request.GET['ap']).delete()
-        return HttpResponseRedirect('/carga_ingresos/')
+        #return HttpResponseRedirect('/carga_ingresos/')
+        apo = Aportante.objects.all().order_by("id")
+        con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con, 'msj': 'Ingreso Agregado Correctamente'})
         #return render_to_response('ingresos/carga_ingreso.html', {'msj': fechaiso})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
