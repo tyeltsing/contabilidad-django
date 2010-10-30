@@ -39,11 +39,11 @@ def carga(request):
         newasiento = AsientoContable(fecha = fechaiso)
         newasiento.save()
         tipo_doc_str = ''
-        if tipodoc == 1:
+        if tipodoc == '1':
             tipo_doc_str = 'f'
-        else if tipodoc == 2:
+        elif tipodoc == '2':
             tipo_doc_str = 'r'
-        else if tipodoc == 3:
+        elif tipodoc == '3':
             tipo_doc_str = 'a'
         newingreso = Compra(fecha = fechaiso, proveedor_id = pro, numero_comprobante = nrofac, asiento = newasiento, tipo_comprobante=tipo_doc_str)
         newingreso.save()
