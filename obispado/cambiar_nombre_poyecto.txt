@@ -1,0 +1,6 @@
+Para cambiar nombre:
+
+-Cambiar todas las referencias a obispado.
+-En los views cambiar el path hacia donde van los formularios
+-En los html cambiar el path en los forms
+-Cambiar settings.py y urls.py
