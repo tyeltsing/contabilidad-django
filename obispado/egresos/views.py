@@ -1,9 +1,9 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from prueba.egresos.models import *
-from prueba.proveedores.models import *
-from prueba.libros_contables.models import *
-from prueba.plan_de_cuentas.models import *
+from obispado.egresos.models import *
+from obispado.proveedores.models import *
+from obispado.libros_contables.models import *
+from obispado.plan_de_cuentas.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q, Max, Min
 import datetime, string
