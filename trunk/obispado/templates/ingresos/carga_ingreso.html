@@ -21,7 +21,7 @@
             tecla = (document.all) ? e.keyCode : e.which;
             if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
             if (tecla==0) return true;
-            patron = /[1234567890.]/;// Solo acepta numeros y el punto
+            patron = /[1234567890.-]/;// Solo acepta numeros y el punto
 
             te = String.fromCharCode(tecla);
             return patron.test(te); 
@@ -241,13 +241,15 @@
 	<div id="navigation">
 		<ul>
 			<li><a href="/obispado/carga_ingresos/"class="active">Cargar Ingresos</a></li>
-			<li><a href="/obispado/carga_egresos/">Cargar Egresos</a></li>
+            <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
+			<li><a href="/obispado/carga_egresos/" >Cargar Egresos</a></li>
+            <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
             <!--li><a href="/carga_egresos/" class="active">Cargar Egresos</a></li-->
-            <li><a href="/obispado/cargar_asiento/">Cargar Asiento</a></li>
-			<li><a href="/obispado/admin/aportantes/aportante/">Cargar Aportantes</a></li>
-			<li><a href="/obispado/admin/proveedores/proveedor/">Cargar Proveedores</a></li>
+            <li><a href="/obispado/cargar_asiento/" >Asientos</a></li>
+			<li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
+			<li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
 			<li><a href="/obispado/balances/csv/">Generar Balance</a></li>
-			<li><a href="/obispado/admin/">Administrar Sistema</a></li>
+			<li><a href="/obispado/admin/">Adm Sistema</a></li>
             <li><a href="/">Inicio</a></li>
 		</ul>
 	</div>

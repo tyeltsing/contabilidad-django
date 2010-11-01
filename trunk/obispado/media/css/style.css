@@ -54,10 +54,10 @@ body {
 	list-style:none;
 }
 #navigation li {
-    font:0.8em Arial, Helvetica, "bitstream vera sans", sans-serif;
+    font:0.75em Arial, Helvetica, "bitstream vera sans", sans-serif;
 	border-left:1px solid #999;
 	float:left;
-	width:120px;
+	width:110px;
 	list-style:none;
 }
 #navigation a {

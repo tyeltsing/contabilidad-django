@@ -142,7 +142,7 @@ def carga(request):
                 monto_iva = float(totiva[i]) - float(g5[i])
                 newivadebe = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(cuenta_iva.id), monto = monto_iva)
                 newivadebe.save()
-            elif(listipos[i] == 'e'):
+            elif(listipos[i] == 'e' or tipos_iva.tipo_de_iva == 'n'):
                 newventaasiento = AsientoDebeDetalle(asiento_id = int(newasiento.id), cuenta_id = int(listdes[i]), monto = listex[i])
                 newventaasiento.save()
             
@@ -190,7 +190,7 @@ def generar_planilla_csv_egresos(request):
     #fecha_inicio = date(2010, 1, 31) # quitar dp
     #fecha_fin = date.today() # quitar dp
     # aqui pedimos los datos del egreso
-    datos_egresos = generar_resumen_egresos(fecha_inicio, fecha_fin)
+    datos_egresos = generar_resumen_egresos(fechaisoini, fechaisofin)
 
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(mimetype='text/csv')
