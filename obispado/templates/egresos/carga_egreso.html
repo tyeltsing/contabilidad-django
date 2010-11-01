@@ -121,7 +121,7 @@
             tecla = (document.all) ? e.keyCode : e.which;
             if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
             if (tecla==0) return true;
-            patron = /[1234567890.]/;// Solo acepta numeros y el punto
+            patron = /[1234567890.-]/;// Solo acepta numeros y el punto
 
             te = String.fromCharCode(tecla);
             return patron.test(te); 
@@ -136,6 +136,13 @@
                 
                 valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
                 if(cuentas[tipo_iva-1] != "e"){
+                    //alert("lolo1");
+                    frm['totiva'+n].value = valor;
+                }else{
+                    //alert("lolo2");
+                    frm['ex'+n].value = valor
+                }
+                if(cuentas[tipo_iva-1] != "n"){
                     //alert("lolo1");
                     frm['totiva'+n].value = valor;
                 }else{
@@ -249,15 +256,15 @@
              var Fecha= new String(Cadena)   // Crea un string  
              var RealFecha= new Date()   // Para sacar la fecha de hoy  
              // Cadena Anho  
-             /*var Ano= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             var Ano= new String(Fecha.substring(Fecha.lastIndexOf("/")+1,Fecha.length))  
              // Cadena Mes  
-             var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
+             var Mes= new String(Fecha.substring(Fecha.indexOf("/")+1,Fecha.lastIndexOf("/")))  
              // Cadena Dia  
-             var Dia= new String(Fecha.substring(0,Fecha.indexOf("-")))  */
+             var Dia= new String(Fecha.substring(0,Fecha.indexOf("/")))  
 
-             var Dia= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
+             /*var Dia= new String(Fecha.substring(Fecha.lastIndexOf("-")+1,Fecha.length))  
              var Mes= new String(Fecha.substring(Fecha.indexOf("-")+1,Fecha.lastIndexOf("-")))  
-             var Ano= new String(Fecha.substring(0,Fecha.indexOf("-")))
+             var Ano= new String(Fecha.substring(0,Fecha.indexOf("-")))*/
            
              // Valido el anho  
              if (isNaN(Ano) || Ano.length<4 || parseFloat(Ano)<1900){  
@@ -283,7 +290,7 @@
                
            //para que envie los datos, quitar las  2 lineas siguientes  
            //alert("Fecha correcta.")  
-           //return false    
+           return true    
            
          }  
          function verificar(frm){
@@ -332,13 +339,15 @@
 	<div id="navigation">
 		<ul>
 			<li><a href="/obispado/carga_ingresos/">Cargar Ingresos</a></li>
-			<li><a href="/obispado/carga_egresos/"class="active">Cargar Egresos</a></li>
+            <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
+			<li><a href="/obispado/carga_egresos/" class="active">Cargar Egresos</a></li>
+            <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
             <!--li><a href="/carga_egresos/" class="active">Cargar Egresos</a></li-->
-            <li><a href="/obispado/cargar_asiento/">Cargar Asiento</a></li>
-			<li><a href="/obispado/admin/aportantes/aportante/">Cargar Aportantes</a></li>
-			<li><a href="/obispado/admin/proveedores/proveedor/">Cargar Proveedores</a></li>
+            <li><a href="/obispado/cargar_asiento/" >Asientos</a></li>
+			<li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
+			<li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
 			<li><a href="/obispado/balances/csv/">Generar Balance</a></li>
-			<li><a href="/obispado/admin/">Administrar Sistema</a></li>
+			<li><a href="/obispado/admin/">Adm Sistema</a></li>
             <li><a href="/">Inicio</a></li>
 		</ul>
 	</div>
