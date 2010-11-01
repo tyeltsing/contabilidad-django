@@ -140,6 +140,6 @@ def generar_planilla_csv_ingresos(request):
     # escribimos las columnas
     writer.writerow(['', '', 'Numero', 'Fecha', 'Tipo', 'Identificador RUC o C.I.', 'Nombre del Aportante', 'Concepto', 'Cantidad', 'Tipo', 'Total Iva Incluido', 'Total exentas', 'Gravadas 10%', 'Gravadas 5%'])
     for ingreso in datos_ingresos:
-        writer.writerow(['', '', str(ingreso['nro_factura']), str(ingreso['fecha']), str(ingreso['tipo']), str(ingreso['id_ruc']), str(ingreso['nombre_aportante']), '', '', str(ingreso['total_exentas']), str(ingreso['total_iva_incluido']), '', ''])
+        writer.writerow(['', '', str(ingreso['nro_factura']), str(ingreso['fecha']), str(ingreso['tipo']), str(ingreso['id_ruc']), str(ingreso['nombre_aportante']), str(ingreso['concepto']), str(ingreso['cantidad']), str(ingreso['tipo_bien']), str(ingreso['total_iva_incluido']), str(ingreso['total_exentas']), '', ''])
 
     return response
