@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Sum
 from obispado.aportantes.models import Aportante
 from obispado.plan_de_cuentas.models import CuentaNivel3
-from obispado.libros_contables.models import AsientoContable, AsientoDebeDetalle
+from obispado.libros_contables.models import *
 
 TIPO_COMPROBANTE_CHOICES = (
                      ('f', 'Factura'),
@@ -28,7 +28,7 @@ class Venta(models.Model):
 
 def generar_resumen_ingresos(fecha_desde, fecha_hasta):
     '''Genera la planilla de ingresos'''
-    ventas = Venta.objects.filter(fecha__range=(fecha_desde, fecha_hasta))
+    ventas = Venta.objects.filter(fecha__range=(fecha_desde, fecha_hasta)).order_by('fecha')
     resultado = []
     
     for v in ventas:
@@ -51,5 +51,5 @@ def generar_resumen_ingresos(fecha_desde, fecha_hasta):
             mini_dic['cantidad'] = '1' # esto no me parece bien, parece que VentaDetalle debe aparecer de nuevo
         mini_dic['total_exentas'] = total
         mini_dic['total_iva_incluido'] = total
-        resultado['ingresos'].append(mini_dic)
+        resultado.append(mini_dic)
     return resultado
