@@ -118,14 +118,17 @@ def edit_ingresos(request, i_id):
                 fecha = idventa.fecha.timetuple()
                 fec = time.strftime("%d/%m/%Y", fecha)
                 listatot.append({"id":listhd[z].asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.id,"monto":int(listhd[z].monto)})
-    cantfalta = 10 - int(listhd.count())
-    desde =int(listhd.count()) + 1
-    for i in range(0, cantfalta):
-        listf.append(i+int(desde))
-    apo = Aportante.objects.all().order_by("id")
-    con = CuentaNivel3.objects.all().order_by("id")
-    #venta_edit = Venta.objects.get(asiento=id)
-    return render_to_response('ingresos/edit_ingreso.html',{'apo': apo, 'con':con,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )    
+        cantfalta = 10 - int(listhd.count())
+        desde =int(listhd.count()) + 1
+        for i in range(0, cantfalta):
+            listf.append(i+int(desde))
+        apo = Aportante.objects.all().order_by("id")
+        con = CuentaNivel3.objects.all().order_by("id")
+        #venta_edit = Venta.objects.get(asiento=id)
+        return render_to_response('ingresos/edit_ingreso.html',{'apo': apo, 'con':con,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )
+    else:
+        return HttpResponseRedirect('/ingresos_list/')
+    return HttpResponseRedirect('/ingresos_list/')
     
 def update_ingresos(request):
     if 'ap' in request.GET and request.GET['ap']:
@@ -297,21 +300,21 @@ def list_ingresos(request):
         #bp = Q(aportante=ap) & Q(fecha = fechaiso) & Q(numero_factura=nro_fac)
         idv = Venta.objects.filter(bp)
         if idv.count()>0:
-            while i<idv.count():
-                apor = Aportante.objects.get(id=int(idv[i].aportante_id))
-                listhd = AsientoHaberDetalle.objects.filter(asiento=idv[i].asiento_id).distinct()
+            for i in idv:
+                apor = Aportante.objects.get(id=int(i.aportante_id))
+                listhd = AsientoHaberDetalle.objects.filter(asiento__exact=i.asiento_id).distinct()
                 if listhd.count()>0:
-                    for z in range (0, listhd.count()):
-                        cue = CuentaNivel3.objects.get(id=int(listhd[z].cuenta_id))
-                        fact = idv[i].tipo_comprobante
+                    for z in listhd:
+                        cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
+                        fact = i.tipo_comprobante
                         if fact == "f":
                             fact = "Factura"
                         elif fact == "r":
                             fact = "Recibo"
-                        fecha = idv[i].fecha.timetuple()
+                        fecha = i.fecha.timetuple()
                         fec = time.strftime("%d/%m/%Y", fecha)
-                        listatot.append({"id":idv[i].asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idv[i].numero_factura,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(listhd[i].monto)})
-                i = i + 1
+                        listatot.append({"id":i.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":i.numero_factura,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(z.monto)})
+                #i = i + 1
                 
     apo = Aportante.objects.all().order_by("id")
     return render_to_response('ingresos/lista.html', {'apo': apo,'ltot':listatot,'cant': valpesmax})
