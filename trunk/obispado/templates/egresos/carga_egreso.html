@@ -17,12 +17,10 @@
         var proveedores = new Array;
         var cuentas = new Array;
         var listasel=0;
+        
         function inicializar(){
-            //alert('la0');
             
             var i=0;
-            //alert('la');
-            
             {% for ip in pro %}
                 proveedores[i]="{{ip.ruc}}";
                 i++;
@@ -50,12 +48,12 @@
         }
         function ver_tipo(num, g10, g5, ex, iva){
             var b=0;
-            
+            //alert(num);
             if(num.selectedIndex != 0){
                 if(num != ""){
                     //alert(cuentas[num-1]);
                     if(cuentas[num-1] == 'c'){
-                        //alert('hola');
+                        //alert('gkfjgkf0');
                         //document.getElementById('g101').disabled=true;
                         g10.disabled=true;
                         ex.disabled=true;
@@ -135,31 +133,25 @@
             if(frm['cant'+n].value!="" && frm['mon'+n].value!=""){
                 
                 valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
-                if(cuentas[tipo_iva-1] != "e"){
-                    //alert("lolo1");
+                valor = Math.round(valor * Math.pow(10, 2)) / Math.pow(10, 2);
+                if(cuentas[tipo_iva-1] != "e" && cuentas[tipo_iva-1] != "n"){
                     frm['totiva'+n].value = valor;
                 }else{
-                    //alert("lolo2");
                     frm['ex'+n].value = valor
                 }
-                if(cuentas[tipo_iva-1] != "n"){
-                    //alert("lolo1");
-                    frm['totiva'+n].value = valor;
-                }else{
-                    //alert("lolo2");
-                    frm['ex'+n].value = valor
-                }
+                
             }else{
-                //alert("lele");
                 frm['totiva'+n].value = 0;
+                frm['g10'+n].value = 0;
+                frm['g5'+n].value = 0;
+                frm['ex'+n].value = 0;
             }
             if(listasel == 1){
-                //alert(cuentas[tipo_iva-1]);
                 if(cuentas[tipo_iva-1] == "d"){
-                    //alert("lolo");
                     var div = parseFloat(frm['totiva'+n].value) / 1.1;
-                    frm['g10'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
-                    //frm['g10'+n].value = Math.round(div*100)/100 ;
+                    div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                    div = Math.round(div);
+                    frm['g10'+n].value = div;
                     b=1;
                 }else{
                     b=0;
@@ -168,7 +160,9 @@
                 if(b==0){
                     if(cuentas[tipo_iva-1] == "c"){
                         var div = parseFloat(frm['totiva'+n].value) / 1.05;
-                        frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                        div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                        div = Math.round(div);
+                        frm['g5'+n].value = div
                         b=1;
                     }else{
                         b=0;
@@ -176,25 +170,9 @@
                     }
                 }
                 
-                /*if(b==0){
-                    if(cuentas[n] == "e"){
-                        var div = parseFloat(frm['totiva'+n].value) / 1.1;
-                        frm['g5'+n].value = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
-                        b=1;
-                    }else{
-                        b=0;
-                        frm['g5'+n].value = 0;
-                    }
-                }*/
-                
                 
             }
-            /*if(frm['des'+n].value=='undefined'){
-                alert('marco');
-            }else{
-                 alert('no marco');
-            }*/
-            //alert(listasel);
+            
         }
         
         function sumar(frm){
@@ -207,23 +185,39 @@
             var sumex=0;
             var sumtotgral = 0
             for(i=1;i<=10;i++){
-                if(frm['ex'+i].value==''){
-                    frm['ex'+i].value = 0;
+                if(parseInt(frm['cant'+i].value) > 0){
                     uno = uno + 1;
                 }
-                if(frm['totiva'+i].value==''){
+                if(parseInt(frm['des'+i].value) > 0){
+                    uno = uno + 1;
+                }
+                if(parseInt(frm['mon'+i].value) > 0){
+                    uno = uno + 1;
+                }
+                
+                if(uno>0 && uno<3){
+                    alert("Verifique que los valores de la fila "+i+" esten completos (Cantidad, precio unitario, etc)");
+                    uno = 0;
+                    return false;
+                }
+                uno = 0;
+            }
+            for(i=1;i<=10;i++){
+                if(frm['mon'+i].value == ''){
+                    frm['mon'+i].value = 0;
+                }
+                if(frm['totiva'+i].value == ''){
                     frm['totiva'+i].value = 0;
-                    uno = uno + 1;
                 }
-                if(frm['g10'+i].value==''){
+                if(frm['g10'+i].value == ''){
                     frm['g10'+i].value = 0;
-                    uno = uno + 1;
                 }
-                if(frm['g5'+i].value==''){
+                if(frm['g5'+i].value == ''){
                     frm['g5'+i].value = 0;
-                    uno = uno + 1;
                 }
-            
+                if(frm['ex'+i].value == ''){
+                    frm['ex'+i].value = 0;
+                }
             }
 
             for(i=1;i<=10;i++){
