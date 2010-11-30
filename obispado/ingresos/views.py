@@ -63,18 +63,27 @@ def carga(request):
             if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
                 listcant.append(request.GET['cant'+str(i)])
                 cont = cont + 1
+            else:
+                listcant.append('0')
             if 'des'+str(i) in request.GET and request.GET['des'+str(i)]:
                 listdes.append(request.GET['des'+str(i)])
+            else:
+                listdes.append('0')
             if 'pu'+str(i) in request.GET and request.GET['pu'+str(i)]:
                 listpu.append(request.GET['pu'+str(i)])
+            else:
+                listpu.append('0')
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
+            else:
+                listex.append('0')
             
         summonto = 0
-        for i in range(0, cont):
-            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(listex[i]))
-            newventaasiento.save()
-            summonto = summonto + float(listex[i])
+        for i in range(0, 10):
+            if listdes[i] != '0':
+                newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(listex[i]))
+                newventaasiento.save()
+                summonto = summonto + float(listex[i])
         #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
@@ -108,8 +117,8 @@ def edit_ingresos(request, i_id):
         idventa = Venta.objects.get(asiento=i_id)
         apor = Aportante.objects.get(id=int(idventa.aportante_id))
         if listhd.count()>0:
-            for z in range (0, listhd.count()):
-                cue = CuentaNivel3.objects.get(id=int(listhd[z].cuenta_id))
+            for z in listhd:
+                cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
                 fact = idventa.tipo_comprobante
                 if fact == "f":
                     fact = "Factura"
@@ -117,7 +126,7 @@ def edit_ingresos(request, i_id):
                     fact = "Recibo"
                 fecha = idventa.fecha.timetuple()
                 fec = time.strftime("%d/%m/%Y", fecha)
-                listatot.append({"id":listhd[z].asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.id,"monto":int(listhd[z].monto)})
+                listatot.append({"id":z.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto)})
         cantfalta = 10 - int(listhd.count())
         desde =int(listhd.count()) + 1
         for i in range(0, cantfalta):
@@ -152,7 +161,7 @@ def update_ingresos(request):
             tipo_doc_str = 'f'
         elif tipodoc == '2':
             tipo_doc_str = 'r'
-        id_aportante = Aportante.objects.filter(nombre=ap)
+        #id_aportante = Aportante.objects.filter(nombre=ap)
         valormaximo = Aportante.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
         if valapmax:
@@ -179,25 +188,34 @@ def update_ingresos(request):
         
         delreg = AsientoHaberDetalle.objects.filter(asiento=nro_mod).distinct()
         if delreg.count()>0:
-            for z in range (0, delreg.count()):
-                delreg[0].delete()
+            for z in delreg:
+                z.delete()
         
         for i in range(1, 11):
             if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
                 listcant.append(request.GET['cant'+str(i)])
                 cont = cont + 1
+            else:
+                listcant.append('0')
             if 'des'+str(i) in request.GET and request.GET['des'+str(i)]:
                 listdes.append(request.GET['des'+str(i)])
+            else:
+                listdes.append('0')
             if 'pu'+str(i) in request.GET and request.GET['pu'+str(i)]:
                 listpu.append(request.GET['pu'+str(i)])
+            else:
+                listpu.append('0')
             if 'ex'+str(i) in request.GET and request.GET['ex'+str(i)]:
                 listex.append(request.GET['ex'+str(i)])
+            else:
+                listex.append('0')
             
         summonto = 0
-        for i in range(0, cont):
-            newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(listex[i]))
-            newventaasiento.save()
-            summonto = summonto + float(listex[i])
+        for i in range(0, 10):
+            if listdes[i] != '0':
+                newventaasiento = AsientoHaberDetalle(asiento_id = newasiento.id, cuenta_id = int(listdes[i]), monto = float(listex[i]))
+                newventaasiento.save()
+                summonto = summonto + float(listex[i])
         #summonto = reduce(sumar, listex)
         #Cambiar a "Caja"
         id_de_cuenta = CuentaNivel3.objects.get(nombre="Caja")
@@ -272,8 +290,8 @@ def list_ingresos(request):
                 apor = Aportante.objects.get(id=int(idventa.aportante_id))
                 listhd = AsientoHaberDetalle.objects.filter(asiento=idventa.asiento_id).distinct()
                 if listhd.count()>0:
-                    for z in range (0, listhd.count()):
-                        cue = CuentaNivel3.objects.get(id=int(listhd[z].cuenta_id))
+                    for z in listhd:
+                        cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
                         fact = idventa.tipo_comprobante
                         if fact == "f":
                             fact = "Factura"
@@ -281,7 +299,7 @@ def list_ingresos(request):
                             fact = "Recibo"
                         fecha = idventa.fecha.timetuple()
                         fec = time.strftime("%d/%m/%Y", fecha)
-                        listatot.append({"id":listhd[z].asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(listhd[z].monto)})
+                        listatot.append({"id":z.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(z.monto)})
     else:
         i=0
         bp = ""
