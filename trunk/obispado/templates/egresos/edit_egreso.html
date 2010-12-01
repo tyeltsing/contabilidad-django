@@ -6,6 +6,8 @@
 	<title>Sistema de Contabilidad</title>	
 	<link rel="shortcut icon" href="image/favicon.ico" />
 	<link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+    <link href="/media/css/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/media/css/default.css" media="screen" rel="stylesheet" type="text/css" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="en-gb" />
 	<meta http-equiv="imagetoolbar" content="false" />
@@ -326,13 +328,12 @@
 		<h1>Contabilidad</h1>
 		<h2>Sistema Contable - Obispado</h2>
 	</div>
-	<div id="navigation">
+	<!--div id="navigation">
 		<ul>
-			<li><a href="/obispado/carga_ingresos/">Cargar Ingresos</a></li>
+			<li><a href="/obispado/carga_ingresos/"class="active">Cargar Ingresos</a></li>
             <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
-			<li><a href="/obispado/carga_egresos/" class="active">Cargar Egresos</a></li>
+			<li><a href="/obispado/carga_egresos/" >Cargar Egresos</a></li>
             <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
-            <!--li><a href="/carga_egresos/" class="active">Cargar Egresos</a></li-->
             <li><a href="/obispado/cargar_asiento/" >Asientos</a></li>
 			<li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
 			<li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
@@ -340,10 +341,40 @@
 			<li><a href="/obispado/admin/">Adm Sistema</a></li>
             <li><a href="/">Inicio</a></li>
 		</ul>
-	</div>
+	</div-->
+    <ul id="nav" class="dropdown dropdown-horizontal">
+        <li><a href="/">Inicio</a></li>
+        <li class="dir">Ingresos ▼
+            <ul>
+                <li><a href="/obispado/carga_ingresos/">Cargar Ingresos</a></li>
+                <li><a href="/obispado/ingresos_list/">Ver Ingresos</a></li>
+                <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
+            </ul>
+        </li>
+        <li class="dir">Egresos ▼
+            <ul>
+                <li><a href="/obispado/carga_egresos/">Cargar Egresos</a></li>
+                <li><a href="/obispado/egresos_list/">Ver Egresos</a></li>
+                <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
+            </ul>
+        </li>
+        <li><a href="/obispado/cargar_asiento/">Asientos</a></li>
+        <li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
+        <li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
+        <li><a href="/obispado/balances/csv/">Generar Balance</a></li>
+        <li><a href="/obispado/admin/">Administrar Sistema</a></li>
+        
+    </ul>
+    <br></br>
 	<div id="content" align="center">
 		<h1>Editar Egreso</h1>
-			<H3 align="center">{{msj}}</H3> 
+			{% if msj %}
+			<table align="center" style="float:center;border:3px solid red;">
+			<td align="center" width="500">{{msj}}</td>
+            <tr>
+            </TABLE>
+            <br>
+            {% endif %}
 			
 	
 <FORM action="/obispado/egresos_update/" METHOD="GET" name="formu">
