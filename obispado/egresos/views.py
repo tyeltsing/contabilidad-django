@@ -15,6 +15,18 @@ def sumar(x, y):
     return x + y
 
 def carga(request):
+    listcuentas = []
+    n1 = CuentaNivel1.objects.filter(nombre__icontains="Egresos")
+    n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+    if n2.count()>0:
+        for z in n2:
+            #listcuentas
+            n3 = CuentaNivel3.objects.filter(tipo = z.id)
+            if n3.count()>0:
+                for y in n3:
+                    listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":str(y.tipo_de_iva)})
+    pro = Proveedor.objects.all().order_by("id")
+    #con = CuentaNivel3.objects.all().order_by("id")
     if 'pro' in request.GET and request.GET['pro']:
         pro = request.GET['pro']
         fe = request.GET['date1xx']
@@ -28,7 +40,11 @@ def carga(request):
         tipodoc = request.GET['tipodoc']
         #else:
         #    tot = 1000
-            
+        
+        verfac = Compra.objects.filter(numero_comprobante=nrofac)
+        if verfac.count()>0:
+            return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':listcuentas, 'msj': 'Ya existe ese numero de documento'})
+        
         id_proveedor = Proveedor.objects.filter(nombre=pro)
         valormaximo = Proveedor.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
@@ -163,17 +179,16 @@ def carga(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
         #return render_to_response('egresos/carga_egreso.html')
-        pro = Proveedor.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con, 'msj': 'Egreso Agregado Correctamente'})
+        #pro = Proveedor.objects.all().order_by("id")
+        #con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':listcuentas, 'msj': 'Egreso Agregado Correctamente'})
         #return render_to_response('principal/index.html', {'final': listex})
         #return HttpResponseRedirect('/carga_egresos/')
     else:
-        de = CuentaNivel1.objects.get(nombre__contains="Egresos")
-        
-        pro = Proveedor.objects.all().order_by("id")
+        #de = CuentaNivel1.objects.get(nombre__icontains="Egresos")
+        #pro = Proveedor.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
+        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':listcuentas})
     return render_to_response('egresos/carga_egreso.html')
 
 def list_egresos(request):
@@ -274,6 +289,18 @@ def edit_egresos(request, e_id):
     listf = []
     fact = ""
     fec = ""
+    
+    listcuentas = []
+    n1 = CuentaNivel1.objects.filter(nombre__icontains="Egresos")
+    n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+    if n2.count()>0:
+        for z in n2:
+            #listcuentas
+            n3 = CuentaNivel3.objects.filter(tipo = z.id)
+            if n3.count()>0:
+                for y in n3:
+                    listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":y.tipo_de_iva})
+    pro = Proveedor.objects.all().order_by("id")
     if e_id:
         listhd = AsientoDebeDetalle.objects.filter(asiento=e_id).distinct()
         idcompra = Compra.objects.get(asiento=e_id)
@@ -295,15 +322,26 @@ def edit_egresos(request, e_id):
         desde =int(listhd.count()) + 1
         for i in range(0, cantfalta):
             listf.append(i+int(desde))
-        pro = Proveedor.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
+        #pro = Proveedor.objects.all().order_by("id")
+        #con = CuentaNivel3.objects.all().order_by("id")
         #venta_edit = Venta.objects.get(asiento=id)
-        return render_to_response('egresos/edit_egreso.html',{'pro': pro, 'con':con,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
+        return render_to_response('egresos/edit_egreso.html',{'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
     else:
         return HttpResponseRedirect('/egresos_list/')
     return HttpResponseRedirect('/egresos_list/')
     
 def update_egresos(request):
+    listcuentas = []
+    n1 = CuentaNivel1.objects.filter(nombre__icontains="Egresos")
+    n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+    if n2.count()>0:
+        for z in n2:
+            #listcuentas
+            n3 = CuentaNivel3.objects.filter(tipo = z.id)
+            if n3.count()>0:
+                for y in n3:
+                    listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":y.tipo_de_iva})
+    pro = Proveedor.objects.all().order_by("id")
     if 'pro' in request.GET and request.GET['pro']:
         pro = request.GET['pro']
         fe = request.GET['date1xx']
@@ -338,6 +376,10 @@ def update_egresos(request):
         elif tipodoc == '3':
             tipo_doc_str = 'a'
         newingreso = Compra.objects.get(asiento=nro_mod)
+        verfac = Compra.objects.filter(numero_comprobante=nrofac)
+        if verfac.count()>0 and verfac[0].numero_comprobante != newingreso.numero_comprobante:
+            return render_to_response('egresos/carga_egreso.html', {'apo': apo, 'con':listcuentas, 'msj': 'Ya existe otro documento con ese numero.','button': 'Enviar', 'at': 'Ya existe otro documento con ese numero.'})    
+        
         newingreso.fecha = fechaiso
         newingreso.proveedor_id = pro
         newingreso.numero_comprobante = nrofac
@@ -472,17 +514,17 @@ def update_egresos(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #return HttpResponseRedirect('/carga_ingresos/')
         #return render_to_response('egresos/carga_egreso.html')
-        pro = Proveedor.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
+        #pro = Proveedor.objects.all().order_by("id")
+        #con = CuentaNivel3.objects.all().order_by("id")
         #return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con, 'msj': 'Egreso Agregado Correctamente'})
         return HttpResponseRedirect('/obispado/egresos_list/')
         #return render_to_response('principal/index.html', {'final': listex})
         #return HttpResponseRedirect('/carga_egresos/')
     else:
         #de = CuentaNivel1.objects.get(nombre__contains="Egresos")
-        pro = Proveedor.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':con})
+        #pro = Proveedor.objects.all().order_by("id")
+        #con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('egresos/carga_egreso.html', {'pro': pro, 'con':listcuentas})
     return HttpResponseRedirect('/obispado/egresos_list/')
     
     
@@ -512,7 +554,7 @@ def generar_planilla_csv_egresos(request):
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=planila_egresos.csv'
 
-    writer = csv.writer(response)
+    writer = csv.writer(response, delimiter=';')
     
     writer.writerow(['', '', 'Egresos']) # titulo
     # le dejo muchas lineas en blanco para que escriban lo que quieran
@@ -524,6 +566,6 @@ def generar_planilla_csv_egresos(request):
     # escribimos las columnas
     writer.writerow(['', '', 'Numero', 'Fecha', 'Tipo', 'Identificador RUC o C.I.', 'Nombre del Proveedor', 'Gravadas 10%', 'Gravadas 5%', 'Exentas', 'Total Iva Incluido', 'Tasa 10%', 'Tasa 5%'])
     for egreso in datos_egresos:
-        writer.writerow(['', '', str(egreso['nro_comprobante']), str(egreso['fecha']), str(egreso['tipo_comprobante']), str(egreso['ruc_proveedor']), str(egreso['proveedor']), str(egreso['gravadas10']), str(egreso['gravadas5']), str(egreso['exentas']), str(egreso['total']), str(egreso['iva10']), str(egreso['iva5'])])
+        writer.writerow(['', '', str(egreso['nro_comprobante']), str(egreso['fecha']), str(egreso['tipo_comprobante']), str(egreso['ruc_proveedor']), str(egreso['proveedor']), int(egreso['gravadas10']), int(egreso['gravadas5']), int(egreso['exentas']), int(egreso['total']), int(egreso['iva10']), int(egreso['iva5'])])
     
     return response
