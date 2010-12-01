@@ -23,6 +23,18 @@ def sumar(x, y):
     return x + y    
 
 def carga(request):
+    listcuentas = []
+    n1 = CuentaNivel1.objects.filter(nombre__icontains="Ingresos")
+    n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+    if n2.count()>0:
+        for z in n2:
+            #listcuentas
+            n3 = CuentaNivel3.objects.filter(tipo = z.id)
+            if n3.count()>0:
+                for y in n3:
+                    listcuentas.append({"id":y.id, "nombre":y.nombre})
+    apo = Aportante.objects.all().order_by("id")
+    
     if 'ap' in request.GET and request.GET['ap']:
         #d = request.GET['des1']
         ap = request.GET['ap']
@@ -38,6 +50,11 @@ def carga(request):
         #else:
         #    tot = 1000
         #final = ap+fe+ruc+cant+des+pu+ex+tot
+        
+        verfac = Venta.objects.filter(numero_factura=nrofac)
+        if verfac.count()>0:
+            return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas, 'msj': 'Ya existe ese numero de documento.','button': 'Enviar'})
+        
         tipo_doc_str = ''
         if tipodoc == '1':
             tipo_doc_str = 'f'
@@ -96,15 +113,14 @@ def carga(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #Ventas.objects.get(id=request.GET['ap']).delete()
         #return HttpResponseRedirect('/carga_ingresos/')
-        apo = Aportante.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con, 'msj': 'Ingreso Agregado Correctamente','button': 'Enviar'})
+        #apo = Aportante.objects.all().order_by("id")
+        #con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas, 'msj': 'Ingreso Agregado Correctamente','button': 'Enviar'})
         #return render_to_response('ingresos/carga_ingreso.html', {'msj': fechaiso})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
-        apo = Aportante.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con,'button': 'Enviar'})
+        #con = CuentaNivel3.objects.all().order_by("id")
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas,'button': 'Enviar'})
     return render_to_response('ingresos/carga_ingreso.html',{'button': 'Editar'})
 
 def edit_ingresos(request, i_id):
@@ -132,14 +148,35 @@ def edit_ingresos(request, i_id):
         for i in range(0, cantfalta):
             listf.append(i+int(desde))
         apo = Aportante.objects.all().order_by("id")
-        con = CuentaNivel3.objects.all().order_by("id")
+        listcuentas = []
+        n1 = CuentaNivel1.objects.filter(nombre__icontains="Ingresos")
+        n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+        if n2.count()>0:
+            for z in n2:
+                #listcuentas
+                n3 = CuentaNivel3.objects.filter(tipo = z.id)
+                if n3.count()>0:
+                    for y in n3:
+                            listcuentas.append({"id":y.id, "nombre":y.nombre})
+        #apo = Aportante.objects.all().order_by("id")
         #venta_edit = Venta.objects.get(asiento=id)
-        return render_to_response('ingresos/edit_ingreso.html',{'apo': apo, 'con':con,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )
+        return render_to_response('ingresos/edit_ingreso.html',{'apo': apo, 'con':listcuentas,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )
     else:
         return HttpResponseRedirect('/ingresos_list/')
     return HttpResponseRedirect('/ingresos_list/')
     
 def update_ingresos(request):
+    listcuentas = []
+    n1 = CuentaNivel1.objects.filter(nombre__icontains="Ingresos")
+    n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+    if n2.count()>0:
+        for z in n2:
+            #listcuentas
+            n3 = CuentaNivel3.objects.filter(tipo = z.id)
+            if n3.count()>0:
+                for y in n3:
+                    listcuentas.append({"id":y.id, "nombre":y.nombre})
+    apo = Aportante.objects.all().order_by("id")
     if 'ap' in request.GET and request.GET['ap']:
         #d = request.GET['des1']
         ap = request.GET['ap']
@@ -161,6 +198,8 @@ def update_ingresos(request):
             tipo_doc_str = 'f'
         elif tipodoc == '2':
             tipo_doc_str = 'r'
+            
+        
         #id_aportante = Aportante.objects.filter(nombre=ap)
         valormaximo = Aportante.objects.aggregate(Max('id'))
         valapmax = valormaximo['id__max']
@@ -169,6 +208,12 @@ def update_ingresos(request):
         else:
             valapmax = 1
         newingreso = Venta.objects.get(asiento =nro_mod)
+        
+        verfac = Venta.objects.filter(numero_factura=nrofac)
+        if verfac.count()>0 and verfac[0].numero_factura != newingreso.numero_factura:
+            return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas, 'msj': 'Ya existe otro documento con ese numero.','button': 'Enviar', 'at': 'Ya existe otro documento con ese numero.'})    
+        
+        
         newingreso.fecha = fechaiso
         newingreso.aportante_id = ap
         newingreso.numero_factura = nrofac
@@ -231,16 +276,16 @@ def update_ingresos(request):
         #return render_to_response('ingresos/carga_ingreso.html')
         #Ventas.objects.get(id=request.GET['ap']).delete()
         #return HttpResponseRedirect('/carga_ingresos/')
-        apo = Aportante.objects.all().order_by("id")
+        #apo = Aportante.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
         return HttpResponseRedirect('/obispado/ingresos_list/')
         #return render_to_response('ingresos/lista.html', {'apo': apo, 'con':con, 'msj': 'Ingreso Agregado Correctamente','button': 'Enviar'})
         #return render_to_response('ingresos/carga_ingreso.html', {'msj': fechaiso})
         #return render_to_response('ingresos/index.html', {'final': summonto})
     else:
-        apo = Aportante.objects.all().order_by("id")
+        #apo = Aportante.objects.all().order_by("id")
         con = CuentaNivel3.objects.all().order_by("id")
-        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':con,'button': 'Enviar'})
+        return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas,'button': 'Enviar'})
     #return render_to_response('ingresos/carga_ingreso.html',{'button': 'Editar'})
     return HttpResponseRedirect('/obispado/ingresos_list/')
     
@@ -362,7 +407,7 @@ def generar_planilla_csv_ingresos(request):
     # en el filename tal vez podriamos poner la fecha_inicio fecha_fin como parte del nombre
     response['Content-Disposition'] = 'attachment; filename=planila_ingresos.csv'
 
-    writer = csv.writer(response)
+    writer = csv.writer(response, delimiter=';')
     
     writer.writerow(['', '', 'ingresos']) # titulo
     # le dejo muchas lineas en blanco para que escriban lo que quieran
@@ -374,6 +419,6 @@ def generar_planilla_csv_ingresos(request):
     # escribimos las columnas
     writer.writerow(['', '', 'Numero', 'Fecha', 'Tipo', 'Identificador RUC o C.I.', 'Nombre del Aportante', 'Concepto', 'Cantidad', 'Tipo', 'Total Iva Incluido', 'Total exentas', 'Gravadas 10%', 'Gravadas 5%'])
     for ingreso in datos_ingresos:
-        writer.writerow(['', '', str(ingreso['nro_factura']), str(ingreso['fecha']), str(ingreso['tipo']), str(ingreso['id_ruc']), str(ingreso['nombre_aportante']), str(ingreso['concepto']), str(ingreso['cantidad']), str(ingreso['tipo_bien']), str(ingreso['total_iva_incluido']), str(ingreso['total_exentas']), '', ''])
+        writer.writerow(['', '', str(ingreso['nro_factura']), str(ingreso['fecha']), str(ingreso['tipo']), str(ingreso['id_ruc']), str(ingreso['nombre_aportante']), str(ingreso['concepto']), str(ingreso['cantidad']), str(ingreso['tipo_bien']), int(ingreso['total_iva_incluido']), int(ingreso['total_exentas']), '', ''])
 
     return response
