@@ -19,6 +19,7 @@
         
         var aportantes = new Array;
         var cuentas = new Array;
+        
         function validar(e) { // 1
             tecla = (document.all) ? e.keyCode : e.which;
             if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
@@ -243,8 +244,14 @@
     <br></br>
 	<div id="content" align="center">
 		<h1>Cargar Nuevo Ingreso</h1>
-			
-			<H3 align="center">{{msj}}</H3> 
+			{% if msj %}
+			<table align="center" style="float:center;border:3px solid red;">
+			<td align="center" width="500">{{msj}}</td>
+            <tr>
+            </TABLE>
+            <br>
+            {% endif %}
+    
 <FORM action="/obispado/carga_ingresos/" METHOD="GET" name="formu">
 <table align="center">
 <td align="left" width="200">Aportante:
