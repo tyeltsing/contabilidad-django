@@ -18,6 +18,8 @@
 <script type="text/javascript">
         var proveedores = new Array;
         var cuentas = new Array;
+        var id_cuentas = new Array;
+        var cant_valores=0;
         var listasel=0;
         
         function inicializar(){
@@ -30,8 +32,10 @@
             i=0;
             {% for ip1 in con %}
                 cuentas[i]="{{ip1.tipo_de_iva}}";
+                id_cuentas[i] = "{{ip1.id}}";
                 i++;
             {% endfor %}
+            cant_valores = i;
             //alert(cuentas[1]);
             /*for (i=0;i<10;i++){
                 proveedores[i]={{
@@ -50,11 +54,18 @@
         }
         function ver_tipo(num, g10, g5, ex, iva){
             var b=0;
-            //alert(num);
+            var pos=0;
+            for(i=0;i<cant_valores;i++){
+                if(id_cuentas[i] == num){
+                    pos = i;
+                    break;
+                }
+            }
+            //alert(cuentas[pos]+" "+id_cuentas[pos]+" "+pos);
             if(num.selectedIndex != 0){
                 if(num != ""){
-                    //alert(cuentas[num-1]);
-                    if(cuentas[num-1] == 'c'){
+                    //alert(cuentas[pos]);
+                    if(cuentas[pos] == 'c'){
                         //alert('gkfjgkf0');
                         //document.getElementById('g101').disabled=true;
                         g10.disabled=true;
@@ -73,7 +84,7 @@
                         ex.disabled = false;
                     }
                     if(b==0){
-                        if(cuentas[num-1] == 'd'){
+                        if(cuentas[pos] == 'd'){
                             g5.disabled = true;
                             ex.disabled = true;
                             iva.disabled=false;
@@ -88,7 +99,7 @@
                         }
                     }
                     if(b==0){
-                        if(cuentas[num-1] == 'e'){
+                        if(cuentas[pos] == 'e'){
                             g10.disabled = true;
                             g5.disabled = true;
                             iva.disabled=true;
@@ -132,11 +143,18 @@
             //alert('as');
             var valor;
             var b=0;
+            var pos=0;
+            for(i=0;i<cant_valores;i++){
+                if(id_cuentas[i] == tipo_iva){
+                    pos = i;
+                    break;
+                }
+            }
             if(frm['cant'+n].value!="" && frm['mon'+n].value!=""){
                 
                 valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
                 valor = Math.round(valor * Math.pow(10, 2)) / Math.pow(10, 2);
-                if(cuentas[tipo_iva-1] != "e" && cuentas[tipo_iva-1] != "n"){
+                if(cuentas[pos] != "e" && cuentas[pos] != "n"){
                     frm['totiva'+n].value = valor;
                 }else{
                     frm['ex'+n].value = valor
@@ -149,7 +167,7 @@
                 frm['ex'+n].value = 0;
             }
             if(listasel == 1){
-                if(cuentas[tipo_iva-1] == "d"){
+                if(cuentas[pos] == "d"){
                     var div = parseFloat(frm['totiva'+n].value) / 1.1;
                     div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                     div = Math.round(div);
@@ -160,7 +178,7 @@
                     frm['g10'+n].value = 0;
                 }
                 if(b==0){
-                    if(cuentas[tipo_iva-1] == "c"){
+                    if(cuentas[pos] == "c"){
                         var div = parseFloat(frm['totiva'+n].value) / 1.05;
                         div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                         div = Math.round(div);
