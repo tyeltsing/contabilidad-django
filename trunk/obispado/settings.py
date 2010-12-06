@@ -59,6 +59,18 @@ MEDIA_URL = '/media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sistema.decontabilidad@gmail.com'
+EMAIL_HOST_PASSWORD = 'SistemaDeContabilidad'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+LOGIN_URL = '/login/'
+
+LOGOUT_URL = '/logout/'
+
+LOGIN_REDIRECT_URL = '/inicio/'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 't_&ag0jpeu^r0&q)ei2fod7(u4^30do=(7o=%rsjflj)2fsa$6'
 
@@ -72,7 +84,6 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -109,6 +120,7 @@ INSTALLED_APPS = (
     'obispado.proveedores',
     'obispado.libros_contables',
     'obispado.balances',
+    'obispado.usuarios',
     # graphviz
     # http://code.google.com/p/django-graphviz/
     # http://code.djangoproject.com/wiki/DjangoGraphviz
