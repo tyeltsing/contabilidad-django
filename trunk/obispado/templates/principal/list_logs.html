@@ -40,14 +40,14 @@
 	</div-->
     <ul id="nav" class="dropdown dropdown-horizontal">
         <li><a href="/obispado/logout/">Desconectarse</a></li>
-        <li class="dir">Ingresos ▼
+        <li class="dir">Ingresos v
             <ul>
                 <li><a href="/obispado/carga_ingresos/">Cargar Ingresos</a></li>
                 <li><a href="/obispado/ingresos_list/">Ver Ingresos</a></li>
                 <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
             </ul>
         </li>
-        <li class="dir">Egresos ▼
+        <li class="dir">Egresos v
             <ul>
                 <li><a href="/obispado/carga_egresos/">Cargar Egresos</a></li>
                 <li><a href="/obispado/egresos_list/">Ver Egresos</a></li>
@@ -64,10 +64,17 @@
     </ul>
     <br></br>
 	<div id="content" align="center">
-		<h1>Obispado</h1>
-			
-			<p>Navegue a traves de las opciones del menu de arriba</p><br>
-            <p><b>Para volver al inicio, puede desconectarse utilizando el primer boton de la izquierda</b></p><br>
+		<h1>Lista de bitacoras</h1>
+            <br></br>
+            {% if cant %}
+                <ul>
+                {% for v in listbit %}
+                    <li>{{v}}</li><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <br>
+            <p><b>Se puede visualizar los archivos desde la carpeta que los almacena</b></p>
             <h2>
             <div id="content" align="left">
             
