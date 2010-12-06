@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     # (r'^obispado/', include('foo.urls')),
 
     (r'^$', 'obispado.views.index'),
+    (r'^ver_logs/', 'obispado.views.ver_logs'),
     (r'^inicio/', 'obispado.views.index'),
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
