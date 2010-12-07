@@ -355,7 +355,10 @@ def list_ingresos(request):
             filtro =1
         
         if valpesmax == 0:
-            return render_to_response('ingresos/lista.html', {'msj':'No hay ingresos'})
+            return render_to_response('ingresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay ingresos'})
+            
+        if valpesmax > 50 and not filtro:
+            valpesmax = 50
             
         if not filtro:
             for i in range(1, int(valpesmax)+1):
