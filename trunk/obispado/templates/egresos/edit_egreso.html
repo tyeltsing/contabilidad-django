@@ -18,6 +18,8 @@
 <script type="text/javascript">
         var proveedores = new Array;
         var cuentas = new Array;
+        var id_cuentas = new Array;
+        var cant_valores=0;
         var listasel=0;
         
         function inicializar(frm){
@@ -30,13 +32,14 @@
             i=0;
             {% for ip1 in con %}
                 cuentas[i]="{{ip1.tipo_de_iva}}";
+                id_cuentas[i] = "{{ip1.id}}";
                 i++;
             {% endfor %}
+            cant_valores = i;
             
             
             
         }
-        
         function poner_ruc(num){
             if(num.selectedIndex != 0){
                 if(num != ""){
@@ -49,10 +52,17 @@
         }
         function ver_tipo(num, g10, g5, ex, iva){
             var b=0;
+            var pos=0;
+            for(i=0;i<cant_valores;i++){
+                if(id_cuentas[i] == num){
+                    pos = i;
+                    break;
+                }
+            }
             //alert(num);
             if(num.selectedIndex != 0){
                 if(num != ""){
-                    if(cuentas[num-1] == 'c'){
+                    if(cuentas[pos] == 'c'){
                         g10.disabled=true;
                         ex.disabled=true;
                         iva.disabled=false;
@@ -69,7 +79,7 @@
                         ex.disabled = false;
                     }
                     if(b==0){
-                        if(cuentas[num-1] == 'd'){
+                        if(cuentas[pos] == 'd'){
                             g5.disabled = true;
                             ex.disabled = true;
                             iva.disabled=false;
@@ -84,7 +94,7 @@
                         }
                     }
                     if(b==0){
-                        if(cuentas[num-1] == 'e'){
+                        if(cuentas[pos] == 'e'){
                             g10.disabled = true;
                             g5.disabled = true;
                             iva.disabled=true;
@@ -128,11 +138,18 @@
             //alert('as');
             var valor;
             var b=0;
+            var pos=0;
+            for(i=0;i<cant_valores;i++){
+                if(id_cuentas[i] == tipo_iva){
+                    pos = i;
+                    break;
+                }
+            }
             if(frm['cant'+n].value!="" && frm['mon'+n].value!=""){
                 
                 valor = parseFloat(frm['cant'+n].value) * parseFloat(frm['mon'+n].value)
                 valor = Math.round(valor * Math.pow(10, 2)) / Math.pow(10, 2);
-                if(cuentas[tipo_iva-1] != "e" && cuentas[tipo_iva-1] != "n"){
+                if(cuentas[pos] != "e" && cuentas[pos] != "n"){
                     frm['totiva'+n].value = valor;
                 }else{
                     frm['ex'+n].value = valor
@@ -145,7 +162,7 @@
                 frm['ex'+n].value = 0;
             }
             if(listasel == 1){
-                if(cuentas[tipo_iva-1] == "d"){
+                if(cuentas[pos] == "d"){
                     var div = parseFloat(frm['totiva'+n].value) / 1.1;
                     div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                     div = Math.round(div);
@@ -156,7 +173,7 @@
                     frm['g10'+n].value = 0;
                 }
                 if(b==0){
-                    if(cuentas[tipo_iva-1] == "c"){
+                    if(cuentas[pos] == "c"){
                         var div = parseFloat(frm['totiva'+n].value) / 1.05;
                         div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
                         div = Math.round(div);
@@ -459,7 +476,7 @@
 
 {% for v in ltot %}
 <td align='left' width='50'><INPUT NAME='cant{{forloop.counter}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onChange = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onkeypress="return validar(event);"></td>
-<td align="left" width="100"><select name="des{{forloop.counter}}" id="id_des{{forloop.counter}}" onchange="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onClick = "ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onload="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});">
+<td align="left" width="100"><select name="des{{forloop.counter}}" id="id_des{{forloop.counter}}" onchange="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onClick = "ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onMouseOver="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});">
 
                             <option value="">---------</option>
                             {% if con %}
@@ -498,7 +515,7 @@
 {% if cantval < 10 %}
     {% for i in listf %}
      <td align='left' width='50'><INPUT NAME='cant{{i}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onChange = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onkeypress="return validar(event);"></td>
-    <td align="left" width="100"><select name="des{{i}}" id="id_des{{i}}" onchange="ver_tipo(this.value, this.form.g10{{i}}, this.form.g5{{i}}, this.form.ex{{i}}, this.form.totiva{{i}});" onClick = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);">
+    <td align="left" width="100"><select name="des{{i}}" id="id_des{{i}}" onchange="ver_tipo(this.value, this.form.g10{{i}}, this.form.g5{{i}}, this.form.ex{{i}}, this.form.totiva{{i}});" onClick = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onMouseOver= "sumval(this.form, '{{i}}', this.form.des{{i}}.value);">
 
                                 <option value="">---------</option>
                                 {% if con %}
