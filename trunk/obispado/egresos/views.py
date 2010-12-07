@@ -243,8 +243,11 @@ def list_egresos(request):
             filtro =1
         
         if valpesmax == 0:
-            return render_to_response('egresos/lista.html', {'msj':'No hay egresos'})
+            return render_to_response('egresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay egresos'})
             
+        if valpesmax > 50 and not filtro:
+            valpesmax = 50    
+
         if not filtro:
             for i in range(1, int(valpesmax)+1):
                 idv = Compra.objects.filter(id=i)
