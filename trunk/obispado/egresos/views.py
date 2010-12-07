@@ -399,6 +399,19 @@ def update_egresos(request):
             else:
                 valapmax = 1
             newasiento = AsientoContable.objects.get(id = nro_mod)
+            
+            fecha = time.strptime(str(date.today()), "%Y-%m-%d")
+            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            archivo = open(path, "a")
+            escribir = "El usuario " + tipouser.username + " ha modificado el egreso con numero de documento: "+str(newingreso.numero_factura)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+            archivo.write(escribir)
+            if int(newingreso.numero_factura) != int(nrofac):
+                escribir = "El usuario " + tipouser.username + " ha cambiado el numero de factura de egreso: de "+str(newingreso.numero_factura)+ " a "+ str(nrofac) +" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+                archivo.write(escribir)
+
+            archivo.close()
+            
             #newasiento = AsientoContable(fecha = fechaiso)
             newasiento.fecha = fechaiso
             newasiento.save()
