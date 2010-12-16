@@ -148,40 +148,44 @@ def edit_ingresos(request, i_id):
         fec = ""
         if i_id:
             listhd = AsientoHaberDetalle.objects.filter(asiento=i_id).distinct()
-            idventa = Venta.objects.get(asiento=i_id)
-            apor = Aportante.objects.get(id=int(idventa.aportante_id))
-            if listhd.count()>0:
-                for z in listhd:
-                    cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
-                    fact = idventa.tipo_comprobante
-                    if fact == "f":
-                        fact = "Factura"
-                    elif fact == "r":
-                        fact = "Recibo"
-                    fecha = idventa.fecha.timetuple()
-                    fec = time.strftime("%d/%m/%Y", fecha)
-                    listatot.append({"id":z.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto)})
-            cantfalta = 10 - int(listhd.count())
-            desde =int(listhd.count()) + 1
-            for i in range(0, cantfalta):
-                listf.append(i+int(desde))
-            apo = Aportante.objects.all().order_by("id")
-            listcuentas = []
-            n1 = CuentaNivel1.objects.filter(nombre__icontains="Ingresos")
-            n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
-            if n2.count()>0:
-                for z in n2:
-                    #listcuentas
-                    n3 = CuentaNivel3.objects.filter(tipo = z.id)
-                    if n3.count()>0:
-                        for y in n3:
-                                listcuentas.append({"id":y.id, "nombre":y.nombre})
-            #apo = Aportante.objects.all().order_by("id")
-            #venta_edit = Venta.objects.get(asiento=id)
-            return render_to_response('ingresos/edit_ingreso.html',{'nombreuser': tipouser.username,'apo': apo, 'con':listcuentas,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )
+            idventa = Venta.objects.filter(asiento=i_id)
+            if idventa.count()>0:
+                idventa = Venta.objects.get(asiento=i_id)
+                apor = Aportante.objects.get(id=int(idventa.aportante_id))
+                if listhd.count()>0:
+                    for z in listhd:
+                        cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
+                        fact = idventa.tipo_comprobante
+                        if fact == "f":
+                            fact = "Factura"
+                        elif fact == "r":
+                            fact = "Recibo"
+                        fecha = idventa.fecha.timetuple()
+                        fec = time.strftime("%d/%m/%Y", fecha)
+                        listatot.append({"id":z.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":idventa.numero_factura,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto)})
+                cantfalta = 10 - int(listhd.count())
+                desde =int(listhd.count()) + 1
+                for i in range(0, cantfalta):
+                    listf.append(i+int(desde))
+                apo = Aportante.objects.all().order_by("id")
+                listcuentas = []
+                n1 = CuentaNivel1.objects.filter(nombre__icontains="Ingresos")
+                n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+                if n2.count()>0:
+                    for z in n2:
+                        #listcuentas
+                        n3 = CuentaNivel3.objects.filter(tipo = z.id)
+                        if n3.count()>0:
+                            for y in n3:
+                                    listcuentas.append({"id":y.id, "nombre":y.nombre})
+                #apo = Aportante.objects.all().order_by("id")
+                #venta_edit = Venta.objects.get(asiento=id)
+                return render_to_response('ingresos/edit_ingreso.html',{'nombreuser': tipouser.username,'apo': apo, 'con':listcuentas,'ltot':listatot, 'idapo':apor.id, 'rucval':apor.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idventa.numero_factura, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':i_id} )
+            else:
+                return HttpResponseRedirect('/obispado/ingresos_list/')
         else:
-            return HttpResponseRedirect('/ingresos_list/')
-        return HttpResponseRedirect('/ingresos_list/')
+            return HttpResponseRedirect('/obispado/ingresos_list/')
+        return HttpResponseRedirect('/obispado/ingresos_list/')
     else:
         return HttpResponseRedirect('/obispado/login/')
     
@@ -237,6 +241,18 @@ def update_ingresos(request):
             if verfac.count()>0 and verfac[0].numero_factura != newingreso.numero_factura:
                 return render_to_response('ingresos/carga_ingreso.html', {'apo': apo, 'con':listcuentas, 'msj': 'Ya existe otro documento con ese numero.','button': 'Enviar', 'at': 'Ya existe otro documento con ese numero.'})    
             
+            
+            fecha = time.strptime(str(date.today()), "%Y-%m-%d")
+            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            archivo = open(path, "a")
+            escribir = "El usuario " + tipouser.username + " ha modificado el ingreso con numero de documento: "+str(newingreso.numero_factura)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+            archivo.write(escribir)
+            if int(newingreso.numero_factura) != int(nrofac):
+                escribir = "El usuario " + tipouser.username + " ha cambiado el numero de factura de ingreso: de "+str(newingreso.numero_factura)+ " a "+ str(nrofac) +" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+                archivo.write(escribir)
+
+            archivo.close()
             
             newingreso.fecha = fechaiso
             newingreso.aportante_id = ap
@@ -301,6 +317,7 @@ def update_ingresos(request):
             #Ventas.objects.get(id=request.GET['ap']).delete()
             #return HttpResponseRedirect('/carga_ingresos/')
             #apo = Aportante.objects.all().order_by("id")
+
             con = CuentaNivel3.objects.all().order_by("id")
             return HttpResponseRedirect('/obispado/ingresos_list/')
             #return render_to_response('ingresos/lista.html', {'apo': apo, 'con':con, 'msj': 'Ingreso Agregado Correctamente','button': 'Enviar'})
