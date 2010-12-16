@@ -22,7 +22,7 @@ def ver_logs(request):
     listbit = []
     if(is_auth):
         tipouser = User.objects.get(id=user_id)
-        nombres = os.listdir("C:/")
+        nombres = os.listdir("C:/Contabilidad/logs/")
         for x in nombres:
             if x.find("bitacora") >=0:
                 listbit.append(x)

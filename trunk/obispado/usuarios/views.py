@@ -48,8 +48,8 @@ def login_up(request, error_message=''):
                 #if next:
                 #	return HttpResponseRedirect(next)    
                 fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-                #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-                path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+                #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+                path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
                 archivo = open(path, "a")
                 escribir = "El usuario " + username + " inicio sesion el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
                 archivo.write(escribir)
@@ -106,8 +106,8 @@ def logged_out(request):
     except KeyError:
         pass
     fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-    #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-    path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+    #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+    path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
     archivo = open(path, "a")
     escribir = "El usuario " + tipouser.username + " cerro sesion el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
     archivo.write(escribir)
