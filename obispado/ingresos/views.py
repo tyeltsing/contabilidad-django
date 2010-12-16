@@ -121,8 +121,8 @@ def carga(request):
             #apo = Aportante.objects.all().order_by("id")
             #con = CuentaNivel3.objects.all().order_by("id")
             fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
             archivo = open(path, "a")
             escribir = "El usuario " + tipouser.username + " cargo el ingreso del documento nro "+str(nrofac)+" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
             archivo.write(escribir)
@@ -243,8 +243,8 @@ def update_ingresos(request):
             
             
             fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
             archivo = open(path, "a")
             escribir = "El usuario " + tipouser.username + " ha modificado el ingreso con numero de documento: "+str(newingreso.numero_factura)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
             archivo.write(escribir)
@@ -371,7 +371,7 @@ def list_ingresos(request):
         if nro_fac:
             filtro =1
         
-        if valpesmax == 0:
+        if valpesmax == 0 or valpesmax == None:
             return render_to_response('ingresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay ingresos'})
             
         if valpesmax > 50 and not filtro:

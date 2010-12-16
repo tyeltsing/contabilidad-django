@@ -189,8 +189,8 @@ def carga(request):
             #con = CuentaNivel3.objects.all().order_by("id")
             
             fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
             archivo = open(path, "a")
             escribir = "El usuario " + tipouser.username + " cargo el egreso del documento nro "+str(nrofac)+" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
             archivo.write(escribir)
@@ -242,7 +242,7 @@ def list_egresos(request):
         if nro_fac:
             filtro =1
         
-        if valpesmax == 0:
+        if valpesmax == 0 or valpesmax == None:
             return render_to_response('egresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay egresos'})
             
         if valpesmax > 50 and not filtro:
@@ -405,8 +405,8 @@ def update_egresos(request):
             newasiento = AsientoContable.objects.get(id = nro_mod)
             
             fecha = time.strptime(str(date.today()), "%Y-%m-%d")
-            #path = "C:/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
-            path = "C:/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
+            #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
+            path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
             archivo = open(path, "a")
             escribir = "El usuario " + tipouser.username + " ha modificado el egreso con numero de documento: "+str(newingreso.numero_factura)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
             archivo.write(escribir)
