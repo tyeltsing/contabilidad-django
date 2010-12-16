@@ -330,33 +330,37 @@ def edit_egresos(request, e_id):
                         listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":y.tipo_de_iva})
         pro = Proveedor.objects.all().order_by("id")
         if e_id:
-            listhd = AsientoDebeDetalle.objects.filter(asiento=e_id).distinct()
-            idcompra = Compra.objects.get(asiento=e_id)
-            prov = Proveedor.objects.get(id=int(idcompra.proveedor_id))
-            if listhd.count()>0:
-                for z in listhd:
-                    cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
-                    fact = idcompra.tipo_comprobante
-                    if fact == "f":
-                        fact = "Factura"
-                    elif fact == "r":
-                        fact = "Recibo"
-                    elif fact == "a":
-                        fact = "Autofactura"
-                    fecha = idcompra.fecha.timetuple()
-                    fec = time.strftime("%d/%m/%Y", fecha)
-                    listatot.append({"id":z.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto),"tipoiva":cue.tipo_de_iva})
-            cantfalta = 10 - int(listhd.count())
-            desde =int(listhd.count()) + 1
-            for i in range(0, cantfalta):
-                listf.append(i+int(desde))
-            #pro = Proveedor.objects.all().order_by("id")
-            #con = CuentaNivel3.objects.all().order_by("id")
-            #venta_edit = Venta.objects.get(asiento=id)
-            return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
+            idventa = Compra.objects.get(asiento=e_id)
+            if idventa.count()>0:
+                listhd = AsientoDebeDetalle.objects.filter(asiento=e_id).distinct()
+                idcompra = Compra.objects.get(asiento=e_id)
+                prov = Proveedor.objects.get(id=int(idcompra.proveedor_id))
+                if listhd.count()>0:
+                    for z in listhd:
+                        cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
+                        fact = idcompra.tipo_comprobante
+                        if fact == "f":
+                            fact = "Factura"
+                        elif fact == "r":
+                            fact = "Recibo"
+                        elif fact == "a":
+                            fact = "Autofactura"
+                        fecha = idcompra.fecha.timetuple()
+                        fec = time.strftime("%d/%m/%Y", fecha)
+                        listatot.append({"id":z.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto),"tipoiva":cue.tipo_de_iva})
+                cantfalta = 10 - int(listhd.count())
+                desde =int(listhd.count()) + 1
+                for i in range(0, cantfalta):
+                    listf.append(i+int(desde))
+                #pro = Proveedor.objects.all().order_by("id")
+                #con = CuentaNivel3.objects.all().order_by("id")
+                #venta_edit = Venta.objects.get(asiento=id)
+                return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
+            else:
+                return HttpResponseRedirect('/obispado/egresos_list/')
         else:
-            return HttpResponseRedirect('/egresos_list/')
-        return HttpResponseRedirect('/egresos_list/')
+            return HttpResponseRedirect('/obispado/egresos_list/')
+        return HttpResponseRedirect('/obispado/egresos_list/')
     else:
         return HttpResponseRedirect('/obispado/login/')
     
