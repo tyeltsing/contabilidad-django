@@ -22,11 +22,11 @@ def carga(request):
         tipouser = User.objects.get(id=user_id)
         listcuentas = []
         n1 = CuentaNivel1.objects.filter(nombre__icontains="Egresos")
-        n2 = CuentaNivel2.objects.filter(tipo = n1[0].id)
+        n2 = CuentaNivel2.objects.filter(tipo = n1[0].id).order_by("id")
         if n2.count()>0:
             for z in n2:
                 #listcuentas
-                n3 = CuentaNivel3.objects.filter(tipo = z.id).order_by("id")
+                n3 = CuentaNivel3.objects.filter(tipo = z.id).order_by("id").order_by("id")
                 if n3.count()>0:
                     for y in n3:
                         listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":str(y.tipo_de_iva)})
