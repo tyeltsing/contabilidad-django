@@ -357,20 +357,7 @@
 	</div></td>
     <tr>
     </TABLE>
-	<!--div id="navigation">
-		<ul>
-			<li><a href="/obispado/carga_ingresos/"class="active">Cargar Ingresos</a></li>
-            <li><a href="/obispado/solicitar_planilla_ingresos/">Planilla Ingresos</a></li>
-			<li><a href="/obispado/carga_egresos/" >Cargar Egresos</a></li>
-            <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
-            <li><a href="/obispado/cargar_asiento/" >Asientos</a></li>
-			<li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
-			<li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
-			<li><a href="/obispado/balances/csv/">Generar Balance</a></li>
-			<li><a href="/obispado/admin/">Adm Sistema</a></li>
-            <li><a href="/">Inicio</a></li>
-		</ul>
-	</div-->
+	
     <ul id="nav" class="dropdown dropdown-horizontal">
         <li><a href="/obispado/logout/">Desconectarse</a></li>
         <li class="dir">Ingresos ▼
@@ -387,12 +374,24 @@
                 <li><a href="/obispado/solicitar_planilla_egresos/">Planilla Egresos</a></li>
             </ul>
         </li>
-        <li><a href="/obispado/cargar_asiento/">Asientos</a></li>
+        <li class="dir">Asientos ▼
+            <ul>
+                <li><a href="/obispado/cargar_asiento/">Cargar Asientos</a></li>
+                <li><a href="/obispado/asientos_list/">Ver Asientos</a></li>
+            </ul>
+        </li>
+
         <li><a href="/obispado/admin/aportantes/aportante/">Aportantes</a></li>
         <li><a href="/obispado/admin/proveedores/proveedor/">Proveedores</a></li>
         <li><a href="/obispado/balances/csv/">Generar Balance</a></li>
-        <li><a href="/obispado/admin/">Administrar Sistema</a></li><li><a href="/obispado/ver_logs">Ver logs</a></li>
-        
+        <li class="dir">Administrar Sistema ▼
+            <ul>
+                <li><a href="/obispado/admin/">Administracion General</a></li>
+                <li><a href="/obispado/registro/">Crear un nuevo usuario</a></li>
+                <li><a href="/obispado/admin/password_change/">Cambiar Contrase&ntilde;a del usuario actual</a></li>
+                <li><a href="/obispado/ver_logs">Ver logs</a></li>
+            </ul>
+        </li>
     </ul>
     <br></br>
 	<div id="content" align="center">
