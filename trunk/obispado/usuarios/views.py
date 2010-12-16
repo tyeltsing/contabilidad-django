@@ -63,32 +63,38 @@ def login_up(request, error_message=''):
         return render_to_response('usuarios/loginnew.html',{'form': form})
 	
 def registrarse(request):
-    form = RegisterForm(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            name_user = form.cleaned_data['username']
-            firstname = form.cleaned_data['first_name']
-            lastname = form.cleaned_data['last_name']
-            #email_user = form.cleaned_data['email']
-            #nacionalidad = form.cleaned_data['nacionalidad']
-            pass_user = form.cleaned_data['password1']
-            create_user = User(username= name_user, 
-                           first_name = firstname,
-                           last_name = lastname,
-                           #email= email_user,
-                           #nacionalidad = nacionalidad,
-                           is_staff=True,
-                           is_active=True,
-                           is_superuser=True,
-                           )
-            create_user.set_password(pass_user)
-            create_user.save()
-            form1 = RegisterForm()
-            return render_to_response('usuarios/registro.html',{'form': form1,'new_user':True})
+    user_id = request.user.id
+    is_auth = request.user.is_authenticated()
+    if(is_auth):
+        tipouser = User.objects.get(id=user_id)
+        form = RegisterForm(request.POST)
+        if request.method == 'POST':
+            if form.is_valid():
+                name_user = form.cleaned_data['username']
+                firstname = form.cleaned_data['first_name']
+                lastname = form.cleaned_data['last_name']
+                #email_user = form.cleaned_data['email']
+                #nacionalidad = form.cleaned_data['nacionalidad']
+                pass_user = form.cleaned_data['password1']
+                create_user = User(username= name_user, 
+                               first_name = firstname,
+                               last_name = lastname,
+                               #email= email_user,
+                               #nacionalidad = nacionalidad,
+                               is_staff=True,
+                               is_active=True,
+                               is_superuser=True,
+                               )
+                create_user.set_password(pass_user)
+                create_user.save()
+                form1 = RegisterForm()
+                return render_to_response('usuarios/registro.html',{'nombreuser': tipouser.username,'form': form1,'new_user':True})
+            else:
+                return render_to_response('usuarios/registro.html',{'nombreuser': tipouser.username,'form': form, 'error_msj':'Compruebe que los campos obligatorios esten completos'})
         else:
-            return render_to_response('usuarios/registro.html',{'form': form, 'error_msj':'Compruebe que los campos obligatorios esten completos'})
+            return render_to_response('usuarios/registro.html',{'nombreuser': tipouser.username,'form': form})
     else:
-        return render_to_response('usuarios/registro.html',{'form': form})
+        return HttpResponseRedirect('/obispado/login/')
     
 def logged_out(request):
     user_id = request.user.id
