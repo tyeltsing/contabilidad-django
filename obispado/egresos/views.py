@@ -330,7 +330,7 @@ def edit_egresos(request, e_id):
                         listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":y.tipo_de_iva})
         pro = Proveedor.objects.all().order_by("id")
         if e_id:
-            idventa = Compra.objects.get(asiento=e_id)
+            idventa = Compra.objects.filter(asiento=e_id)
             if idventa.count()>0:
                 listhd = AsientoDebeDetalle.objects.filter(asiento=e_id).distinct()
                 idcompra = Compra.objects.get(asiento=e_id)
@@ -403,15 +403,15 @@ def update_egresos(request):
             else:
                 valapmax = 1
             newasiento = AsientoContable.objects.get(id = nro_mod)
-            
+            newingreso = Compra.objects.get(asiento=nro_mod)
             fecha = time.strptime(str(date.today()), "%Y-%m-%d")
             #path = "C:/Contabilidad/logs/Contabilidad/obispado/bitacora_mes_"+fecha[1]+"_"+fecha[0]+".log"
             path = "C:/Contabilidad/logs/bitacora_obispado_mes_"+str(fecha[1])+"_"+str(fecha[0])+".log"
             archivo = open(path, "a")
-            escribir = "El usuario " + tipouser.username + " ha modificado el egreso con numero de documento: "+str(newingreso.numero_factura)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+            escribir = "El usuario " + tipouser.username + " ha modificado el egreso con numero de documento: "+str(newingreso.numero_comprobante)+ " el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
             archivo.write(escribir)
-            if int(newingreso.numero_factura) != int(nrofac):
-                escribir = "El usuario " + tipouser.username + " ha cambiado el numero de factura de egreso: de "+str(newingreso.numero_factura)+ " a "+ str(nrofac) +" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
+            if int(newingreso.numero_comprobante) != int(nrofac):
+                escribir = "El usuario " + tipouser.username + " ha cambiado el numero de factura de egreso: de "+str(newingreso.numero_comprobante)+ " a "+ str(nrofac) +" el " + str(fecha[2]) +"/"+str(fecha[1])+"/"+ str(fecha[0])+" a las "+str(time.strftime("%H:%M:%S")) + "\n"
                 archivo.write(escribir)
 
             archivo.close()
