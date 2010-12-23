@@ -63,10 +63,12 @@
          }  
          function verificar(frm){
             
-            if(ValidarFecha(frm['date1xx'].value)){
+            if(ValidarFecha(frm['fechainicio'].value)){
                 //frm['boton'].submit();
                 //frm['formu'].submit();
-                document.formulario.submit();
+                if(ValidarFecha(frm['fechafin'].value)) {
+                    document.formulario.submit();
+                }
             }
         }
 </script>
@@ -130,7 +132,7 @@
 <td align="left" width="200">Fecha inicio:
 </td>
 <!--td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);"-->
-<td align="left" width="200"><input name="date1xx" id="fecha_inicio" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+<td align="left" width="200"><input name="fechainicio" id="fecha_inicio" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].fechainicio,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].fechainicio,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
 </td>
 <tr>
 <tr>
@@ -138,7 +140,7 @@
 <td align="left" width="200">Fecha fin:
 </td>
 <!--td align="center" width="150"><INPUT NAME="fe" TYPE="TEXT" VALUE="" onChange = "ValidarFecha(this.value);"-->
-<td align="left" width="200"><input name="date1xx1" id="fecha_fin" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].date1xx1,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
+<td align="left" width="200"><input name="fechafin" id="fecha_fin" value="" type="text"><a href="#" onclick="cal1xx.select(document.forms[0].fechafin,'anchor1xx','dd/MM/yyyy'); return false;" title="cal1xx.select(document.forms[0].date1xx,'anchor1xx','dd/MM/yyyy'); return false;" name="anchor1xx" id="anchor1xx">Elegir</a>
 </td>
 <tr>
 <TD align="center" width="150"><INPUT NAME="boton" type="button" VALUE="Generar Planilla de Egresos" onclick="verificar(this.form);"></TD>
