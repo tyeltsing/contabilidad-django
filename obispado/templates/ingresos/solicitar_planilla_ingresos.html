@@ -64,7 +64,9 @@
             if(ValidarFecha(frm['date1xx'].value)){
                 //frm['boton'].submit();
                 //frm['formu'].submit();
-                document.formulario.submit();
+                if(ValidarFecha(frm['date1xx1'].value)) {
+                    document.formulario.submit();
+                }
             }
         }
 </script>
