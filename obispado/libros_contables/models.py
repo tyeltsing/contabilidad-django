@@ -116,3 +116,72 @@ def generar_balance(fecha_desde, fecha_hasta):
     # hasta aqui ya tenemos el balance
     return diccionario_balance
 
+
+# funciones de consulta a la base de datos
+def generar_balance2(fecha_desde, fecha_hasta):
+    '''Genera el balance General'''
+    # TODO: Tema de las fechas, como hacer eso?
+    # tal vez se podria pasar el parametro de mes, luego cuando se traen los
+    # saldos de AsientoDebeDetalle y AsientoHaberDetalle filtrar por fecha,
+    # usando filter (date <= fecha_que_me_paso_el_usuario)
+    # aporte fantastico de fede.caceres
+    # http://docs.djangoproject.com/en/1.2/ref/models/querysets/#range
+
+    grupos_de_cuentas = TipoCuenta.objects.all()
+    diccionario_balance = {}
+    # Disculpame Kreitmayr por la falta de recursividad en esta parte :)
+    for g in grupos_de_cuentas:
+        diccionario_balance[g] = {'suma': 0}
+        lista_nivel1 = CuentaNivel1.objects.filter(tipo=g)
+        for n1 in lista_nivel1:
+            diccionario_balance[g][n1] = {'suma': 0}
+            lista_nivel2 = CuentaNivel2.objects.filter(tipo=n1)
+            for n2 in lista_nivel2:
+                diccionario_balance[g][n1][n2] = {'suma': 0}
+                lista_nivel3 = CuentaNivel3.objects.filter(tipo=n2)
+                for n3 in lista_nivel3:
+                    diccionario_balance[g][n1][n2][n3] = {'suma': 0}
+
+
+    # traigo los asientos por fecha
+    lista_asientos = AsientoContable.objects.filter(fecha__range=(fecha_desde, fecha_hasta)).order_by('fecha')
+    lista_asientos_debe = []
+    lista_asientos_haber = []
+    for asiento in lista_asientos:
+        lista_asientos_debe.extend(AsientoDebeDetalle.objects.filter(asiento=asiento))
+        lista_asientos_haber.extend(AsientoDebeDetalle.objects.filter(asiento=asiento))
+
+    # ya tenemos la lista completa de cuentas, ahora debemos calcular el saldo a
+    # la fecha del balance
+    # recorremos nuestro super diccionario de la manera mas ineficaz
+    # TODO: como consultar esto en forma mas eficaz
+    # segun fede.caceres, se podria usar esto
+    # http://docs.djangoproject.com/en/1.2/topics/db/aggregation/
+    for g in diccionario_balance:
+        if g != 'suma':
+            for n1 in diccionario_balance[g]:
+                if n1 != 'suma':
+                    for n2 in diccionario_balance[g][n1]:
+                        if n2 != 'suma':
+                            for n3 in diccionario_balance[g][n1][n2]:
+                                if n3 != 'suma':
+                                    saldo = 0
+                                    suma_monto_debe_n3 = 0
+                                    suma_monto_haber_n3 = 0
+
+                                    for debe_detalle in lista_asientos_debe:
+                                        if (debe_detalle.cuenta == n3):
+                                            suma_monto_debe_n3 += debe_detalle.monto
+
+                                    for haber_detalle in lista_asientos_haber:
+                                        if (debe_detalle.cuenta == n3):
+                                            suma_monto_haber_n3 += haber_detalle.monto
+
+                                    if g.tipo_de_saldo == 'h':
+                                        saldo *= -1 # por el tema del saldo, debe y haber, segun Luca Paccioli
+                                    diccionario_balance[g][n1][n2][n3]['suma'] = saldo
+                                    diccionario_balance[g][n1][n2]['suma'] += saldo
+                            diccionario_balance[g][n1]['suma'] += diccionario_balance[g][n1][n2]['suma']
+                    diccionario_balance[g]['suma'] += diccionario_balance[g][n1]['suma']
+    # hasta aqui ya tenemos el balance
+    return diccionario_balance
