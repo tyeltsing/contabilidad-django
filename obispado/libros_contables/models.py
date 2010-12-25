@@ -142,21 +142,11 @@ def generar_balance2(fecha_desde, fecha_hasta):
                 for n3 in lista_nivel3:
                     diccionario_balance[g][n1][n2][n3] = {'suma': 0}
 
-
-    # traigo los asientos por fecha
-    lista_asientos = AsientoContable.objects.filter(fecha__range=(fecha_desde, fecha_hasta)).order_by('fecha')
-    lista_asientos_debe = []
-    lista_asientos_haber = []
-    for asiento in lista_asientos:
-        lista_asientos_debe.extend(AsientoDebeDetalle.objects.filter(asiento=asiento))
-        lista_asientos_haber.extend(AsientoDebeDetalle.objects.filter(asiento=asiento))
-
     # ya tenemos la lista completa de cuentas, ahora debemos calcular el saldo a
     # la fecha del balance
     # recorremos nuestro super diccionario de la manera mas ineficaz
-    # TODO: como consultar esto en forma mas eficaz
-    # segun fede.caceres, se podria usar esto
-    # http://docs.djangoproject.com/en/1.2/topics/db/aggregation/
+    # DONE: http://docs.djangoproject.com/en/1.2/topics/db/queries/#lookups-that-span-relationships
+
     for g in diccionario_balance:
         if g != 'suma':
             for n1 in diccionario_balance[g]:
@@ -169,13 +159,13 @@ def generar_balance2(fecha_desde, fecha_hasta):
                                     suma_monto_debe_n3 = 0
                                     suma_monto_haber_n3 = 0
 
+                                    lista_asientos_debe = AsientoDebeDetalle.objects.filter(asiento__fecha__range=(fecha_desde, fecha_hasta), cuenta=n3)
                                     for debe_detalle in lista_asientos_debe:
-                                        if (debe_detalle.cuenta == n3):
-                                            suma_monto_debe_n3 += debe_detalle.monto
+                                        suma_monto_debe_n3 += debe_detalle.monto
 
+                                    lista_asientos_haber = AsientoHaberDetalle.objects.filter(asiento__fecha__range=(fecha_desde, fecha_hasta), cuenta=n3)
                                     for haber_detalle in lista_asientos_haber:
-                                        if (debe_detalle.cuenta == n3):
-                                            suma_monto_haber_n3 += haber_detalle.monto
+                                        suma_monto_haber_n3 += haber_detalle.monto
 
                                     saldo = suma_monto_debe_n3 - suma_monto_haber_n3
                                     if g.tipo_de_saldo == 'h':
