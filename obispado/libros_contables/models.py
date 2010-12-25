@@ -177,6 +177,7 @@ def generar_balance2(fecha_desde, fecha_hasta):
                                         if (debe_detalle.cuenta == n3):
                                             suma_monto_haber_n3 += haber_detalle.monto
 
+                                    saldo = suma_monto_debe_n3 - suma_monto_haber_n3
                                     if g.tipo_de_saldo == 'h':
                                         saldo *= -1 # por el tema del saldo, debe y haber, segun Luca Paccioli
                                     diccionario_balance[g][n1][n2][n3]['suma'] = saldo
