@@ -12,6 +12,7 @@ from django.db.models import Q, Max, Min
 import datetime, string
 import time
 from datetime import date
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def cargar_asiento(request):
     user_id = request.user.id
@@ -121,8 +122,8 @@ def list_asientos(request):
         if valpesmax == 0 or valpesmax == None:
             return render_to_response('asiento/lista.html', {'nombreuser': tipouser.username,'msj':'No hay asientos'})
             
-        if valpesmax > 50 and not filtro:
-            valpesmax = 50 
+        #if valpesmax > 50 and not filtro:
+        #    valpesmax = 50 
             
         if not filtro:
             for i in range(1, int(valpesmax)+1):
@@ -196,7 +197,19 @@ def list_asientos(request):
         long = len(listatotd)
         for i in range(0,long):
             listagral.append({"id":listatotd[i]['id'],"fecha":listatotd[i]['fecha'],"cuentad":listatotd[i]['cuenta'],"montod":listatotd[i]['monto'], "cuentah":listatoth[i]['cuenta'],"montoh":listatoth[i]['monto']})
-        return render_to_response('asiento/lista.html', {'nombreuser': tipouser.username,'ltoth':listatoth,'ltotd':listagral,'cant': valpesmax})
+        
+        paginator = Paginator(listagral, 25)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        try:
+            contacts = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            contacts = paginator.page(paginator.num_pages)
+        
+        return render_to_response('asiento/lista.html', {'nombreuser': tipouser.username,'ltot':contacts,'cant': valpesmax})
     else:
         return HttpResponseRedirect('/obispado/login/')
         

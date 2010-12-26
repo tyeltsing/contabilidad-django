@@ -149,7 +149,7 @@ var cal1xx = new CalendarPopup("testdiv1");
 
     <br>
     <h3>Filtrar asientos</h3>
-    <p>No se muestran todos los registros. Para buscar una entrada <br></br>llene el campo fecha y oprima el boton filtrar</p>
+    <p>Para buscar una entrada <br></br>llene el campo fecha y oprima el boton filtrar</p>
     <br>
     <table align="center" border="0" cellpadding="10">
     <td align="left" width="200">Fecha:
@@ -167,13 +167,28 @@ var cal1xx = new CalendarPopup("testdiv1");
 <td align='left' width='220'><b>Fecha:</b></td><td align='left' width='850'><b>Cuenta Debe:</b></td><td align='left' width='180'><b>Monto Debe:</b></td><td align='left' width='850'><b>Cuenta Haber:</b></td><td align='left' width='180'><b>Monto Haber:</b></td><td align='left' width='80'><b></b></td>
 <tr>
 {% if cant %}
-{% for f in ltotd %}
+{% for f in ltot.object_list %}
         <td>{{f.fecha}}</td><td>{{f.cuentad}}</td> <td>{{f.montod}}</td><td>{{f.cuentah}}</td> <td>{{f.montoh}}</td><td><a href="/obispado/asientos_edit/{{f.id}}">Editar</a></td><tr>
 {% endfor %}
 
 {% endif %}
 
 </TABLE>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if ltot.has_previous %}
+            <a href="?page={{ ltot.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            P&aacute;gina {{ ltot.number }} de {{ ltot.paginator.num_pages }}.
+        </span>
+
+        {% if ltot.has_next %}
+            <a href="?page={{ ltot.next_page_number }}">siguiente</a>
+        {% endif %}
+    </span>
 </div>
 </FORM>
 <DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
