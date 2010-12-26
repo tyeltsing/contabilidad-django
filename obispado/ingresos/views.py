@@ -13,6 +13,7 @@ import time
 from datetime import date
 import csv
 from django.db.models import Count  
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from django.template import RequestContext
 
@@ -374,8 +375,8 @@ def list_ingresos(request):
         if valpesmax == 0 or valpesmax == None:
             return render_to_response('ingresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay ingresos'})
             
-        if valpesmax > 50 and not filtro:
-            valpesmax = 50
+        #if valpesmax > 50 and not filtro:
+        #    valpesmax = 50
             
         if not filtro:
             for i in range(1, int(valpesmax)+1):
@@ -428,9 +429,19 @@ def list_ingresos(request):
                             fec = time.strftime("%d/%m/%Y", fecha)
                             listatot.append({"id":i.asiento_id, "fecha":fec, "aportante":apor.nombre,"nro_fac":i.numero_factura,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(z.monto)})
                     #i = i + 1
-                    
+        paginator = Paginator(listatot, 25)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        try:
+            contacts = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            contacts = paginator.page(paginator.num_pages)
+
         apo = Aportante.objects.all().order_by("id")
-        return render_to_response('ingresos/lista.html', {'nombreuser': tipouser.username,'apo': apo,'ltot':listatot,'cant': valpesmax})
+        return render_to_response('ingresos/lista.html', {'nombreuser': tipouser.username,'apo': apo,'ltot':contacts,'cant': valpesmax})
     else:
         return HttpResponseRedirect('/obispado/login/')
 

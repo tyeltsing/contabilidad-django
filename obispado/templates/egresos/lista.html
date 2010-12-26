@@ -395,7 +395,7 @@
 <FORM action="/obispado/egresos_list/" METHOD="GET" name="formu">
     <br>
     <h3>Filtrar egresos</h3>
-    <p>No se muestran todos los registros. Para buscar una entrada <br></br>llene cualquiera de los campos y oprima el boton filtrar</p>
+    <p>Para buscar una entrada <br></br>llene cualquiera de los campos y oprima el boton filtrar</p>
     <br>
     <table align="center" border="0" cellpadding="10">
     <td align="left" width="200">Fecha:
@@ -435,13 +435,28 @@
 <td align='left' width='220'><b>Fecha:</b></td><td align='left' width='220'><b>Proveedor:</b></td><td align='left' width='100'><b>Numero Documento:</b></td><td align='left' width='100'><b>Tipo de Documento:</b></td><td align='left' width='850'><b>Cuenta:</b></td><td align='left' width='180'><b>Monto:</b></td><td align='left' width='80'><b></b></td>
 <tr>
 {% if cant %}
-{% for f in ltot %}
+{% for f in ltot.object_list %}
         <td>{{f.fecha}}</td><td>{{f.proveedor}}</td> <td>{{f.nro_fac}}</td> <td>{{f.tipo_doc}}</td> <td>{{f.cuenta}}</td> <td>{{f.monto}}</td><td><a href="/obispado/egresos_edit/{{f.id}}">Editar</a></td><tr>
 {% endfor %}
 
 {% endif %}
 
 </TABLE>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if ltot.has_previous %}
+            <a href="?page={{ ltot.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            P&aacute;gina {{ ltot.number }} de {{ ltot.paginator.num_pages }}.
+        </span>
+
+        {% if ltot.has_next %}
+            <a href="?page={{ ltot.next_page_number }}">siguiente</a>
+        {% endif %}
+    </span>
 </div>
 </FORM>
 <DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>

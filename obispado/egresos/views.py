@@ -11,6 +11,7 @@ import datetime, string
 import time
 from datetime import date
 import csv
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def sumar(x, y):
     return x + y
@@ -245,8 +246,8 @@ def list_egresos(request):
         if valpesmax == 0 or valpesmax == None:
             return render_to_response('egresos/lista.html', {'nombreuser': tipouser.username,'msj':'No hay egresos'})
             
-        if valpesmax > 50 and not filtro:
-            valpesmax = 50    
+        #if valpesmax > 50 and not filtro:
+        #    valpesmax = 50    
 
         if not filtro:
             for i in range(1, int(valpesmax)+1):
@@ -303,9 +304,18 @@ def list_egresos(request):
                             fec = time.strftime("%d/%m/%Y", fecha)
                             listatot.append({"id":i.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":i.numero_comprobante,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(z.monto)})
                     #i = i + 1
-                    
+        paginator = Paginator(listatot, 25)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        try:
+            contacts = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            contacts = paginator.page(paginator.num_pages)
         pro = Proveedor.objects.all().order_by("id")
-        return render_to_response('egresos/lista.html', {'nombreuser': tipouser.username,'pro': pro,'ltot':listatot,'cant': valpesmax})
+        return render_to_response('egresos/lista.html', {'nombreuser': tipouser.username,'pro': pro,'ltot':contacts,'cant': valpesmax})
     else:
         return HttpResponseRedirect('/obispado/login/')
 
