@@ -226,6 +226,9 @@ def list_egresos(request):
         nro_fac = ""
         fechaiso=""
         filtro = 0
+        montof = 0
+        montoivad = 0
+        montoivac = 0
         if 'pro' in request.GET and request.GET['pro']:
             pro = request.GET['pro']
         if 'date1xx' in request.GET and request.GET['date1xx']:
@@ -248,7 +251,8 @@ def list_egresos(request):
             
         #if valpesmax > 50 and not filtro:
         #    valpesmax = 50    
-
+        cuenta_iva10 = CuentaNivel3.objects.get(nombre="IVA 10% Credito")
+        cuenta_iva5 = CuentaNivel3.objects.get(nombre="IVA 5% Credito")
         if not filtro:
             for i in range(1, int(valpesmax)+1):
                 idv = Compra.objects.filter(id=i)
@@ -258,17 +262,28 @@ def list_egresos(request):
                     listhd = AsientoDebeDetalle.objects.filter(asiento=idcompra.asiento_id).distinct()
                     if listhd.count()>0:
                         for z in range (0, listhd.count()):
-                            cue = CuentaNivel3.objects.get(id=int(listhd[z].cuenta_id))
-                            fact = idcompra.tipo_comprobante
-                            if fact == "f":
-                                fact = "Factura"
-                            elif fact == "r":
-                                fact = "Recibo"
-                            elif fact == "a":
-                                fact = "Autofactura"
-                            fecha = idcompra.fecha.timetuple()
-                            fec = time.strftime("%d/%m/%Y", fecha)
-                            listatot.append({"id":listhd[z].asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(listhd[z].monto)})
+                            if listhd[z].cuenta_id <> cuenta_iva10.id and listhd[z].cuenta_id <> cuenta_iva5.id:
+                                cue = CuentaNivel3.objects.get(id=int(listhd[z].cuenta_id))
+                                fact = idcompra.tipo_comprobante
+                                if fact == "f":
+                                    fact = "Factura"
+                                elif fact == "r":
+                                    fact = "Recibo"
+                                elif fact == "a":
+                                    fact = "Autofactura"
+                                fecha = idcompra.fecha.timetuple()
+                                fec = time.strftime("%d/%m/%Y", fecha)
+                                if(cue.tipo_de_iva == 'd'):
+                                    montoivad = listhd[z].monto * 0.100
+                                    montoivad = round(montoivad, 0)
+                                    montof = int(montoivad) + int(listhd[z].monto)
+                                elif (cue.tipo_de_iva == 'c'):
+                                    montoivac = listhd[z].monto * 0.05
+                                    montoivac = round(montoivac, 0)
+                                    montof = int(montoivac) + int(listhd[z].monto)
+                                else:
+                                    montof = listhd[z].monto
+                                listatot.append({"id":listhd[z].asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(montof)})
         else:
             i=0
             bp = ""
@@ -292,17 +307,28 @@ def list_egresos(request):
                     listhd = AsientoDebeDetalle.objects.filter(asiento__exact=i.asiento_id).distinct()
                     if listhd.count()>0:
                         for z in listhd:
-                            cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
-                            fact = i.tipo_comprobante
-                            if fact == "f":
-                                fact = "Factura"
-                            elif fact == "r":
-                                fact = "Recibo"
-                            elif fact == "a":
-                                fact = "Autofactura"
-                            fecha = i.fecha.timetuple()
-                            fec = time.strftime("%d/%m/%Y", fecha)
-                            listatot.append({"id":i.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":i.numero_comprobante,"tipo_doc":fact,"cuenta":cue.nombre,"monto":int(z.monto)})
+                            if z.cuenta_id <> cuenta_iva10.id and z.cuenta_id <> cuenta_iva5.id:
+                                cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
+                                fact = i.tipo_comprobante
+                                if fact == "f":
+                                    fact = "Factura"
+                                elif fact == "r":
+                                    fact = "Recibo"
+                                elif fact == "a":
+                                    fact = "Autofactura"
+                                fecha = i.fecha.timetuple()
+                                fec = time.strftime("%d/%m/%Y", fecha)
+                                if(cue.tipo_de_iva == 'd'):
+                                    montoivad = z.monto * 0.100
+                                    montoivad = round(montoivad, 0)
+                                    montof = int(montoivad) + int(z.monto)
+                                elif (cue.tipo_de_iva == 'c'):
+                                    montoivac = z.monto * 0.05
+                                    montoivac = round(montoivac, 0)
+                                    montof = int(montoivac) + int(z.monto)
+                                else:
+                                    montof = int(z.monto)
+                                listatot.append({"id":i.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":i.numero_comprobante,"tipo_doc":fact,"cuenta":cue.nombre,"monto":montof})
                     #i = i + 1
         paginator = Paginator(listatot, 25)
         try:
@@ -324,6 +350,10 @@ def edit_egresos(request, e_id):
     listf = []
     fact = ""
     fec = ""
+    montof = 0
+    montoivad = 0
+    montoivac = 0
+    cont_real = 0
     user_id = request.user.id
     is_auth = request.user.is_authenticated()
     if(is_auth):
@@ -341,31 +371,45 @@ def edit_egresos(request, e_id):
         pro = Proveedor.objects.all().order_by("id")
         if e_id:
             idventa = Compra.objects.filter(asiento=e_id)
+            cuenta_iva10 = CuentaNivel3.objects.get(nombre="IVA 10% Credito")
+            cuenta_iva5 = CuentaNivel3.objects.get(nombre="IVA 5% Credito")
             if idventa.count()>0:
                 listhd = AsientoDebeDetalle.objects.filter(asiento=e_id).distinct()
                 idcompra = Compra.objects.get(asiento=e_id)
                 prov = Proveedor.objects.get(id=int(idcompra.proveedor_id))
                 if listhd.count()>0:
                     for z in listhd:
-                        cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
-                        fact = idcompra.tipo_comprobante
-                        if fact == "f":
-                            fact = "Factura"
-                        elif fact == "r":
-                            fact = "Recibo"
-                        elif fact == "a":
-                            fact = "Autofactura"
-                        fecha = idcompra.fecha.timetuple()
-                        fec = time.strftime("%d/%m/%Y", fecha)
-                        listatot.append({"id":z.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.id,"monto":int(z.monto),"tipoiva":cue.tipo_de_iva})
-                cantfalta = 10 - int(listhd.count())
-                desde =int(listhd.count()) + 1
+                        if z.cuenta_id <> cuenta_iva10.id and z.cuenta_id <> cuenta_iva5.id:
+                            cue = CuentaNivel3.objects.get(id=int(z.cuenta_id))
+                            fact = idcompra.tipo_comprobante
+                            if fact == "f":
+                                fact = "Factura"
+                            elif fact == "r":
+                                fact = "Recibo"
+                            elif fact == "a":
+                                fact = "Autofactura"
+                            fecha = idcompra.fecha.timetuple()
+                            fec = time.strftime("%d/%m/%Y", fecha)
+                            if(cue.tipo_de_iva == 'd'):
+                                montoivad = z.monto * 0.100
+                                montoivad = round(montoivad, 0)
+                                montof = int(montoivad) + int(z.monto)
+                            elif (cue.tipo_de_iva == 'c'):
+                                montoivac = z.monto * 0.05
+                                montoivac = round(montoivac, 0)
+                                montof = int(montoivac) + int(z.monto)
+                            else:
+                                montof = int(z.monto)
+                            listatot.append({"id":z.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.id,"monto":int(montof),"tipoiva":cue.tipo_de_iva})
+                            cont_real = cont_real + 1
+                cantfalta = 10 - int(cont_real)
+                desde =int(cont_real) + 1
                 for i in range(0, cantfalta):
                     listf.append(i+int(desde))
                 #pro = Proveedor.objects.all().order_by("id")
                 #con = CuentaNivel3.objects.all().order_by("id")
                 #venta_edit = Venta.objects.get(asiento=id)
-                return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':listhd.count(), 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
+                return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':cont_real, 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
             else:
                 return HttpResponseRedirect('/obispado/egresos_list/')
         else:
