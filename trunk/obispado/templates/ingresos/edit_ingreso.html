@@ -325,7 +325,7 @@
 <tr>
 
 {% for v in ltot %}
-<td align='center' width='50'><INPUT NAME='cant{{forloop.counter}}' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '{{forloop.counter}}');" onkeypress="return validar(event);"></td><td align="left" width="100">
+<td align='center' width='50'><INPUT NAME='cant{{forloop.counter}}' TYPE='TEXT' VALUE='1' onChange = "sumex(this.form, '{{forloop.counter}}');" onkeypress="return validar(event);"></td><td align="left" width="100">
                         
                             <select name="des{{forloop.counter}}" id="id_des{{forloop.counter}}">
 
@@ -345,7 +345,7 @@
 </select>
 <!--td align="center" width="150"><INPUT NAME="ap" TYPE="TEXT" VALUE=""-->
 </td>
-<td align='center' width='150'><INPUT NAME='pu{{forloop.counter}}' TYPE='TEXT' VALUE='' onChange = "sumex(this.form, '{{forloop.counter}}');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex{{forloop.counter}}' id='ex{{forloop.counter}}' TYPE='TEXT' VALUE='{{v.monto}}' onkeypress="return validar(event);"></td>
+<td align='center' width='150'><INPUT NAME='pu{{forloop.counter}}' TYPE='TEXT' VALUE='{{v.monto}}' onChange = "sumex(this.form, '{{forloop.counter}}');" onkeypress="return validar(event);"></td><td align='center' width='150'><INPUT NAME='ex{{forloop.counter}}' id='ex{{forloop.counter}}' TYPE='TEXT' VALUE='{{v.monto}}' onkeypress="return validar(event);"></td>
 <tr>
 {% endfor %}
 
