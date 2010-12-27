@@ -23,7 +23,6 @@
         var listasel=0;
         
         function inicializar(frm){
-            
             var i=0;
             {% for ip in pro %}
                 proveedores[i]="{{ip.ruc}}";
@@ -189,7 +188,6 @@
         }
         
         function sumar(frm){
-            //alert('hola');
             var sum=0;
             var uno=0;
             var sumtotiva=0;
@@ -240,8 +238,7 @@
                 sumex = sumex + parseFloat(frm['ex'+i].value)
                 sumtotgral = sumtotiva + sumex;
             }
-            //sum = var1+var2+var3+var4+var5+var6+var7+var8+var9+var10;
-            //alert(uno);
+
             frm['totiva'].value= Math.round(sumtotiva * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totgv10'].value=Math.round(sumg10 * Math.pow(10, 2)) / Math.pow(10, 2);
             frm['totgv5'].value=Math.round(sumg5 * Math.pow(10, 2)) / Math.pow(10, 2);
@@ -253,11 +250,9 @@
             frm['totgv5h'].value = frm['totgv5'].value;
             frm['totexh'].value = frm['totex'].value;
             frm['totgralh'].value = frm['totgral'].value;
-            //document.getElementById('totex').value=sum;
             if(sumtotiva!=0 || sumg10!=0 || sumg5!=0 || sumex!=0){
                 frm.boton.disabled = false;
             }
-            //alert('hola');
         }
          function ValidarFecha(Cadena){  
              var Fecha= new String(Cadena)   // Crea un string  
@@ -472,7 +467,7 @@
 <tr>
 
 {% for v in ltot %}
-<td align='left' width='50'><INPUT NAME='cant{{forloop.counter}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onChange = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onkeypress="return validar(event);"></td>
+<td align='left' width='50'><INPUT NAME='cant{{forloop.counter}}' TYPE='TEXT' VALUE='1' size="10" onFocus = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onChange = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onkeypress="return validar(event);"></td>
 <td align="left" width="100"><select name="des{{forloop.counter}}" id="id_des{{forloop.counter}}" onchange="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onClick = "ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});" onMouseOver="ver_tipo(this.value, this.form.g10{{forloop.counter}}, this.form.g5{{forloop.counter}}, this.form.ex{{forloop.counter}}, this.form.totiva{{forloop.counter}});">
 
                             <option value="">---------</option>
@@ -489,7 +484,7 @@
 </select>
 
 </td>
-<td align='left' width='50'><INPUT NAME='mon{{forloop.counter}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onChange = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onkeypress="return validar(event);"></td>
+<td align='left' width='50'><INPUT NAME='mon{{forloop.counter}}' TYPE='TEXT' VALUE='{{v.monto}}' size="10" onFocus = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onChange = "sumval(this.form, '{{forloop.counter}}', this.form.des{{forloop.counter}}.value);" onkeypress="return validar(event);"></td>
 {% if v.tipoiva == "d" %}
 <td align='left' width='50'><INPUT NAME='totiva{{forloop.counter}}' TYPE='TEXT' VALUE='{{v.monto}}' size="10" onkeypress="return validar(event);"></td>
 {% else %}{% if v.tipoiva == "c" %}
@@ -572,7 +567,119 @@
 <td align="center" width="150"><input name="botons" type="button" value="Sumar" onclick="sumar(this.form);" /></td>
 <input type="hidden" value="{{nro}}" name="nro_mod" />
 </TABLE>
+<script type="text/javascript">
+    var cuentas = new Array;
+    var id_cuentas = new Array;
+    var cant_valores=0;
+    var i=0;
+    var j=0;
+    var pos=-1;
+    var b=0;
+    var listasel=0;
+    {% for ip1 in con %}
+        cuentas[i]="{{ip1.tipo_de_iva}}";
+        id_cuentas[i] = "{{ip1.id}}";
+        i++;
+    {% endfor %}
+    cant_valores = i;
+    cant_editar = {{cantval}}
+    for(i=1; i<=cant_editar;i++){
+        for(j=0;j<cant_valores;j++){
+            //alert(document.forms["formu"]['des'+i].value);
+            if(document.forms["formu"]['des'+i].value == id_cuentas[j]){
+                pos = j;
+                break;
+            }
+        }
+        if(pos != -1){
+        //alert(cuentas[pos]);
+            if(cuentas[pos] == 'c'){
+                document.forms["formu"]['g10'+i].disabled=true;
+                document.forms["formu"]['ex'+i].disabled=true;
+                document.forms["formu"]['totiva'+i].disabled=false;
+                document.forms["formu"]['g5'+i].disabled=false;
+                document.forms["formu"]['g10'+i].value=0;
+                document.forms["formu"]['ex'+i].value=0;
+                b=1;
+                listasel=1;
+            }else{
+                document.forms["formu"]['g10'+i].disabled = false;
+                document.forms["formu"]['ex'+i].disabled = false;
+            }
+            if(b==0){
+                if(cuentas[pos] == 'd'){
+                    document.forms["formu"]['g5'+i].disabled = true;
+                    document.forms["formu"]['ex'+i].disabled = true;
+                    document.forms["formu"]['totiva'+i].disabled=false;
+                    document.forms["formu"]['g10'+i].disabled=false;
+                    document.forms["formu"]['g5'+i].value=0;
+                    document.forms["formu"]['ex'+i].value=0;
+                    b=1;
+                    listasel=1;
+                }else{
+                    document.forms["formu"]['g5'+i].disabled = false;
+                    document.forms["formu"]['ex'+i].disabled = false;
+                }
+            }if(b==0){
+                if(cuentas[pos] == 'e'){
+                    document.forms["formu"]['g10'+i].disabled = true;
+                    document.forms["formu"]['g5'+i].disabled = true;
+                    document.forms["formu"]['totiva'+i].disabled=true;
+                    document.forms["formu"]['ex'+i].disabled=false;
+                    document.forms["formu"]['g10'+i].value=0;
+                    document.forms["formu"]['g5'+i].value=0;
+                    document.forms["formu"]['totiva'+i].value=0;
+                    listasel=1;
+                }else{
+                    document.forms["formu"]['g10'+i].disabled = false;
+                    document.forms["formu"]['g5'+i].disabled = false;
+                    document.forms["formu"]['totiva'+i].disabled=false;
+                }
+            }
+            if(document.forms["formu"]['cant'+i].value!="" && document.forms["formu"]['mon'+i].value!=""){
+                valor = parseFloat(document.forms["formu"]['cant'+i].value) * parseFloat(document.forms["formu"]['mon'+i].value)
+                valor = Math.round(valor * Math.pow(10, 2)) / Math.pow(10, 2);
+                if(cuentas[pos] != "e" && cuentas[pos] != "n"){
+                    document.forms["formu"]['totiva'+i].value = valor;
+                }else{
+                    document.forms["formu"]['ex'+i].value = valor
+                } 
+            }else{
+                document.forms["formu"]['totiva'+i].value = 0;
+                document.forms["formu"]['g10'+i].value = 0;
+                document.forms["formu"]['g5'+i].value = 0;
+                document.forms["formu"]['ex'+i].value = 0;
+            }
+            if(listasel == 1){
+                if(cuentas[pos] == "d"){
+                    var div = parseFloat(document.forms["formu"]['totiva'+i].value) / 1.1;
+                    div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                    div = Math.round(div);
+                    document.forms["formu"]['g10'+i].value = div;
+                    b=1;
+                }else{
+                    b=0;
+                    document.forms["formu"]['g10'+i].value = 0;
+                }
+                if(b==0){
+                    if(cuentas[pos] == "c"){
+                        var div = parseFloat(document.forms["formu"]['totiva'+i].value) / 1.05;
+                        div = Math.round(div * Math.pow(10, 2)) / Math.pow(10, 2);
+                        div = Math.round(div);
+                        document.forms["formu"]['g5'+i].value = div;
+                        b=1;
+                    }else{
+                        b=0;
+                        document.forms["formu"]['g5'+i].value = 0;
+                    }
+                }
+            }
+        }
+        b=0;
+        pos = -1;
+    }
 
+</script>
 </FORM>
 <DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
 <tr>
