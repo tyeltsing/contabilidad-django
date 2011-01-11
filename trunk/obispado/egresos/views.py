@@ -22,15 +22,16 @@ def carga(request):
     if(is_auth):
         tipouser = User.objects.get(id=user_id)
         listcuentas = []
-        n1 = CuentaNivel1.objects.filter(nombre__icontains="Egresos")
-        n2 = CuentaNivel2.objects.filter(tipo = n1[0].id).order_by("id")
-        if n2.count()>0:
-            for z in n2:
-                #listcuentas
-                n3 = CuentaNivel3.objects.filter(tipo = z.id).order_by("id").order_by("id")
-                if n3.count()>0:
-                    for y in n3:
-                        listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":str(y.tipo_de_iva)})
+        n1 = CuentaNivel1.objects.filter(tipo__nombre__icontains="Egreso").order_by("id")
+        for i in n1:
+            n2 = CuentaNivel2.objects.filter(tipo = i.id).order_by("id")
+            if n2.count()>0:
+                for z in n2:
+                    #listcuentas
+                    n3 = CuentaNivel3.objects.filter(tipo = z.id).order_by("id").order_by("id")
+                    if n3.count()>0:
+                        for y in n3:
+                            listcuentas.append({"id":y.id, "nombre":y.nombre, "tipo_de_iva":str(y.tipo_de_iva)})
         prov = Proveedor.objects.all().order_by("id")
         #con = CuentaNivel3.objects.all().order_by("id")
         if 'pro' in request.GET and request.GET['pro']:
