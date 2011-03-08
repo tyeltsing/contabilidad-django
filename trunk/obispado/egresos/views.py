@@ -83,7 +83,7 @@ def carga(request):
             listex = []
             cont = 0
             pos=-1
-            for i in range(1, 11):
+            for i in range(1, 51):
                 if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
                     listcant.append(request.GET['cant'+str(i)])
                     cont = cont + 1
@@ -136,7 +136,7 @@ def carga(request):
             #    totgral = 555;
             listipos = []
             
-            for i in range(0, 10):
+            for i in range(0, 50):
                 if listdes[i] != "0":
                     tipos_iva = CuentaNivel3.objects.get(id=listdes[i])
                     if(tipos_iva.tipo_de_iva == 'd'):
@@ -148,7 +148,7 @@ def carga(request):
                 else:
                     listipos.append('0')
             summonto = 0
-            for i in range(0, 10):
+            for i in range(0, 50):
                 if listdes[i] != "0":
                     if(listipos[i] == 'd'):
                         # traemos la cuenta iva 10 %
@@ -204,7 +204,10 @@ def carga(request):
             #de = CuentaNivel1.objects.get(nombre__icontains="Egresos")
             #pro = Proveedor.objects.all().order_by("id")
             con = CuentaNivel3.objects.all().order_by("id")
-            return render_to_response('egresos/carga_egreso.html', {'nombreuser': tipouser.username,'pro': prov, 'con':listcuentas})
+            listf = []
+            for i in range(11, 51):
+                listf.append(i)
+            return render_to_response('egresos/carga_egreso.html', {'nombreuser': tipouser.username,'pro': prov, 'con':listcuentas, 'listf':listf})
         return render_to_response('egresos/carga_egreso.html')
     else:
         return HttpResponseRedirect('/obispado/login/')
@@ -404,14 +407,17 @@ def edit_egresos(request, e_id):
                                 montof = int(z.monto)
                             listatot.append({"id":z.asiento_id, "fecha":fec, "proveedor":prov.nombre,"nro_fac":idcompra.numero_comprobante,"tipo_doc":fact,"cuenta":cue.id,"monto":int(montof),"tipoiva":cue.tipo_de_iva})
                             cont_real = cont_real + 1
-                cantfalta = 10 - int(cont_real)
+                cantfalta = 50 - int(cont_real)
                 desde =int(cont_real) + 1
                 for i in range(0, cantfalta):
                     listf.append(i+int(desde))
+                listresto = []
+                for i in range(11, 51):
+                    listresto.append(i)
                 #pro = Proveedor.objects.all().order_by("id")
                 #con = CuentaNivel3.objects.all().order_by("id")
                 #venta_edit = Venta.objects.get(asiento=id)
-                return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':cont_real, 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id} )
+                return render_to_response('egresos/edit_egreso.html',{'nombreuser': tipouser.username,'pro': pro, 'con':listcuentas,'ltot':listatot, 'idpro':prov.id, 'rucval':prov.ruc, 'feval':fec, 'tipo_doc':fact, 'nro_fact':idcompra.numero_comprobante, 'cantval':cont_real, 'cantfalta':cantfalta, 'desde':desde, 'listf':listf, 'nro':e_id, 'listresto':listresto} )
             else:
                 return HttpResponseRedirect('/obispado/egresos_list/')
         else:
@@ -512,7 +518,7 @@ def update_egresos(request):
                 for z in delreg:
                     z.delete()
             
-            for i in range(1, 11):
+            for i in range(1, 51):
                 if 'cant'+str(i) in request.GET and request.GET['cant'+str(i)]:
                     listcant.append(request.GET['cant'+str(i)])
                     cont = cont + 1
@@ -565,7 +571,7 @@ def update_egresos(request):
             #    totgral = 555;
             listipos = []
             
-            for i in range(0, 10):
+            for i in range(0, 50):
                 if listdes[i] != '0':
                     tipos_iva = CuentaNivel3.objects.get(id=listdes[i])
                     if(tipos_iva.tipo_de_iva == 'd'):
@@ -577,7 +583,7 @@ def update_egresos(request):
                 else:
                     listipos.append('0')
             summonto = 0
-            for i in range(0, 10):
+            for i in range(0, 50):
                 if listdes[i] != '0':
                     if(listipos[i] == 'd'):
                         # traemos la cuenta iva 10 %
