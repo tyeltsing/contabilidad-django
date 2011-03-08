@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head profile="http://gmpg.org/xfn/11">
-	<title>Sistema de Contabilidad</title>	
-	<link rel="shortcut icon" href="image/favicon.ico" />
-	<link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+    <title>Sistema de Contabilidad</title>    
+    <link rel="shortcut icon" href="image/favicon.ico" />
+    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
     <link href="/media/css/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/media/css/default.css" media="screen" rel="stylesheet" type="text/css" />
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta http-equiv="content-language" content="en-gb" />
-	<meta http-equiv="imagetoolbar" content="false" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en-gb" />
+    <meta http-equiv="imagetoolbar" content="false" />
 </head>
 <TITLE>Agregar Egreso</TITLE>
 
@@ -21,6 +21,18 @@
         var id_cuentas = new Array;
         var cant_valores=0;
         var listasel=0;
+        
+        function toggle() {
+         for(i=11;i<=50;i++){
+             if( document.getElementById("hidethis"+i).style.display=='none' ){
+              document.getElementById("hidethis"+i).style.display = '';
+              
+             }/*else{
+              document.getElementById("hidethis"+i).style.display = 'none';
+              
+             }*/
+            }
+        }
         
         function inicializar(frm){
             var i=0;
@@ -335,18 +347,18 @@
 </script>
 
 <body onload="inicializar(this.form);">
-	<div>
+    <div>
     <table align="center" border="0">
     <td align="left" width=11%><h3>Bienvenido<font color="#888"> {{nombreuser}}</font> </h3></td>
     </div>
     <td align="right" width=82%>
-	<div id="header">
-		<h1>Contabilidad</h1>
-		<h2>Sistema Contable - Obispado</h2>
-	</div></td>
+    <div id="header">
+        <h1>Contabilidad</h1>
+        <h2>Sistema Contable - Obispado</h2>
+    </div></td>
     <tr>
     </TABLE>
-	
+    
     <ul id="nav" class="dropdown dropdown-horizontal">
         <li><a href="/obispado/logout/">Desconectarse</a></li>
         <li class="dir">Ingresos ▼
@@ -383,17 +395,17 @@
         </li>
     </ul>
     <br></br>
-	<div id="content" align="center">
-		<h1>Editar Egreso</h1>
-			{% if msj %}
-			<table align="center" style="float:center;border:3px solid red;">
-			<td align="center" width="500">{{msj}}</td>
+    <div id="content" align="center">
+        <h1>Editar Egreso</h1>
+            {% if msj %}
+            <table align="center" style="float:center;border:3px solid red;">
+            <td align="center" width="500">{{msj}}</td>
             <tr>
             </TABLE>
             <br>
             {% endif %}
-			
-	
+            
+    
 <FORM action="/obispado/egresos_update/" METHOD="GET" name="formu">
 <table align="center" border="0">
 <td align="left" width="100">Proveedor:
@@ -536,6 +548,35 @@
 {% endif %}
 
 
+{% for i in listresto %}
+    <tr id="hidethis{{i}}" style="display:none;">
+     <td align='left' width='50'><INPUT NAME='cant{{i}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onChange = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onkeypress="return validar(event);"></td>
+    <td align="left" width="100"><select name="des{{i}}" id="id_des{{i}}" onchange="ver_tipo(this.value, this.form.g10{{i}}, this.form.g5{{i}}, this.form.ex{{i}}, this.form.totiva{{i}});" onClick = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onMouseOver= "sumval(this.form, '{{i}}', this.form.des{{i}}.value);">
+
+                                <option value="">---------</option>
+                                {% if con %}
+                                    {% for i in con %}
+                                        {% ifequal i.id v.cuenta %}
+                                            <option value="{{ i.id }}" selected="selected">{{ i.nombre }}</option>
+                                        {% else %}
+                                            <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                        {% endifequal %}
+                                    {% endfor %}
+                                {% endif %}
+                                
+    </select>
+    
+    </td>
+    <td align='left' width='50'><INPUT NAME='mon{{i}}' TYPE='TEXT' VALUE='' size="10" onFocus = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onChange = "sumval(this.form, '{{i}}', this.form.des{{i}}.value);" onkeypress="return validar(event);"></td>
+    <td align='left' width='50'><INPUT NAME='totiva{{i}}' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td>
+    <td align='left' width='50'><INPUT NAME='g10{{i}}' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);"></td>
+    <td align='left' width='50'><INPUT NAME='g5{{i}}' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td>
+    <td align='left' width='50'><INPUT NAME='ex{{i}}' TYPE='TEXT' VALUE='' size="10" onkeypress="return validar(event);" ></td>
+    </tr>
+    
+    {% endfor %}
+<td align="left" width="100"><INPUT NAME="botonfilas" type="button" VALUE="Agregar mas filas" onClick="toggle();"><br /><br /></td>
+    
 <td align="left" width="100">Total:
 </td>
 <td align="left" width="100"></td>
